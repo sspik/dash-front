@@ -1,15 +1,84 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ApolloClient } from 'apollo-client';
+import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { HttpLink } from 'apollo-link-http';
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 
-// const client = new ApolloClient({
-//
-// });
+import { LoginPage } from "./pages/login";
+import { Dashboard } from "./layouts/Dashboard";
+
+import gql from "graphql-tag";
+import { IProfile } from "./interfaces";
+import { PrivateRouter } from "./routes";
+import { Query } from "@apollo/react-components";
+
+import 'normalize.css';
+import 'chartist/dist/chartist.css';
+import 'assets/css/style.css';
+import 'assets/css/icon.css';
+
+import { ruRU } from "@material-ui/core/locale"
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+import moment from "moment";
+import 'moment/locale/ru';
+
+moment.locale('ru');
+
+const theme = createMuiTheme({}, ruRU);
+
+export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: '/graphql',
+    credentials: 'include',
+  }),
+});
+
+export const GET_PROFILE = gql`
+  {
+    GetProfile {
+      ID
+      NAME
+      LAST_NAME
+      PERSONAL_PHOTO
+    }
+  }
+`
 
 ReactDOM.render(
-  <App />,
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <ApolloProvider client={client}>
+        <Switch>
+          <Route exact path="/login" component={ LoginPage } />
+          <Fragment>
+            <Query<IProfile> query={GET_PROFILE}>
+              {({ loading, data, client }) => {
+                if (loading) return <Fragment />;
+                if (data) {
+                  client.writeQuery({
+                    query: GET_PROFILE,
+                    data
+                  })
+                }
+                return (
+                  <Fragment>
+                    <PrivateRouter path="/dashboard" component={ Dashboard } />
+                    {/*TODO Разобраться с редиректом*/}
+                    {/*<Redirect from="/" to="/dashboard/main" />*/}
+                  </Fragment>
+                )
+              }}
+            </Query>
+          </Fragment>
+        </Switch>
+      </ApolloProvider>
+    </ThemeProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

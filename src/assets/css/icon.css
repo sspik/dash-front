@@ -1,0 +1,420 @@
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+}
+
+/* ==========================================
+Single-colored icons can be modified like so:
+.icon-name {
+  font-size: 32px;
+  color: red;
+}
+========================================== */
+
+.icon-acc {
+    width: 0.8974609375em;
+}
+
+.icon-ae {
+    width: 0.8974609375em;
+}
+
+.icon-ai {
+    width: 0.8974609375em;
+}
+
+.icon-an {
+    width: 0.8974609375em;
+}
+
+.icon-avi {
+    width: 0.8974609375em;
+}
+
+.icon-bmp {
+    width: 0.8974609375em;
+}
+
+.icon-csv {
+    width: 0.8974609375em;
+}
+
+.icon-dat {
+    width: 0.8974609375em;
+}
+
+.icon-dng {
+    width: 0.8974609375em;
+}
+
+.icon-doc {
+    width: 0.8974609375em;
+}
+
+.icon-doch {
+    width: 0.8974609375em;
+}
+
+.icon-docm {
+    width: 0.8974609375em;
+}
+
+.icon-docx {
+    width: 0.8974609375em;
+}
+
+.icon-doth {
+    width: 0.8974609375em;
+}
+
+.icon-dw {
+    width: 0.8974609375em;
+}
+
+.icon-dwfx {
+    width: 0.8974609375em;
+}
+
+.icon-dwg {
+    width: 0.8974609375em;
+}
+
+.icon-dxf {
+    width: 0.8974609375em;
+}
+
+.icon-dxl {
+    width: 0.8974609375em;
+}
+
+.icon-eml {
+    width: 0.8974609375em;
+}
+
+.icon-eps {
+    width: 0.8974609375em;
+}
+
+.icon-f4a {
+    width: 0.8974609375em;
+}
+
+.icon-f4v {
+    width: 0.8974609375em;
+}
+
+.icon-file {
+    width: 0.8974609375em;
+}
+
+.icon-flv {
+    width: 0.8974609375em;
+}
+
+.icon-fpp {
+    width: 0.8974609375em;
+}
+
+.icon-fs {
+    width: 0.8974609375em;
+}
+
+.icon-gif {
+    width: 0.8974609375em;
+}
+
+.icon-html {
+    width: 0.8974609375em;
+}
+
+.icon-ind {
+    width: 0.8974609375em;
+}
+
+.icon-jpeg {
+    width: 0.8974609375em;
+}
+
+.icon-jpg {
+    width: 0.8974609375em;
+}
+
+.icon-log {
+    width: 0.8974609375em;
+}
+
+.icon-lr {
+    width: 0.8974609375em;
+}
+
+.icon-m4v {
+    width: 0.8974609375em;
+}
+
+.icon-mbox {
+    width: 0.8974609375em;
+}
+
+.icon-mdb {
+    width: 0.8974609375em;
+}
+
+.icon-mgp {
+    width: 0.8974609375em;
+}
+
+.icon-midi {
+    width: 0.8974609375em;
+}
+
+.icon-mkv {
+    width: 0.8974609375em;
+}
+
+.icon-mov {
+    width: 0.8974609375em;
+}
+
+.icon-mp3 {
+    width: 0.8974609375em;
+}
+
+.icon-mp4 {
+    width: 0.8974609375em;
+}
+
+.icon-mpeg {
+    width: 0.8974609375em;
+}
+
+.icon-mpp {
+    width: 0.8974609375em;
+}
+
+.icon-mpt {
+    width: 0.8974609375em;
+}
+
+.icon-mpw {
+    width: 0.8974609375em;
+}
+
+.icon-mpx {
+    width: 0.8974609375em;
+}
+
+.icon-msg {
+    width: 0.8974609375em;
+}
+
+.icon-ods {
+    width: 0.8974609375em;
+}
+
+.icon-oga {
+    width: 0.8974609375em;
+}
+
+.icon-ogg {
+    width: 0.8974609375em;
+}
+
+.icon-ogv {
+    width: 0.8974609375em;
+}
+
+.icon-one {
+    width: 0.8974609375em;
+}
+
+.icon-ost {
+    width: 0.8974609375em;
+}
+
+.icon-pdf {
+    width: 0.8974609375em;
+}
+
+.icon-php {
+    width: 0.8974609375em;
+}
+
+.icon-png {
+    width: 0.8974609375em;
+}
+
+.icon-pot {
+    width: 0.8974609375em;
+}
+
+.icon-poth {
+    width: 0.8974609375em;
+}
+
+.icon-potm {
+    width: 0.8974609375em;
+}
+
+.icon-potx {
+    width: 0.8974609375em;
+}
+
+.icon-pps {
+    width: 0.8974609375em;
+}
+
+.icon-ppsx {
+    width: 0.8974609375em;
+}
+
+.icon-ppt {
+    width: 0.8974609375em;
+}
+
+.icon-ppth {
+    width: 0.8974609375em;
+}
+
+.icon-pptm {
+    width: 0.8974609375em;
+}
+
+.icon-pptx {
+    width: 0.8974609375em;
+}
+
+.icon-psd {
+    width: 0.8974609375em;
+}
+
+.icon-pst {
+    width: 0.8974609375em;
+}
+
+.icon-pub {
+    width: 0.8974609375em;
+}
+
+.icon-pubh {
+    width: 0.8974609375em;
+}
+
+.icon-pumb {
+    width: 0.8974609375em;
+}
+
+.icon-pwz {
+    width: 0.8974609375em;
+}
+
+.icon-rp {
+    width: 0.8974609375em;
+}
+
+.icon-rtf {
+    width: 0.8974609375em;
+}
+
+.icon-sql {
+    width: 0.8974609375em;
+}
+
+.icon-svg {
+    width: 0.8974609375em;
+}
+
+.icon-swf {
+    width: 0.8974609375em;
+}
+
+.icon-tif {
+    width: 0.8974609375em;
+}
+
+.icon-tiff {
+    width: 0.8974609375em;
+}
+
+.icon-txt {
+    width: 0.8974609375em;
+}
+
+.icon-vcf {
+    width: 0.8974609375em;
+}
+
+.icon-vdx {
+    width: 0.8974609375em;
+}
+
+.icon-vob {
+    width: 0.8974609375em;
+}
+
+.icon-vsd {
+    width: 0.8974609375em;
+}
+
+.icon-vss {
+    width: 0.8974609375em;
+}
+
+.icon-vst {
+    width: 0.8974609375em;
+}
+
+.icon-vsx {
+    width: 0.8974609375em;
+}
+
+.icon-vtx {
+    width: 0.8974609375em;
+}
+
+.icon-wav {
+    width: 0.8974609375em;
+}
+
+.icon-wdp {
+    width: 0.8974609375em;
+}
+
+.icon-webm {
+    width: 0.8974609375em;
+}
+
+.icon-wma {
+    width: 0.8974609375em;
+}
+
+.icon-wmv {
+    width: 0.8974609375em;
+}
+
+.icon-xls {
+    width: 0.8974609375em;
+}
+
+.icon-xlsm {
+    width: 0.8974609375em;
+}
+
+.icon-xlsx {
+    width: 0.8974609375em;
+}
+
+.icon-xml {
+    width: 0.8974609375em;
+}
+
+.icon-xp {
+    width: 0.8974609375em;
+}
+
+.icon-zip {
+    width: 0.8828125em;
+}
