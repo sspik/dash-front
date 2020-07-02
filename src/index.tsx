@@ -16,7 +16,6 @@ import { PrivateRouter } from "./routes";
 import { Query } from "@apollo/react-components";
 
 import 'normalize.css';
-import 'chartist/dist/chartist.css';
 import 'assets/css/style.css';
 import 'assets/css/icon.css';
 import {

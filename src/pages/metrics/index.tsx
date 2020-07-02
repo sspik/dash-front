@@ -25,30 +25,6 @@ import styles from "assets/jss/pages/metricStyle"
 
 const useStyles = makeStyles(styles);
 
-const GetYandexMetrikaCounter = gql`
-  query GetYandexMetrikaCounter($bitrixGroupId: ID!) {
-    GetCounter(bitrixGroupId: $bitrixGroupId) {
-      id
-      status
-      owner_login
-      name
-      mirrors
-      errors {
-        errors {
-          message
-        }
-      }
-      create_time
-      permission
-      code
-      code_status
-      site
-      filter_robots
-      time_zone_name
-    }
-  }
-`;
-
 const GetYandexMetrics = gql`
   query GetYandexMetrics(
     $bitrixGroupId: ID!
@@ -110,14 +86,6 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   const classes = useStyles();
   const bitrixGroupId = props.match.params.groupId;
   const [ state, setState ] = useState<IMetricsState>(initState);
-  const {
-    data: counterData,
-    loading: counterLoading,
-    error: counterError
-  } = useQuery<{ GetCounter: ICounter }, { bitrixGroupId: string }>(
-      GetYandexMetrikaCounter,
-    { variables: { bitrixGroupId } }
-  )
   const { graphType, ...metricsQuery } = state;
   const {
     data: metricsData,
@@ -131,21 +99,9 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   if (
     !metricsData && metricsLoading
   ) return <Loading />;
-  if (
-    !counterData && counterLoading
-  ) return <Loading />;
-  if (counterError) return <p>{ counterError.message }</p>;
-  const counter = counterData!.GetCounter;
-  console.log(metricsData);
   return (
     <GridContainer>
       { metricsLoading && <Loading /> }
-      <GridItem xs={12} sm={12} md={12}>
-        <h2>Сайт {counter.site}</h2>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={12}>
-        <CounterStatus { ...counter } />
-      </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card hovered chart>
           <CardHeader color="primary">

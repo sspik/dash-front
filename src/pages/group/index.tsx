@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import ChartistGraph from "react-chartist";
+import { Line } from 'react-chartjs-2';
 import gql from "graphql-tag";
 import { Link, RouteComponentProps } from "react-router-dom";
 
@@ -15,7 +15,7 @@ import { Card, CardBody, CardHeader, CardIcon } from "components/card";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { TableTask } from "components/table/TableTask";
 import { RegularButton } from "components/button/Button";
-
+import { GroupTaskGraph } from './groupTaskGraph';
 import { tasksTimeChart } from "utils";
 
 import styles from "assets/jss/pages/workGroupStyle";
@@ -177,9 +177,8 @@ export const Group: FC<IGroupProps> = (props) => {
         <GridItem xs={12} sm={12} md={12}>
           <Card chart>
             <CardHeader color="warning">
-              <ChartistGraph
-                className="ct-chart"
-                { ...tasksTimeData }
+              <GroupTaskGraph
+                data={tasksTimeData}
               />
             </CardHeader>
             <CardBody className={classes.cardBody}>

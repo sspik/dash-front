@@ -1,8 +1,15 @@
 import moment from 'moment';
 import _ from 'lodash';
-import {ChartitGraphLineProps, ChartitGraphPieProps, ChartitGraphProps} from 'react-chartist';
-import Chartist from 'chartist';
-import 'chartist-plugin-legend';
+import { ChartData } from 'react-chartjs-2';
+import chartJs from "chart.js";
+
+import {
+  warningColor,
+  dangerColor,
+  successColor,
+  infoColor,
+  roseColor,
+} from 'assets/jss/all';
 
 import {
   IGroup,
@@ -20,42 +27,19 @@ export const formatBytes = (bytes: number, dec: number = 2): string => {
   return parseFloat((bytes / Math.pow(k, index)).toFixed(dm)) + ' ' + sizes[index];
 }
 
-const drawChart = (data: any) => {
-  const delays = 80;
-  const durations = 500;
-  if (data.type === "line" || data.type === "area") {
-    data.element.animate({
-      d: {
-        begin: 600,
-        dur: 700,
-        from: data.path
-          .clone()
-          .scale(1, 0)
-          .translate(0, data.chartRect.height())
-          .stringify(),
-        to: data.path.clone().stringify(),
-        easing: Chartist.Svg.Easing.easeOutQuint
-      }
-    });
-  } else if (data.type === "point") {
-    data.element.animate({
-      opacity: {
-        begin: (data.index + 1) * delays,
-        dur: durations,
-        from: 0,
-        to: 1,
-        easing: "ease"
-      }
-    });
-  }
-}
-
+const chartColors: string[] = [
+  warningColor[0],
+  dangerColor[0],
+  successColor[0],
+  infoColor[0],
+  roseColor[0],
+]
 
 export const tasksTimeChart = (
   tasks: IGroupTask[],
   group: IGroup,
   seriesCount: number = 30,
-): ChartitGraphLineProps => {
+): ChartData<chartJs.ChartData> => {
   const timeStart = moment(group.DATE_CREATE).valueOf();
   const dateNow = moment.now()
   const stepSize = Math.ceil((dateNow - timeStart) / seriesCount);
@@ -80,28 +64,16 @@ export const tasksTimeChart = (
   const maxTasks = [ ...series]
     .sort((a, b) => a > b ? 0 : 1)[0];
   return {
-    data: {
-      labels,
-      series: [series]
-    },
-    type: "Line",
-    options: {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: maxTasks + 5,
-      chartPadding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      },
-      fullWidth: true
-    },
-    listener: {
-      draw: drawChart
-    }
+    labels,
+    datasets: [
+      {
+        label: "Количество задач",
+        data: series,
+        borderColor: ['rgb(255, 255, 255)'],
+        backgroundColor: ['rgba(0, 0, 0, 0)'],
+        pointBackgroundColor: 'rgba(0, 0, 0, 0)'
+      }
+    ]
   }
 }
 
@@ -112,16 +84,10 @@ const metricNames: TMetricNames = {
   'ym:s:users': 'Посетители'
 }
 
-type TSeries = {
-  name: string
-  data: number[]
-}
-
 export const yandexMetricsChartLine = (
   response: IYandexMetrikaResponse,
   graphType: TGraphType,
-  seriesCount: number = 30
-): ChartitGraphLineProps => {
+): ChartData<chartJs.ChartData> => {
   const {
     query,
     data,
@@ -130,95 +96,45 @@ export const yandexMetricsChartLine = (
 
   // Подготовка временной шкалы
   let labels: string[];
-  const count = Math.ceil(time_intervals.length / seriesCount);
-  if (time_intervals.length <= seriesCount) {
-    labels = time_intervals.map(t => t[0])
-  } else {
-    labels = time_intervals
-      .filter((s, i) => i % count === 0)
-      .map(t => t[0])
-  }
+  labels = time_intervals.map(t => t[0])
   labels = labels.map(s => moment(s).format('DD.MM'))
 
-  // Фильтрация данных по дням, которые будут отображаться на графике
-  const totalsData = data.map(
-    d => d.metrics.map(metric => metric.filter((_, i) => (
-      i % count === 0
-    )))
-  )[0]
-
-  const series: TSeries[] = query.metrics.map((metric, index) => ({
-    name: metricNames[metric],
-    data: totalsData[index]
-  }));
-
+  const series = query.metrics.map((metric, index) => ({
+    label: metricNames[metric],
+    data: data[0].metrics[index],
+    borderColor: [chartColors[index]],
+    backgroundColor: ['rgba(0, 0, 0, 0)']
+  }))
   return {
-    data: {
-      labels,
-      series,
-    },
-    type: "Line",
-    options: {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      chartPadding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      },
-      plugins: [
-        Chartist.plugins.legend({
-          clickable: false
-        })
-      ],
-      fullWidth: true,
-    },
-    listener: {
-      draw: drawChart
-    },
+    labels,
+    datasets: series,
   }
 }
 
 const yandexMetricsChartPie = (
   response: IYandexMetrikaResponse,
-): ChartitGraphPieProps => {
+): ChartData<chartJs.ChartData> => {
   const {
     data,
   } = response.GetYandexMetrics;
   const labels = data.map(d => {
     return d.dimensions.map(dimensions => dimensions.name).join(', ')
   });
-  const series = data.map(d => {
-    return d.metrics.map(metric => metric.reduce((a, b) => a + b))
-  });
+  const series = data.map(d => ({
+    label: d.dimensions.map(dimension => dimension.name).join(', '),
+    data: d.metrics.map(metric => metric.reduce((x, y) => x + y)),
+  }))
   return {
-    type: "Pie",
-    data: {
-      labels,
-      series,
-    },
-    options: {
-      chartPadding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      },
-      plugins: [],
-    },
-
+    labels,
+    datasets: series
   }
 }
 
 export const yandexMetricsChart = (
   response: IYandexMetrikaResponse,
-  graphType: TGraphType,
-  seriesCount: number = 30
-): ChartitGraphProps => {
+  graphType: TGraphType
+) => {
   return graphType === "line"
-    ? yandexMetricsChartLine(response, graphType, seriesCount)
+    ? yandexMetricsChartLine(response, graphType)
     : yandexMetricsChartPie(response);
 }
