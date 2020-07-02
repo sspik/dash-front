@@ -19,6 +19,12 @@ import 'normalize.css';
 import 'chartist/dist/chartist.css';
 import 'assets/css/style.css';
 import 'assets/css/icon.css';
+import {
+  primaryColor,
+  successColor,
+  warningColor,
+  roseColor,
+} from 'assets/jss/all';
 
 import { ruRU } from "@material-ui/core/locale"
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -28,7 +34,22 @@ import 'moment/locale/ru';
 
 moment.locale('ru');
 
-const theme = createMuiTheme({}, ruRU);
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: primaryColor[0]
+    },
+    warning: {
+      main: warningColor[0]
+    },
+    success: {
+      main: successColor[0]
+    },
+    secondary: {
+      main: roseColor[0]
+    }
+  }
+}, ruRU);
 
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache: new InMemoryCache(),
@@ -36,6 +57,7 @@ export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     uri: '/graphql',
     credentials: 'include',
   }),
+  connectToDevTools: true,
 });
 
 export const GET_PROFILE = gql`
@@ -48,7 +70,6 @@ export const GET_PROFILE = gql`
     }
   }
 `
-
 ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider theme={theme}>

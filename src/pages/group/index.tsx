@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import ChartistGraph from "react-chartist";
 import gql from "graphql-tag";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
 import { useQuery } from "@apollo/react-hooks";
 import { Fade } from "@material-ui/core";
@@ -14,10 +14,11 @@ import { GridContainer, GridItem } from "components/grid";
 import { Card, CardBody, CardHeader, CardIcon } from "components/card";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { TableTask } from "components/table/TableTask";
+import { RegularButton } from "components/button/Button";
 
 import { tasksTimeChart } from "utils";
 
-import styles from "assets/jss/layouts/workGroupStyle";
+import styles from "assets/jss/pages/workGroupStyle";
 
 const useStyles = makeStyles(styles);
 
@@ -67,24 +68,48 @@ export const Group: FC<IGroupProps> = (props) => {
   const tasks = data?.GetGroupsTasks || [];
   if (!group) return <p>Группа не найдена</p>
 
-  const tasksLength = tasks?.length;
-  const completeTasks = tasks?.filter(t => (
+  const tasksLength = tasks.length;
+  const completeTasks = tasks.filter(t => (
     parseInt(t.STATUS) > 4
   ));
-  const expiredTasks = tasks?.filter(t => (
+  const expiredTasks = tasks.filter(t => (
     parseInt(t.STATUS) === -1
   ));
-  const inProgressTasks = tasks?.filter(t => (
+  const inProgressTasks = tasks.filter(t => (
     parseInt(t.STATUS) < 5
   ));
-  const tasksTimeData = tasksTimeChart(tasks!, group);
+  const tasksTimeData = tasksTimeChart(tasks, group);
   return (
     <div>
-      <h2>
-        { group.NAME }
-      </h2>
+      <GridContainer alignItems="center">
+        <GridItem xs={12} sm={8} md={8}>
+          <h2>
+            { group.NAME }
+          </h2>
+        </GridItem>
+        <GridItem xs={6} sm={2} md={2}>
+          <Link to={`/dashboard/group/${groupId}/metrics`}>
+            <RegularButton
+              color="info"
+              className={classes.headButton}
+            >
+              Посещаемость
+            </RegularButton>
+          </Link>
+        </GridItem>
+        <GridItem xs={6} sm={2} md={2}>
+            <Link to={`/dashboard/group/${groupId}/positions`}>
+              <RegularButton
+                color="success"
+                className={classes.headButton}
+              >
+              Позиции
+              </RegularButton>
+            </Link>
+        </GridItem>
+      </GridContainer>
       <GridContainer>
-        <GridItem md={12}>
+        <GridItem xs={12} sm={12} md={12}>
           <h3>Задачи</h3>
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
@@ -149,7 +174,7 @@ export const Group: FC<IGroupProps> = (props) => {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem md={12}>
+        <GridItem xs={12} sm={12} md={12}>
           <Card chart>
             <CardHeader color="warning">
               <ChartistGraph
@@ -167,7 +192,7 @@ export const Group: FC<IGroupProps> = (props) => {
       </GridContainer>
       <Fade timeout={1000} in={true}>
         <GridContainer>
-          <GridItem md={12}>
+          <GridItem xs={12} sm={12} md={12}>
               <CustomTabs
                 headerColor="primary"
                 tabs={[

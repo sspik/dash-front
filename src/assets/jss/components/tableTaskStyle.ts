@@ -17,13 +17,10 @@ const tableTaskStyle = createStyles({
   },
   tableRow: {
     position: "relative",
-    display: "flex",
-    marginTop: "10px"
-  },
-  tableRowCollapse: {
-    position: "relative",
-    borderBottom: "1px solid " + grayColor[5],
-    display: "flex",
+    marginTop: "10px",
+    "&Collapse": {
+      borderBottom: "1px solid " + grayColor[5]
+    }
   },
   tableActions: {
     display: "flex",
@@ -38,7 +35,10 @@ const tableTaskStyle = createStyles({
     alignSelf: "center",
     border: "none",
     lineHeight: "1.42857143",
-    fontSize: "14px"
+    fontSize: "14px",
+    "&Collapse": {
+      padding: "0 8px"
+    },
   },
   tableActionButton: {
     width: "27px",

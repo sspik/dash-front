@@ -7,7 +7,6 @@ import { CustomInput } from "components/input/CustomInput";
 import { RegularButton } from "components/button/Button";
 import { FeedList } from "components/feed/FeedList";
 import { Loading } from "components/loading/Loading";
-
 import {
   CardHeader,
   CardBody,
@@ -15,8 +14,8 @@ import {
   CardFooter,
 } from "components/card";
 import { useQuery } from "@apollo/react-hooks";
-import {IFeedResponse} from "../../interfaces";
-import {Spinner} from "../../components/loading/Spinner";
+import { IFeedResponse } from "interfaces";
+import { Spinner } from "components/loading/Spinner";
 
 const styles = createStyles({
   cardCategoryWhite: {

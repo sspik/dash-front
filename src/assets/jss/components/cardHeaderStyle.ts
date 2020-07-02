@@ -16,6 +16,7 @@ const cardHeaderStyle = createStyles({
     borderBottom: "none",
     background: "transparent",
     zIndex: "3 !important" as "initial",
+    transition: "all 300ms cubic-bezier(0.34, 1.61, 0.7, 1)",
     "&$cardHeaderPlain,&$cardHeaderIcon,&$cardHeaderStats,&$warningCardHeader,&$successCardHeader,&$dangerCardHeader,&$infoCardHeader,&$primaryCardHeader,&$roseCardHeader": {
       margin: "0 15px",
       padding: "0",
@@ -52,6 +53,9 @@ const cardHeaderStyle = createStyles({
     "&$cardHeaderStats$cardHeaderIcon": {
       textAlign: "right"
     }
+  },
+  cardHeaderHover: {
+    transform: "translate3d(0, -50px, 0)",
   },
   cardHeaderPlain: {
     marginLeft: "0px !important",

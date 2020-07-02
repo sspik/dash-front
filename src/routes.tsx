@@ -1,13 +1,9 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import { Redirect, Route } from "react-router";
-import {IDashboardRoute} from "./interfaces";
+import { IDashboardRoute } from "./interfaces";
 import { List, Person, Dashboard as Dash } from "@material-ui/icons";
-import { Dashboard } from "./pages/dashboard";
-import { Search } from "./pages/search";
-import { Profile } from "./pages/profile";
-import { Feed } from "./pages/feed";
-import { Group } from "./pages/group";
+import Pages from "pages";
 
 export const PrivateRouter = ({ component, ...rest }: any ): any => {
   const token = Cookies.get('token')
@@ -25,7 +21,7 @@ export const routes: Array<IDashboardRoute> = [
     path: "/feed",
     name: "Живая лента",
     icon: List,
-    component: Feed,
+    component: Pages.Feed,
     isPrivate: true,
     layout: '/dashboard',
     sidebar: true
@@ -34,16 +30,46 @@ export const routes: Array<IDashboardRoute> = [
     path: "/groups",
     name: "Рабочие группы",
     icon: Dash,
-    component: Dashboard,
+    component: Pages.Dashboard,
     isPrivate: true,
     layout: '/dashboard',
     sidebar: true
   },
   {
     path: "/group/:groupId",
-    name: "Рабочие группы",
+    name: "Группа",
     icon: Dash,
-    component: Group,
+    component: Pages.Group,
+    isPrivate: true,
+    layout: '/dashboard',
+    sidebar: false,
+    exact: true,
+  },
+  {
+    path: "/group/:groupId/positions",
+    name: "Позиции сайта",
+    icon: Dash,
+    component: Pages.Positions,
+    isPrivate: true,
+    layout: '/dashboard',
+    sidebar: false,
+    exact: true,
+  },
+  {
+    path: "/group/:groupId/metrics",
+    name: "Посещаемость сайта",
+    icon: Dash,
+    component: Pages.Metrics,
+    isPrivate: true,
+    layout: '/dashboard',
+    sidebar: false,
+    exact: true,
+  },
+  {
+    path: "/task/:taskId",
+    name: "Задача",
+    icon: Dash,
+    component: Pages.Task,
     isPrivate: true,
     layout: '/dashboard',
     sidebar: false
@@ -51,7 +77,7 @@ export const routes: Array<IDashboardRoute> = [
   {
     path: "/search",
     name: "Поиск",
-    component: Search,
+    component: Pages.Search,
     isPrivate: true,
     layout: '/dashboard',
     sidebar: false
@@ -60,7 +86,7 @@ export const routes: Array<IDashboardRoute> = [
     path: "/profile",
     name: "Профиль",
     icon: Person,
-    component: Profile,
+    component: Pages.Profile,
     isPrivate: true,
     layout: '/dashboard',
     sidebar: true

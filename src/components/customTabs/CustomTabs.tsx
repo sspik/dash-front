@@ -55,7 +55,7 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
           classes={{
             root: classes.tabsRoot,
             indicator: classes.displayNone,
-            scrollButtons: classes.displayNone
+            // scrollButtons: classes.displayNone
           }}
           variant="scrollable"
           scrollButtons="auto"

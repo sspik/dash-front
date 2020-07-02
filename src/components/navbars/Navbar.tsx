@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import classNames from "classnames";
+import _ from "lodash";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -12,7 +13,7 @@ import { AdminNavbarLinks } from "./AdminNavbarLinks";
 import { RegularButton } from "components/button/Button";
 
 import styles from "assets/jss/components/headerStyle";
-import { IDashboardRoute, iHeaderColor } from "../../interfaces";
+import { IDashboardRoute, iHeaderColor } from "interfaces";
 
 
 interface IHeaderProps {
@@ -31,11 +32,12 @@ export const Header: FC<IHeaderProps> = (props) => {
   const makeBrand = (): string => {
     let name = '';
     props.routes.forEach((prop) => {
-      if (window.location.href.indexOf(
-        prop.layout + prop.path.replace(/\/:.*$/g, '')
-      ) !== -1) {
-        name = prop.name
-      }
+      if (_.endsWith(
+        window.location.pathname
+          .replace(/\d+\/?/g, '')
+          .replace(/\/$/, ''),
+        prop.layout + prop.path.replace(/\/:[^/]+/g, '')
+      )) name = prop.name
     })
     return name;
   }

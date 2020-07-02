@@ -1,8 +1,15 @@
-import { IGroup, IGroupTask } from "./interfaces";
 import moment from 'moment';
 import _ from 'lodash';
-import { ChartitGraphLineProps } from 'react-chartist';
+import {ChartitGraphLineProps, ChartitGraphPieProps, ChartitGraphProps} from 'react-chartist';
 import Chartist from 'chartist';
+import 'chartist-plugin-legend';
+
+import {
+  IGroup,
+  IGroupTask,
+  IYandexMetrikaResponse,
+  TGraphType
+} from "./interfaces";
 
 export const formatBytes = (bytes: number, dec: number = 2): string => {
   if (bytes === 0) return '0 Байт';
@@ -69,11 +76,12 @@ export const tasksTimeChart = (
       }
     }
   }
+  const labels = steps.map(s => moment(s).format('DD.MM'));
   const maxTasks = [ ...series]
     .sort((a, b) => a > b ? 0 : 1)[0];
   return {
     data: {
-      labels: steps.map(s => moment(s).format('DD-MM')),
+      labels,
       series: [series]
     },
     type: "Line",
@@ -88,10 +96,129 @@ export const tasksTimeChart = (
         right: 0,
         bottom: 0,
         left: 0
-      }
+      },
+      fullWidth: true
     },
     listener: {
       draw: drawChart
     }
   }
+}
+
+type TMetricNames = {[key: string]: string};
+const metricNames: TMetricNames = {
+  'ym:s:visits': 'Визиты',
+  'ym:s:pageviews': 'Просмотры',
+  'ym:s:users': 'Посетители'
+}
+
+type TSeries = {
+  name: string
+  data: number[]
+}
+
+export const yandexMetricsChartLine = (
+  response: IYandexMetrikaResponse,
+  graphType: TGraphType,
+  seriesCount: number = 30
+): ChartitGraphLineProps => {
+  const {
+    query,
+    data,
+    time_intervals,
+  } = response.GetYandexMetrics;
+
+  // Подготовка временной шкалы
+  let labels: string[];
+  const count = Math.ceil(time_intervals.length / seriesCount);
+  if (time_intervals.length <= seriesCount) {
+    labels = time_intervals.map(t => t[0])
+  } else {
+    labels = time_intervals
+      .filter((s, i) => i % count === 0)
+      .map(t => t[0])
+  }
+  labels = labels.map(s => moment(s).format('DD.MM'))
+
+  // Фильтрация данных по дням, которые будут отображаться на графике
+  const totalsData = data.map(
+    d => d.metrics.map(metric => metric.filter((_, i) => (
+      i % count === 0
+    )))
+  )[0]
+
+  const series: TSeries[] = query.metrics.map((metric, index) => ({
+    name: metricNames[metric],
+    data: totalsData[index]
+  }));
+
+  return {
+    data: {
+      labels,
+      series,
+    },
+    type: "Line",
+    options: {
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      low: 0,
+      chartPadding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      },
+      plugins: [
+        Chartist.plugins.legend({
+          clickable: false
+        })
+      ],
+      fullWidth: true,
+    },
+    listener: {
+      draw: drawChart
+    },
+  }
+}
+
+const yandexMetricsChartPie = (
+  response: IYandexMetrikaResponse,
+): ChartitGraphPieProps => {
+  const {
+    data,
+  } = response.GetYandexMetrics;
+  const labels = data.map(d => {
+    return d.dimensions.map(dimensions => dimensions.name).join(', ')
+  });
+  const series = data.map(d => {
+    return d.metrics.map(metric => metric.reduce((a, b) => a + b))
+  });
+  return {
+    type: "Pie",
+    data: {
+      labels,
+      series,
+    },
+    options: {
+      chartPadding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      },
+      plugins: [],
+    },
+
+  }
+}
+
+export const yandexMetricsChart = (
+  response: IYandexMetrikaResponse,
+  graphType: TGraphType,
+  seriesCount: number = 30
+): ChartitGraphProps => {
+  return graphType === "line"
+    ? yandexMetricsChartLine(response, graphType, seriesCount)
+    : yandexMetricsChartPie(response);
 }

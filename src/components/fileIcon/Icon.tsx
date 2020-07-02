@@ -2,7 +2,8 @@ import React, {
   FC,
   lazy,
   Suspense,
-  Fragment
+  Fragment,
+  useMemo
 } from 'react';
 
 interface IIconProps {
@@ -14,9 +15,11 @@ interface IIconProps {
 export const Icon: FC<IIconProps> = (props) => {
   const { fileType } = props;
   const Icon = lazy(() => import(`./icons/${fileType}`));
-  return (
-    <Suspense fallback={<Fragment />}>
-      <Icon />
-    </Suspense>
-  )
+  return useMemo(() => {
+    return (
+      <Suspense fallback={<Fragment />}>
+        <Icon />
+      </Suspense>
+    )
+  }, [])
 }

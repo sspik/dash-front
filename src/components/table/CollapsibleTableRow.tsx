@@ -1,4 +1,5 @@
 import React, { FC, useState, Fragment } from 'react';
+import moment from 'moment';
 import { IGroupTask } from "interfaces";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -13,9 +14,12 @@ import {
 import {
   KeyboardArrowUp as KeyboardArrowUpIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
+  KeyboardArrowRight as KeyboardArrowRightIcon,
 } from "@material-ui/icons";
+import { BBCode } from "components/BBcode/BBcode";
 import styles from "assets/jss/components/collapsibleTableRowStyle";
 import styles2 from "assets/jss/components/tableTaskStyle";
+import {Link} from "react-router-dom";
 
 interface ICollapsibleRowProps {
   task: IGroupTask
@@ -29,7 +33,7 @@ const useStyles = makeStyles({
 export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
   const classes = useStyles();
   const { task } = props;
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
   return (
     <Fragment>
       <Fade
@@ -38,7 +42,9 @@ export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
         addEndListener={() => null} // wtf
       >
         <TableRow className={classes.tableRow}>
-          <TableCell className={classes.tableCell} align="left">
+          <TableCell
+            className={classes.tableCell}
+            padding="checkbox">
             <Tooltip
               title="Подробней"
               id="tooltip-top"
@@ -65,30 +71,64 @@ export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
           <TableCell className={classes.tableCell}>
             { task.TITLE }
           </TableCell>
+          <TableCell className={classes.tableCell}>
+            { `${moment(task.CREATED_DATE).format('DD.MM.YYYY')}` }
+          </TableCell>
+          <TableCell className={classes.tableCell}>
+            {
+              task.DEADLINE.length
+                ? `${ moment(task.DEADLINE).format('DD.MM.YYYY') }`
+                : 'Не указан'
+            }
+          </TableCell>
+          <TableCell className={classes.tableCell}>
+            {
+              task.CLOSED_DATE.length
+                ? `${ moment(task.CLOSED_DATE).format('DD.MM.YYYY') }`
+                : 'Открыта'
+            }
+          </TableCell>
+          <TableCell className={classes.tableCell}>
+            { `${task.CREATED_BY_NAME} ${task.CREATED_BY_LAST_NAME}` }
+          </TableCell>
+          <TableCell
+            className={classes.tableCell}
+            padding="checkbox"
+          >
+            <Tooltip
+              title="Перейти к задаче"
+              id="tooltip-right"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <Link to={`/dashboard/task/${task.ID}`}>
+                <IconButton
+                  size="small"
+                  className={classes.tableActionButton}
+                >
+                  <KeyboardArrowRightIcon
+                    className={`${classes.tableActionButton} ${classes.edit}`}
+                  />
+                </IconButton>
+              </Link>
+            </Tooltip>
+          </TableCell>
         </TableRow>
       </Fade>
 
-      <TableRow className={classes.tableRowCollapse}>
-        <TableCell className={classes.tableCell} colSpan={2}>
+      <TableRow className={classes.tableRow + "Collapse"}>
+        <TableCell className={classes.tableCell + "Collapse"} colSpan={6}>
           <Collapse
             addEndListener={() => null} // wtf
             in={open}
             timeout="auto"
             unmountOnExit
-            collapsedHeight={0}
           >
             <Box margin={1}>
               <Typography
-                variant="h6"
-                gutterBottom
-                component="div"
-              >
-                Описание задачи
-              </Typography>
-              <Typography
                 variant="body2"
               >
-                { task.DESCRIPTION }
+                <BBCode content={task.DESCRIPTION} />
               </Typography>
             </Box>
           </Collapse>

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "assets/jss/components/cardHeaderStyle";
-import { iCardHeaderColor } from "../../interfaces";
+import { iCardHeaderColor } from "interfaces";
 
 const useStyles = makeStyles(styles);
 
@@ -13,7 +13,8 @@ interface ICardHeaderProps {
   plain?: boolean;
   stats?: boolean;
   icon?: boolean;
-  children?: ReactNode;
+  hover?: string;
+  children: ReactNode;
   [key: string]: any
 }
 
@@ -26,6 +27,7 @@ export const CardHeader: FC<ICardHeaderProps> = (props) => {
     plain,
     stats,
     icon,
+    hover,
     ...rest
   } = props;
   const cardHeaderClasses = classNames({
@@ -34,6 +36,7 @@ export const CardHeader: FC<ICardHeaderProps> = (props) => {
     [classes.cardHeaderPlain]: plain,
     [classes.cardHeaderStats]: stats,
     [classes.cardHeaderIcon]: icon,
+    [classes.cardHeaderHover]: hover === "true",
     [className!]: className
   });
   return (

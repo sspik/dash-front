@@ -80,6 +80,9 @@ const workGroupStyle = createStyles({
   },
   cardBody: {
     minHeight: "auto"
+  },
+  headButton: {
+    width: "200px",
   }
 });
 

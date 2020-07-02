@@ -25,8 +25,8 @@ interface ITableTaskProps {
 export const TableTask: FC<ITableTaskProps> = (props) => {
   const classes = useStyles();
   const { tasks } = props;
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [ page, setPage ] = React.useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, tasks.length - page * rowsPerPage);
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -41,8 +41,13 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
     <Table className={classes.table}>
       <TableHead>
         <TableRow>
-          <TableCell>1</TableCell>
-          <TableCell>2</TableCell>
+          <TableCell> </TableCell>
+          <TableCell>Название задачи</TableCell>
+          <TableCell>Дата создания</TableCell>
+          <TableCell>Крайний срок</TableCell>
+          <TableCell>Дата выполнения</TableCell>
+          <TableCell>Постановщик</TableCell>
+          <TableCell> </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -58,16 +63,16 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
           )
         }) }
         { emptyRows > 0 && (
-          <TableRow style={{ height: 60 * emptyRows }}>
-            <TableCell colSpan={2} />
+          <TableRow style={{ height: 44 * emptyRows }}>
+            <TableCell colSpan={4} />
           </TableRow>
         ) }
       </TableBody>
       <TableFooter>
-        <TableRow>
+        <TableRow className={classes.tableRow}>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, { label: 'Все', value: -1 }]}
-            colSpan={2}
+            colSpan={6}
             count={tasks.length}
             rowsPerPage={rowsPerPage}
             page={page}

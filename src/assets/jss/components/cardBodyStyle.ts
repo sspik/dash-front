@@ -14,6 +14,14 @@ const cardBodyStyle = createStyles({
   },
   cardBodyProfile: {
     marginTop: "15px"
+  },
+  underHover: {
+    top: "-50px",
+    left: "17px",
+    right: "17px",
+    width: "calc(100% - 30px)",
+    position: "absolute",
+    textAlign: "center"
   }
 });
 
