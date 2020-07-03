@@ -5,7 +5,8 @@ import {
   infoCardHeader,
   primaryCardHeader,
   roseCardHeader,
-  whiteColor
+  whiteColor,
+  whiteCardHeader, blackColor,
 } from 'assets/jss/all';
 import { createStyles } from "@material-ui/core";
 
@@ -122,6 +123,12 @@ const cardHeaderStyle = createStyles({
     color: whiteColor,
     "&:not($cardHeaderIcon)": {
       ...roseCardHeader
+    }
+  },
+  whiteCardHeader: {
+    color: blackColor,
+    "&:not($cardHeaderIcon)": {
+      ...whiteCardHeader
     }
   }
 });

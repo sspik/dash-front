@@ -7,7 +7,7 @@ export type iBgColor = "purple" | "blue" | "green" | "orange" | "red";
 type iBaseColors =  "primary" | "info" | "success" | "warning" | "danger";
 export type iInputColor = iBaseColors | "rose" | "white" | "transparent";
 export type iHeaderColor = iBaseColors;
-export type iCardHeaderColor = iBaseColors | "rose";
+export type iCardHeaderColor = iBaseColors | "rose" | "white";
 export type iTableHeaderColor = iCardHeaderColor | "gray"
 
 export interface IRoute {

@@ -60,7 +60,9 @@ const grayColor = [
   "#333",
   "#a9afbb",
   "#eee",
-  "#e7e7e7"
+  "#e7e7e7",
+  "#eeeeee",
+  "#f8f8f8"
 ];
 const blackColor = "#000";
 const whiteColor = "#FFF";
@@ -124,7 +126,14 @@ const roseBoxShadow = {
     hexToRgb(roseColor[0]) +
     ",.4)"
 };
-
+const whiteBoxShadow = {
+  boxShadow:
+    "0 4px 20px 0 rgba(" +
+    hexToRgb(blackColor) +
+    ",.14), 0 7px 10px -5px rgba(" +
+    hexToRgb(grayColor[9]) +
+    ",.4)"
+};
 const warningCardHeader = {
   background:
     "linear-gradient(60deg, " + warningColor[1] + ", " + warningColor[2] + ")",
@@ -155,7 +164,11 @@ const roseCardHeader = {
     "linear-gradient(60deg, " + roseColor[1] + ", " + roseColor[2] + ")",
   ...roseBoxShadow
 };
-
+const whiteCardHeader = {
+  background:
+    "linear-gradient(60deg, " + grayColor[12] + ", " + grayColor[13] + ")",
+  ...whiteBoxShadow
+};
 const cardActions = {
   margin: "0 20px 10px",
   paddingTop: "10px",
@@ -270,5 +283,6 @@ export {
   title,
   cardTitle,
   cardSubtitle,
-  cardLink
+  cardLink,
+  whiteCardHeader,
 };

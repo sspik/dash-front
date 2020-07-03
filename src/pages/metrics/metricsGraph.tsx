@@ -3,6 +3,7 @@ import { yandexMetricsChart } from "utils";
 import { Line, Pie } from 'react-chartjs-2';
 
 import { IYandexMetrikaResponse, TGraphType } from "interfaces";
+import { grayColor } from "assets/jss/all";
 
 interface IMetricsGraphProps {
   error?: Error;
@@ -22,19 +23,19 @@ export const MetricsGraph = memo<IMetricsGraphProps>((props) => {
       options={{
         legend: {
           labels: {
-            fontColor: "rgb(255 255 255)"
+            fontColor: grayColor[2]
           }
         },
         scales: {
           yAxes: [{
             ticks: {
               stepSize: 1,
-              fontColor: "rgb(255 255 255)"
+              fontColor: grayColor[2]
             }
           }],
           xAxes: [{
             ticks: {
-              fontColor: "rgb(255 255 255)"
+              fontColor: grayColor[2]
             },
             gridLines: {
               display: false,
@@ -47,7 +48,11 @@ export const MetricsGraph = memo<IMetricsGraphProps>((props) => {
       data={chartData}
       height={75}
       options={{
-
+        legend: {
+          labels: {
+            fontColor: grayColor[2]
+          }
+        },
       }}
     />
 });

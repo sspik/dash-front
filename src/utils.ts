@@ -9,6 +9,8 @@ import {
   successColor,
   infoColor,
   roseColor,
+  whiteColor,
+  grayColor,
 } from 'assets/jss/all';
 
 import {
@@ -33,6 +35,8 @@ const chartColors: string[] = [
   successColor[0],
   infoColor[0],
   roseColor[0],
+  whiteColor,
+  grayColor[1],
 ]
 
 export const tasksTimeChart = (
@@ -80,7 +84,7 @@ export const tasksTimeChart = (
 type TMetricNames = {[key: string]: string};
 const metricNames: TMetricNames = {
   'ym:s:visits': 'Визиты',
-  'ym:s:pageviews': 'Просмотры',
+  'ym:s:bounceRate': 'Отказы',
   'ym:s:users': 'Посетители'
 }
 
@@ -99,12 +103,13 @@ export const yandexMetricsChartLine = (
   labels = time_intervals.map(t => t[0])
   labels = labels.map(s => moment(s).format('DD.MM'))
 
-  const series = query.metrics.map((metric, index) => ({
-    label: metricNames[metric],
-    data: data[0].metrics[index],
+  const series = data.map((dt, index) => ({
+    label: dt.dimensions.map(d => d.name).join(', ') || metricNames[query.metrics[0]],
+    data: dt.metrics[0],
     borderColor: [chartColors[index]],
     backgroundColor: ['rgba(0, 0, 0, 0)']
-  }))
+  }));
+
   return {
     labels,
     datasets: series,
@@ -117,16 +122,14 @@ const yandexMetricsChartPie = (
   const {
     data,
   } = response.GetYandexMetrics;
-  const labels = data.map(d => {
-    return d.dimensions.map(dimensions => dimensions.name).join(', ')
-  });
-  const series = data.map(d => ({
-    label: d.dimensions.map(dimension => dimension.name).join(', '),
-    data: d.metrics.map(metric => metric.reduce((x, y) => x + y)),
-  }))
   return {
-    labels,
-    datasets: series
+    labels: data
+      .map(d => d.dimensions.map(dimension => dimension.name).join(', ')),
+    datasets: [{
+      data: data.map(d => d.metrics[0].reduce((x, y) => x + y)),
+      backgroundColor: chartColors,
+      borderColor: [whiteColor]
+    }],
   }
 }
 

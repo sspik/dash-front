@@ -9,9 +9,13 @@ const metricStyle = createStyles({
   chartPresets: {
     flex: "0 0 auto",
   },
-  datePicker: {
-
+  cartHeader: {
+    display: "flex",
+    flex: "1 1 auto"
   },
+  cardHeaderFont: {
+    fontSize: "12px"
+  }
 });
 
 export default metricStyle;
