@@ -11,11 +11,12 @@ import {
 } from "@material-ui/core";
 
 import { TablePaginationActions } from "components/table/PaginationTable";
+import { CollapsibleRow } from "./CollapsibleTableRow";
+import { calcEmptyRows } from "utils";
 import { IGroupTask } from "interfaces";
 
 import styles from "assets/jss/components/tableTaskStyle";
-import { CollapsibleRow } from "./CollapsibleTableRow";
-import {calcEmptyRows} from "../../utils";
+
 
 const useStyles = makeStyles(styles);
 

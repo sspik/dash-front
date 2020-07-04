@@ -7,12 +7,14 @@ import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 import { Card, CardBody, CardHeader } from "components/card";
 import { RegularButton } from "components/button/Button";
+import { TableYandexMetrics } from "components/table/TableYandexMetrics";
 
 import {
   FormControlLabel,
   makeStyles,
   Radio,
-  RadioGroup
+  RadioGroup,
+  Tooltip
 } from "@material-ui/core";
 import {
   ShowChart,
@@ -32,8 +34,6 @@ import { IYandexMetrikaResponse, TGraphType } from "interfaces";
 import { RouteComponentProps } from "react-router";
 
 import styles from "assets/jss/pages/metricStyle"
-import Tooltip from "@material-ui/core/Tooltip";
-import {TableYandexMetrics} from "../../components/table/TableYandexMetrics";
 
 const useStyles = makeStyles(styles);
 
@@ -116,6 +116,7 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   if (
     !metricsData && metricsLoading
   ) return <Loading />;
+  if (metricsError) return <p>{ metricsError.message }</p>
   return (
     <GridContainer>
       { metricsLoading && <Loading /> }
