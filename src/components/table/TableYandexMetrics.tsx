@@ -48,7 +48,7 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
     : [metricNames[query.metrics[0]]];
   const tableTimes: string[] = time_intervals.map(time => time[0]);
   return (
-    <Table className={classes.table}>
+    <Table stickyHeader className={classes.table}>
       <TableHead>
         <TableRow>
           <TableCell>Дата</TableCell>
