@@ -33,7 +33,7 @@ import { RouteComponentProps } from "react-router";
 
 import styles from "assets/jss/pages/metricStyle"
 import Tooltip from "@material-ui/core/Tooltip";
-import {formatBytes} from "../../utils";
+import {TableYandexMetrics} from "../../components/table/TableYandexMetrics";
 
 const useStyles = makeStyles(styles);
 
@@ -116,7 +116,6 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   if (
     !metricsData && metricsLoading
   ) return <Loading />;
-  console.log(state)
   return (
     <GridContainer>
       { metricsLoading && <Loading /> }
@@ -274,9 +273,9 @@ export const Metrics: FC<IMetricsProps> = (props) => {
               </div>
             )}
           >
-            <div>
-
-            </div>
+            <TableYandexMetrics
+              GetYandexMetrics={metricsData!.GetYandexMetrics}
+            />
           </CardBody>
         </Card>
       </GridItem>

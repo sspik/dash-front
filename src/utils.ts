@@ -82,15 +82,14 @@ export const tasksTimeChart = (
 }
 
 type TMetricNames = {[key: string]: string};
-const metricNames: TMetricNames = {
+export const metricNames: TMetricNames = {
   'ym:s:visits': 'Визиты',
   'ym:s:bounceRate': 'Отказы',
   'ym:s:users': 'Посетители'
 }
 
 export const yandexMetricsChartLine = (
-  response: IYandexMetrikaResponse,
-  graphType: TGraphType,
+  response: IYandexMetrikaResponse
 ): ChartData<chartJs.ChartData> => {
   const {
     query,
@@ -138,6 +137,17 @@ export const yandexMetricsChart = (
   graphType: TGraphType
 ) => {
   return graphType === "line"
-    ? yandexMetricsChartLine(response, graphType)
+    ? yandexMetricsChartLine(response)
     : yandexMetricsChartPie(response);
+}
+
+export const calcEmptyRows = (
+  rowsPerPage: number,
+  page: number,
+  maxRows: number
+): number => {
+  return rowsPerPage - Math.min(
+    rowsPerPage,
+    maxRows - page * rowsPerPage
+  )
 }

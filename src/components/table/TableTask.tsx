@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
   makeStyles,
   Table,
@@ -15,6 +15,7 @@ import { IGroupTask } from "interfaces";
 
 import styles from "assets/jss/components/tableTaskStyle";
 import { CollapsibleRow } from "./CollapsibleTableRow";
+import {calcEmptyRows} from "../../utils";
 
 const useStyles = makeStyles(styles);
 
@@ -25,10 +26,13 @@ interface ITableTaskProps {
 export const TableTask: FC<ITableTaskProps> = (props) => {
   const classes = useStyles();
   const { tasks } = props;
-  const [ page, setPage ] = React.useState(0);
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, tasks.length - page * rowsPerPage);
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const [ page, setPage ] = useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = useState(5);
+  const emptyRows = calcEmptyRows(rowsPerPage, page, tasks.length)
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (
@@ -52,16 +56,17 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
       </TableHead>
       <TableBody>
         { (rowsPerPage > 0
-            ? tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ? tasks.slice(
+              page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage
+            )
             : tasks
-          ).map( (task) => {
-          return (
-            <CollapsibleRow
-              task={task}
-              key={task.ID}
-            />
-          )
-        }) }
+          ).map( (task) => (
+          <CollapsibleRow
+            task={task}
+            key={task.ID}
+          />
+        )) }
         { emptyRows > 0 && (
           <TableRow style={{ height: 44 * emptyRows }}>
             <TableCell colSpan={4} />
