@@ -7,13 +7,15 @@ import { IAttachment } from "interfaces";
 import { Icon } from "./Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from 'assets/jss/components/fileIcon';
+import iconsName from "./iconsName";
 
 const useStyles = makeStyles(styles);
 
 export const FileIcon: FC<IAttachment> = (props) => {
   const classes = useStyles();
   const { NAME, DOWNLOAD_URL, SIZE } = props;
-  const fileType = _.last<string>(NAME.toLowerCase().split('.')) || 'file';
+  let fileType = _.last<string>(NAME.toLowerCase().split('.')) || 'file';
+  if (!iconsName.includes(fileType)) fileType = 'file';
   return (
     <Tooltip
       title={formatBytes(SIZE)}
