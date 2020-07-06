@@ -15,7 +15,7 @@ import {
 
 import {
   IGroup,
-  IGroupTask,
+  IGroupTask, ISearcher, ITopvisorPositions, ITopVisorProject,
   IYandexMetrikaResponse,
   TGraphType
 } from "./interfaces";
@@ -150,4 +150,14 @@ export const calcEmptyRows = (
     rowsPerPage,
     maxRows - page * rowsPerPage
   )
+}
+
+export const getRegionIndexes = (
+  topvisorProject: ITopVisorProject
+): number[] => {
+  let regions: number[] = []
+  topvisorProject.searchers.forEach((s) => {
+    s.regions.forEach((r) => regions.push(r.index))
+  });
+  return regions;
 }

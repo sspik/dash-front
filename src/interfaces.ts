@@ -252,3 +252,67 @@ export interface IYandexMetrikaResponse {
 }
 
 export type TGraphType = "line" | "pie";
+
+interface ITopvisorRegion {
+  searcher_key: number;
+  id: string;
+  key: number;
+  lang: string;
+  devise: number;
+  depth: number;
+  index: number;
+  enabled: number;
+  type: string;
+  countryCode: string;
+  name: string;
+  areaName: string;
+  domain: string;
+}
+
+interface ITopvisorSearcher {
+  id: string;
+  project_id: string;
+  searcher: number;
+  enabled: number;
+  ord: number;
+  key: number;
+  name: string;
+  regions: ITopvisorRegion[];
+}
+
+export interface ITopVisorProject {
+  id: string;
+  name: string;
+  searchers: ITopvisorSearcher[];
+}
+
+type TPosition = {
+  data: string;
+  searcher: number;
+  position: string;
+}
+
+interface IKeyword {
+  name: string;
+  positionsData: TPosition[];
+}
+
+interface ITopvisorResult {
+  keywords: IKeyword[];
+}
+
+export interface ITopvisorPositions {
+  result: ITopvisorResult;
+}
+
+type TSearcherRegion = {
+  name: string;
+  areaName: string;
+  index: number;
+  id: string;
+}
+
+export interface ISearcher {
+  name: string;
+  regions: TSearcherRegion[];
+}
