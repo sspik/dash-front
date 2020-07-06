@@ -48,7 +48,11 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
     : [metricNames[query.metrics[0]]];
   const tableTimes: string[] = time_intervals.map(time => time[0]);
   return (
-    <Table stickyHeader className={classes.table}>
+    <Table
+      stickyHeader
+      className={classes.table}
+      size="small"
+    >
       <TableHead>
         <TableRow>
           <TableCell>Дата</TableCell>
@@ -65,7 +69,7 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
             )
             : tableTimes
           ).map((time, timeIndex) => (
-          <TableRow key={timeIndex}>
+          <TableRow key={timeIndex} hover>
             <TableCell>{ time }</TableCell>
             { data.map(dt => dt.metrics.map((metric, metricIndex) => (
               <TableCell key={ metricIndex }>
@@ -75,7 +79,7 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
           </TableRow>
         )) }
         { emptyRows > 0 && (
-          <TableRow style={{ height: 53 * emptyRows }}>
+          <TableRow style={{ height: 33 * emptyRows }}>
             <TableCell colSpan={headCols.length + 1} />
           </TableRow>
         ) }
