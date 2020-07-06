@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import moment from "moment";
 import gql from "graphql-tag";
+import { RouteComponentProps } from "react-router";
 
 import { useQuery } from "@apollo/react-hooks";
 import { Loading } from "components/loading/Loading";
@@ -28,10 +29,10 @@ import {
   DatePicker,
 } from '@material-ui/pickers';
 
-import { MetricsGraph } from "./metricsGraph";
+import { MetricsGraph } from "./MetricsGraph";
+import { CounterStatus } from "./CounterStatus";
 
-import { IYandexMetrikaResponse, TGraphType } from "interfaces";
-import { RouteComponentProps } from "react-router";
+import { ICounter, IYandexMetrikaResponse, TGraphType } from "interfaces";
 
 import styles from "assets/jss/pages/metricStyle"
 
@@ -73,6 +74,30 @@ const GetYandexMetrics = gql`
   }
 `;
 
+const GetYandexMetrikaCounter = gql`
+  query GetYandexMetrikaCounter($bitrixGroupId: ID!) {
+    GetCounter(bitrixGroupId: $bitrixGroupId) {
+      id
+      status
+      owner_login
+      name
+      mirrors
+      errors {
+        errors {
+          message
+        }
+      }
+      create_time
+      permission
+      code
+      code_status
+      site
+      filter_robots
+      time_zone_name
+    }
+  }
+`;
+
 type iRouterParams = {
   groupId: string
 }
@@ -106,6 +131,14 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   }
   const { graphType, ...metricsQuery } = state;
   const {
+    data: counterData,
+    loading: counterLoading,
+    error: counterError
+  } = useQuery<{ GetCounter: ICounter }, { bitrixGroupId: string }>(
+    GetYandexMetrikaCounter,
+    { variables: { bitrixGroupId } }
+  )
+  const {
     data: metricsData,
     error: metricsError,
     loading: metricsLoading
@@ -117,9 +150,16 @@ export const Metrics: FC<IMetricsProps> = (props) => {
     !metricsData && metricsLoading
   ) return <Loading />;
   if (metricsError) return <p>{ metricsError.message }</p>
+  if (
+    !counterData && counterLoading
+  ) return <Loading />;
+  const counter = counterData!.GetCounter;
   return (
     <GridContainer>
       { metricsLoading && <Loading /> }
+      <CounterStatus
+        { ...counter }
+      />
       <GridItem xs={12} sm={12} md={12}>
         <Card hovered chart>
           <CardHeader color="white">
