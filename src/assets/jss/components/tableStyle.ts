@@ -72,6 +72,9 @@ const tableStyle = (theme: Theme) => createStyles({
     display: "table-row",
     outline: "none",
     verticalAlign: "middle"
+  },
+  centred: {
+    textAlign: "center"
   }
 });
 

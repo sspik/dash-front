@@ -4,15 +4,18 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
-import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 
 import { makeStyles } from "@material-ui/core";
 import { ITopvisorPositions, ITopVisorProject } from "interfaces";
-import { PositionsTable } from "./PositionsTable";
+import { TablePositions } from "components/table/TablePositions";
+import { CustomTabs } from "components/customTabs/CustomTabs";
+import { Loading } from "components/loading/Loading";
+
 import { getRegionIndexes } from "utils";
 
 import styles from "assets/jss/pages/topvisorStyle";
+import Card from "@material-ui/core/Card";
 
 
 const useStyles = makeStyles(styles);
@@ -77,7 +80,7 @@ const getPositions = gql`
           positionsData {
             data
             position
-            searcher
+            regionIndex
           }
         }
       }
@@ -109,9 +112,9 @@ export const Positions: FC<IPositionProps> = (props) => {
     { variables: { bitrixGroupId }}
   );
   const {
-    loading: positionsLoading,
-    data: positionsData,
-    error: positionsError,
+    loading: keywordsLoading,
+    data: keywordsData,
+    error: keywordsError,
   } = useQuery<IPositionsResponse, IPositionsVariables>(getPositions, {
     skip: !projectData,
     variables: {
@@ -123,26 +126,51 @@ export const Positions: FC<IPositionProps> = (props) => {
     }
   });
   if (projectError) return <p>{ projectError.message }</p>;
+  if (keywordsError) return <p>{ keywordsError.message }</p>;
   if (!projectData && projectLoading) return <Loading />;
-  if (!positionsData && positionsLoading) return <Loading />;
+  if (!keywordsData && keywordsLoading) return <Loading />;
   const project = projectData!.GetTopvisorProject;
-  const positions = positionsData!.GetTopvisorPositions;
-  const dates: Set<string> = new Set();
-  positions.result.keywords.forEach((keyword) => {
-    keyword.positionsData.forEach((position) => dates.add(position.data))
-  })
+  const positions = keywordsData!.GetTopvisorPositions;
   return (
     <div>
-      { projectLoading || positionsLoading && <Loading /> }
+      { projectLoading && <Loading /> }
+      { keywordsLoading && <Loading /> }
       <GridContainer>
         <GridItem xs={12} lg={12} md={12}>
           <h2>{ project.name }</h2>
         </GridItem>
         <GridItem xs={12} lg={12} md={12}>
-          { positionsError
-            ? <p>{ positionsError.message }</p>
-            : <PositionsTable />
-          }
+          <Card>
+            <CustomTabs
+              plainTabs
+              headerColor="info"
+              fullWidth
+              tabs={project.searchers.map((searcher) => ({
+                tabName: searcher.name,
+                tabContent: (
+                  <CustomTabs
+                    plainTabs
+                    headerColor="primary"
+                    fullWidth
+                    tabs={searcher.regions.map((region) =>({
+                      tabName: `${region.name}`,
+                      tabContent: (
+                        <TablePositions
+                          keywords={positions.result.keywords.map((keyword) => ({
+                            ...keyword,
+                            positionsData: keyword.positionsData
+                              ? keyword.positionsData
+                                .filter((position) => region.index === position.regionIndex)
+                              : []
+                          }))}
+                        />
+                      )
+                    }))}
+                  />
+                )
+              }))}
+            />
+          </Card>
         </GridItem>
       </GridContainer>
     </div>

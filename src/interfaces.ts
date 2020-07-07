@@ -288,7 +288,7 @@ export interface ITopVisorProject {
 
 type TPosition = {
   data: string;
-  searcher: number;
+  regionIndex: number;
   position: string;
 }
 
@@ -297,7 +297,7 @@ interface IKeyword {
   positionsData: TPosition[];
 }
 
-interface ITopvisorResult {
+export interface ITopvisorResult {
   keywords: IKeyword[];
 }
 

@@ -24,7 +24,8 @@ interface ICustomTabsProps {
     tabIcon?: OverridableComponent<SvgIconTypeMap>;
     tabContent: ReactNode;
   }>;
-  plainTabs?: boolean
+  plainTabs?: boolean;
+  fullWidth?: boolean;
 }
 
 export const CustomTabs: FC<ICustomTabsProps> = (props) => {
@@ -37,7 +38,8 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
     headerColor,
     title,
     plainTabs,
-    tabs
+    tabs,
+    fullWidth
   } = props;
   const cardTitle = classNames({
     [classes.cardTitle]: true,
@@ -57,7 +59,7 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
             indicator: classes.displayNone,
             // scrollButtons: classes.displayNone
           }}
-          variant="scrollable"
+          variant={ fullWidth ? "fullWidth" : "scrollable" }
           scrollButtons="auto"
         >
           { tabs.map((prop, key) => {
