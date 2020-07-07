@@ -16,8 +16,9 @@ import { getRegionIndexes } from "utils";
 
 import styles from "assets/jss/pages/topvisorStyle";
 import Card from "@material-ui/core/Card";
-import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
+import {PositionChart} from "./PositionsChart";
 
 
 const useStyles = makeStyles(styles);
@@ -184,7 +185,15 @@ export const Positions: FC<IPositionProps> = (props) => {
           </GridContainer>
         </GridItem>
         <GridItem xs={12} lg={12} md={12}>
-          <Card>
+          <Card className={classes.card}>
+            <PositionChart
+              { ...positions }
+              { ...project }
+            />
+          </Card>
+        </GridItem>
+        <GridItem xs={12} lg={12} md={12}>
+          <Card className={classes.card}>
             <CustomTabs
               plainTabs
               headerColor="info"
