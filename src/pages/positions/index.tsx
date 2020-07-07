@@ -16,6 +16,8 @@ import { getRegionIndexes } from "utils";
 
 import styles from "assets/jss/pages/topvisorStyle";
 import Card from "@material-ui/core/Card";
+import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
 
 
 const useStyles = makeStyles(styles);
@@ -137,7 +139,49 @@ export const Positions: FC<IPositionProps> = (props) => {
       { keywordsLoading && <Loading /> }
       <GridContainer>
         <GridItem xs={12} lg={12} md={12}>
-          <h2>{ project.name }</h2>
+          <GridContainer alignItems="center">
+            <GridItem xs={8} lg={8} md={8}>
+              <h2>{ project.name }</h2>
+            </GridItem>
+            <GridContainer>
+              <GridItem>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DatePicker
+                    disableFuture
+                    autoOk
+                    variant="inline"
+                    format="DD-MM-YYYY"
+                    margin="none"
+                    id="date-picker-inline"
+                    label="Начало"
+                    value={state.date1}
+                    onChange={( date ) => setState({
+                      ...state,
+                      date1: moment(date!).format('YYYY-MM-DD')
+                    })}
+                  />
+                </MuiPickersUtilsProvider>
+              </GridItem>
+              <GridItem>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DatePicker
+                    disableFuture
+                    autoOk
+                    variant="inline"
+                    format="DD-MM-YYYY"
+                    margin="none"
+                    id="date-picker-inline"
+                    label="Конец"
+                    value={state.date2}
+                    onChange={( date ) => setState({
+                      ...state,
+                      date2: moment(date!).format('YYYY-MM-DD')
+                    })}
+                  />
+                </MuiPickersUtilsProvider>
+              </GridItem>
+            </GridContainer>
+          </GridContainer>
         </GridItem>
         <GridItem xs={12} lg={12} md={12}>
           <Card>
