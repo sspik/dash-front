@@ -62,11 +62,11 @@ export const Dashboard: React.FC = () => {
       { loading && <Loading /> }
       <div className={classes.headPanel}>
         { data!.GetUserGroups.total > 50
-          ? <Pagination
+          && <Pagination
             start={start}
             total={data!.GetUserGroups.total}
             changePage={handleChangePage}
-          /> : null
+          />
         }
       </div>
       <GridContainer>

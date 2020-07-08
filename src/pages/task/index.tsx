@@ -272,7 +272,7 @@ export const Task: FC<ITaskDetailProps> = (props) => {
               >
                 Отправить
               </RegularButton>
-              { loading ? <Spinner /> : null }
+              { loading && <Spinner />  }
             </CardFooter>
           </Card>
         </GridItem>

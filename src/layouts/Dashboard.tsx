@@ -1,5 +1,5 @@
 import React, { FC, createRef, useState } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -10,11 +10,10 @@ import { Header } from "components/navbars/Navbar";
 import { Footer } from "components/footer/Footer";
 import { Sidebar } from "components/sidebar/Sidebar";
 
-import { routes } from "../routes";
+import { routes } from "routes";
 import styles from "assets/jss/layouts/dashboardStyle";
 import sidebarImage from "assets/img/sidebar.jpg";
 import logo from "assets/img/akiwa.svg";
-
 
 
 let ps: PerfectScrollbar;
