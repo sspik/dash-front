@@ -59,6 +59,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div>
+      { loading && <Loading /> }
       <div className={classes.headPanel}>
         { data!.GetUserGroups.total > 50
           ? <Pagination
