@@ -96,7 +96,6 @@ ReactDOM.render(
                 return (
                   <Fragment>
                     <PrivateRouter path="/dashboard" component={ Dashboard } />
-                    {/*TODO Разобраться с редиректом*/}
                   </Fragment>
                 )
               }}
