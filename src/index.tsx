@@ -5,7 +5,12 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from 'apollo-link-http';
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter,
+  Redirect
+} from "react-router-dom";
 
 import { LoginPage } from "./pages/login";
 import { Dashboard } from "./layouts/Dashboard";
@@ -75,6 +80,9 @@ ReactDOM.render(
       <ApolloProvider client={client}>
         <Switch>
           <Route exact path="/login" component={ LoginPage } />
+          <PrivateRouter exact path="/">
+            <Redirect to="/dashboard/feed" />
+          </PrivateRouter>
           <Fragment>
             <Query<IProfile> query={GET_PROFILE}>
               {({ loading, data, client }) => {
@@ -89,7 +97,6 @@ ReactDOM.render(
                   <Fragment>
                     <PrivateRouter path="/dashboard" component={ Dashboard } />
                     {/*TODO Разобраться с редиректом*/}
-                    {/*<Redirect from="/" to="/dashboard/main" />*/}
                   </Fragment>
                 )
               }}
