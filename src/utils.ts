@@ -15,9 +15,10 @@ import {
 
 import {
   IGroup,
-  IGroupTask, ISearcher, ITopvisorPositions, ITopVisorProject,
+  IGroupTask,
+  ITopVisorProject, ITopvisorSummaryChart,
   IYandexMetrikaResponse,
-  TGraphType
+  TGraphType,
 } from "./interfaces";
 
 export const formatBytes = (bytes: number, dec: number = 2): string => {
@@ -35,7 +36,7 @@ const chartColors: string[] = [
   successColor[0],
   infoColor[0],
   roseColor[0],
-  whiteColor,
+  grayColor[4],
   grayColor[1],
 ]
 
@@ -160,4 +161,61 @@ export const getRegionIndexes = (
     s.regions.forEach((r) => regions.push(r.index))
   });
   return regions;
+}
+
+const positionTopNames: {[key: string]: string} = {
+  'top3': '1-3',
+  'top10': '1-10',
+  'top11_30': '11-30',
+  'top31_50': '31-50',
+  'top51_100': '51-100',
+  'all': 'Все',
+  'top101_10000': '101-10000',
+}
+
+const positionsGraphDataLine = (
+  summaryData: ITopvisorSummaryChart
+): ChartData<chartJs.ChartData> => {
+  const { tops: { __typename, ...tops }, dates } = summaryData;
+  const series = Object.keys(tops).map((k, index) => {
+    return {
+      label: positionTopNames[k],
+      data: tops[k],
+      borderColor: [chartColors[index]],
+      backgroundColor: ['rgba(0, 0, 0, 0)']
+    }
+  });
+  return {
+    labels: dates,
+    datasets: series,
+  }
+}
+
+const positionsGraphDataBar = (
+  summaryData: ITopvisorSummaryChart
+): ChartData<chartJs.ChartData> => {
+  const { tops: { __typename, ...tops }, dates } = summaryData;
+  const series = Object.keys(tops).map((k, index) => {
+    return {
+      label: positionTopNames[k],
+      data: tops[k],
+      borderColor: chartColors[index],
+      backgroundColor: chartColors[index],
+    }
+  });
+  return {
+    labels: dates,
+    datasets: series,
+  }
+}
+export const positionsGraphData = (
+  summaryData: ITopvisorSummaryChart,
+  chartType: 'bar' | 'line',
+): ChartData<chartJs.ChartData> => {
+  switch (chartType) {
+    case "bar":
+      return positionsGraphDataBar(summaryData)
+    case "line":
+      return positionsGraphDataLine(summaryData)
+  }
 }

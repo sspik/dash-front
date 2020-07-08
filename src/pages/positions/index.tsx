@@ -11,6 +11,7 @@ import { ITopvisorPositions, ITopVisorProject } from "interfaces";
 import { TablePositions } from "components/table/TablePositions";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { Loading } from "components/loading/Loading";
+import { PositionChart } from "./PositionsChart";
 
 import { getRegionIndexes } from "utils";
 
@@ -18,7 +19,6 @@ import styles from "assets/jss/pages/topvisorStyle";
 import Card from "@material-ui/core/Card";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import {PositionChart} from "./PositionsChart";
 
 
 const useStyles = makeStyles(styles);
@@ -66,9 +66,9 @@ const getPositions = gql`
   query GetPositions(
     $bitrixGroupId: ID!
     $projectId: ID!
-    $regionIndexes: [Int]!
-    $date1: String
-    $date2: String
+    $regionIndexes: [ID!]!
+    $date1: String!
+    $date2: String!
   ) {
     GetTopvisorPositions(
       bitrixGroupId: $bitrixGroupId
@@ -134,6 +134,12 @@ export const Positions: FC<IPositionProps> = (props) => {
   if (!keywordsData && keywordsLoading) return <Loading />;
   const project = projectData!.GetTopvisorProject;
   const positions = keywordsData!.GetTopvisorPositions;
+  const dates: Set<string> = new Set();
+  positions.result.keywords.forEach((keyword) => {
+    keyword.positionsData
+    && keyword.positionsData.forEach((position) => dates.add(position.data))
+  });
+  const datesArr = Array.from(dates);
   return (
     <div>
       { projectLoading && <Loading /> }
@@ -186,14 +192,6 @@ export const Positions: FC<IPositionProps> = (props) => {
         </GridItem>
         <GridItem xs={12} lg={12} md={12}>
           <Card className={classes.card}>
-            <PositionChart
-              { ...positions }
-              { ...project }
-            />
-          </Card>
-        </GridItem>
-        <GridItem xs={12} lg={12} md={12}>
-          <Card className={classes.card}>
             <CustomTabs
               plainTabs
               headerColor="info"
@@ -205,20 +203,38 @@ export const Positions: FC<IPositionProps> = (props) => {
                     plainTabs
                     headerColor="primary"
                     fullWidth
-                    tabs={searcher.regions.map((region) =>({
-                      tabName: `${region.name}`,
-                      tabContent: (
-                        <TablePositions
-                          keywords={positions.result.keywords.map((keyword) => ({
-                            ...keyword,
-                            positionsData: keyword.positionsData
-                              ? keyword.positionsData
-                                .filter((position) => region.index === position.regionIndex)
-                              : []
-                          }))}
-                        />
+                    tabs={searcher.regions.map((region) => {
+                      const keywords = positions.result.keywords.map((keyword) => ({
+                        ...keyword,
+                        positionsData: keyword.positionsData
+                          ? keyword.positionsData
+                            .filter((position) => region.index === position.regionIndex)
+                          : []
+                      }))
+                      return (
+                        {
+                          tabName: `${region.name}`,
+                          tabContent: (
+                            <GridContainer>
+                              <GridItem xs={12} lg={12} md={12}>
+                                <PositionChart
+                                  dates={datesArr}
+                                  projectId={project.id}
+                                  bitrixGroupId={bitrixGroupId}
+                                  regionIndex={region.index}
+                                />
+                              </GridItem>
+                              <GridItem xs={12} lg={12} md={12}>
+                                <TablePositions
+                                  keywords={keywords}
+                                  dates={datesArr}
+                                />
+                              </GridItem>
+                            </GridContainer>
+                          )
+                        }
                       )
-                    }))}
+                    })}
                   />
                 )
               }))}

@@ -57,7 +57,7 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
         <TableRow>
           <TableCell>Дата</TableCell>
           { headCols.map((col, index) => (
-            <TableCell key={index}>{ col }</TableCell>
+            <TableCell key={index} align="center">{ col }</TableCell>
           )) }
         </TableRow>
       </TableHead>
@@ -72,7 +72,7 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
           <TableRow key={timeIndex} hover>
             <TableCell>{ time }</TableCell>
             { data.map(dt => dt.metrics.map((metric, metricIndex) => (
-              <TableCell key={ metricIndex }>
+              <TableCell key={ metricIndex } align="center">
                 { metric[tableTimes.indexOf(time)] }
               </TableCell>
             ))) }

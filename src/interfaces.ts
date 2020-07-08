@@ -286,13 +286,13 @@ export interface ITopVisorProject {
   searchers: ITopvisorSearcher[];
 }
 
-type TPosition = {
+export type TPosition = {
   data: string;
   regionIndex: number;
   position: string;
 }
 
-interface IKeyword {
+export interface IKeyword {
   name: string;
   positionsData: TPosition[];
 }
@@ -305,14 +305,19 @@ export interface ITopvisorPositions {
   result: ITopvisorResult;
 }
 
-type TSearcherRegion = {
-  name: string;
-  areaName: string;
-  index: number;
-  id: string;
+type TTopvisorTops =  {
+  all: number[],
+  top3: number[],
+  top10: number[],
+  top11_30: number[],
+  top31_50: number[],
+  top51_100: number[],
+  top101_10000: number[],
+  [key: string]: number[],
 }
 
-export interface ISearcher {
-  name: string;
-  regions: TSearcherRegion[];
+export interface ITopvisorSummaryChart {
+  tops: TTopvisorTops,
+  avg: number[],
+  dates: string[],
 }

@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import {
-  makeStyles,
   Table,
   TableHead,
   TableRow,
@@ -9,20 +8,17 @@ import {
 } from "@material-ui/core";
 
 import { ITopvisorResult } from 'interfaces';
-import { calcEmptyRows } from "utils";
 import { TablePaginationActions } from "./PaginationTable";
-import styles from 'assets/jss/components/tableStyle';
 
-const useStyles = makeStyles(styles);
+interface ITablePositionsProps extends ITopvisorResult {
+  dates: string[];
+}
 
-
-export const TablePositions: FC<ITopvisorResult> = (props) => {
-  const classes = useStyles();
-  const { keywords } = props;
+export const TablePositions: FC<ITablePositionsProps> = (props) => {
+  const { keywords, dates } = props;
 
   const [ page, setPage ] = useState(0);
-  const [ rowsPerPage, setRowsPerPage ] = useState(50);
-  const emptyRows = calcEmptyRows(rowsPerPage, page, keywords.length)
+  const [ rowsPerPage, setRowsPerPage ] = useState(30);
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -35,12 +31,6 @@ export const TablePositions: FC<ITopvisorResult> = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const dates: Set<string> = new Set();
-  keywords.forEach((keyword) => {
-    keyword.positionsData
-      && keyword.positionsData.forEach((position) => dates.add(position.data))
-  });
-  const datesArr = Array.from(dates);
   return (
     <Table size="small" stickyHeader>
       <TableHead>
@@ -48,8 +38,8 @@ export const TablePositions: FC<ITopvisorResult> = (props) => {
           <TableCell>
             Ключевое слово
           </TableCell>
-          { datesArr.length
-            ? datesArr.map((d, index) => (
+          { dates.length
+            ? dates.map((d, index) => (
                 <TableCell align="center" key={index}>{ d }</TableCell>
             ))
             : <TableCell>За выбранный период позиции не снимались</TableCell>
@@ -66,8 +56,8 @@ export const TablePositions: FC<ITopvisorResult> = (props) => {
           ).map((keyword, index) => (
           <TableRow key={index} hover>
             <TableCell>{ keyword.name }</TableCell>
-            { datesArr
-              ? datesArr.map((date, index) =>{
+            { dates
+              ? dates.map((date, index) =>{
                 const positionData = keyword.positionsData.filter(p => p.data === date);
                 const position = positionData.length ? positionData[0].position : ''
                 return (
@@ -88,7 +78,7 @@ export const TablePositions: FC<ITopvisorResult> = (props) => {
         <TableRow>
           <TablePagination
             rowsPerPageOptions={[30, 60, 90, { label: 'Все', value: -1 }]}
-            colSpan={datesArr.length + 1}
+            colSpan={dates.length + 1}
             count={keywords.length}
             rowsPerPage={rowsPerPage}
             page={page}
