@@ -22,8 +22,14 @@ class UserTag extends Tag {
   }
 }
 
+class PTag extends Tag {
+  toHTML(): string {
+    return `<p>${this.getContent()}</p>`
+  }
+}
 parser.registerTag('font', FontTag);
 parser.registerTag('user', UserTag);
+parser.registerTag('p', PTag);
 
 export const BBCode: FC<{content: string}> = (props) => {
   let { content } = props;
