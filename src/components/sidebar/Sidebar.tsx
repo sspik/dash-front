@@ -76,7 +76,7 @@ export const Sidebar: React.FC<ISidebarProps> = (props) => {
   const brand = (
     <div className={classes.logo}>
       <Link
-        to="/dashboard/main"
+        to="/dashboard/feed"
         className={classes.logoLink}
       >
         <div className={classes.logoImage}>

@@ -148,7 +148,7 @@ export const Feed: FC = () => {
         />
       </GridContainer>
       { data!.GetFeed.next
-        ? <div>
+        && <div>
           <RegularButton
             color="primary"
             onClick={() => handleFetchMore(data!.GetFeed.next!)}
@@ -156,7 +156,6 @@ export const Feed: FC = () => {
             Больше сообщений
           </RegularButton>
         </div>
-        : null
       }
     </div>
 

@@ -81,14 +81,5 @@ export const routes: Array<IDashboardRoute> = [
     isPrivate: true,
     layout: '/dashboard',
     sidebar: false
-  },
-  {
-    path: "/profile",
-    name: "Профиль",
-    icon: Person,
-    component: Pages.Profile,
-    isPrivate: true,
-    layout: '/dashboard',
-    sidebar: true
   }
 ]

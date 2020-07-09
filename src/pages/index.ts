@@ -1,6 +1,5 @@
 import { Dashboard } from "./dashboard";
 import { Feed } from "./feed";
-import { Profile } from "./profile";
 import { Group } from "./group";
 import { LoginPage } from "./login";
 import { Positions } from "./positions";
@@ -11,7 +10,6 @@ import { Metrics } from "./metrics";
 export default {
   Dashboard,
   Feed,
-  Profile,
   Group,
   LoginPage,
   Positions,
