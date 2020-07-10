@@ -8,7 +8,6 @@ import {
   TableFooter,
   TablePagination,
   TableHead,
-  Typography,
 } from "@material-ui/core";
 
 import { TablePaginationActions } from "components/table/PaginationTable";

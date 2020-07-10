@@ -1,6 +1,9 @@
-import React, { ChangeEvent, FC, useState } from 'react';
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import React, { FC, useState, useMemo, useCallback } from 'react';
 import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { useDropzone } from 'react-dropzone'
 
 import { GridItem, GridContainer } from "components/grid";
 import { CustomInput } from "components/input/CustomInput";
@@ -13,28 +16,12 @@ import {
   Card,
   CardFooter,
 } from "components/card";
-import { useQuery } from "@apollo/react-hooks";
 import { IFeedResponse } from "interfaces";
 import { Spinner } from "components/loading/Spinner";
 
-const styles = createStyles({
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: 300,
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none"
-  }
-});
+import styles from "assets/jss/pages/feedStyle";
+
+const useStyles = makeStyles(styles);
 
 const getFeed = gql`
   query getFeed($start: Int = 0) {
@@ -62,6 +49,16 @@ const getFeed = gql`
   }
 `;
 
+const SendAttachment = gql`
+  mutation AttachmentUpload($folderId: ID! $files: [UploadFix!]!){
+    AttachmentUpload(folderId: $folderId files: $files) {
+      ID
+      NAME
+      DOWNLOAD_URL
+    }
+  }
+`
+
 interface IFeedState {
   start: number;
   userMessage: string;
@@ -72,19 +69,54 @@ const initState: IFeedState = {
   userMessage: "",
 }
 
-const useStyles = makeStyles(styles);
+interface ISendAttachmentVariables {
+  folderId: string;
+  files: any[];
+}
 
 export const Feed: FC = () => {
   const [ state, setState ] = useState<IFeedState>(initState)
   const classes = useStyles();
   const { data, loading, error, fetchMore } = useQuery<
     IFeedResponse,
-    {start: number}
+    { start: number }
     >(getFeed, {
       variables: { start: state.start }
   });
+  const [ uploadAttachment ] = useMutation<any, ISendAttachmentVariables>(SendAttachment);
+
+  const onDrop = useCallback(() => async (acceptedFiles: any[]) => {
+    console.log(acceptedFiles)
+    await uploadAttachment({
+      variables: {
+        folderId: process.env.BITRIX24_UPLOAD_FOLDER_ID!,
+        files: acceptedFiles,
+      }
+    })
+  }, [uploadAttachment])
+  const {
+    acceptedFiles,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject
+  } = useDropzone({
+    onDrop,
+  });
+  const dropZoneStyle = useMemo(() => ({
+    ...styles.dropZoneBase,
+    ...(isDragActive ? styles.active : {}),
+    ...(isDragAccept ? styles.accept : {}),
+    ...(isDragReject ? styles.reject : {})
+  }), [
+    isDragActive,
+    isDragReject,
+    isDragAccept
+  ]);
   if (!data && loading) return <Loading />;
   if (error) return <p>{ error }</p>;
+  const feeds = data!.GetFeed;
   const handleFetchMore = (next: number) => {
     fetchMore({
       variables: { start: next },
@@ -103,11 +135,11 @@ export const Feed: FC = () => {
         }
       }
     })
-  }
+  };
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={7} md={7}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Сообщение в живую ленту</h4>
@@ -122,7 +154,7 @@ export const Feed: FC = () => {
                   multiline: true,
                   rows: 2,
                   value: state.userMessage,
-                  onChange: (event: ChangeEvent<HTMLTextAreaElement>) =>
+                  onChange: (event) =>
                     setState({
                       ...state,
                       userMessage: event.target.value
@@ -131,27 +163,41 @@ export const Feed: FC = () => {
               />
             </CardBody>
             <CardFooter>
-              <RegularButton
-                color="info"
-                disabled={!!loading}
-              >
-                Отправить
-              </RegularButton>
-              { loading ? <Spinner /> : null }
+              <div className={classes.footer}>
+                <RegularButton
+                  color="info"
+                  disabled={!!loading}
+                >
+                  Отправить
+                </RegularButton>
+                { loading ? <Spinner /> : null }
+              </div>
             </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={5} md={5}>
+          <Card>
+            <CardBody>
+              <div {...getRootProps({ style: dropZoneStyle })}>
+                <input
+                  { ...getInputProps() }
+                />
+                <p>Перетащите сюда файлы или нажмите для выбора</p>
+              </div>
+            </CardBody>
           </Card>
         </GridItem>
       </GridContainer>
       <GridContainer>
         <FeedList
-          { ...data!.GetFeed }
+          { ...feeds }
         />
       </GridContainer>
-      { data!.GetFeed.next
+      { feeds.next
         && <div>
           <RegularButton
             color="primary"
-            onClick={() => handleFetchMore(data!.GetFeed.next!)}
+            onClick={() => handleFetchMore(feeds.next!)}
           >
             Больше сообщений
           </RegularButton>

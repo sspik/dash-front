@@ -66,8 +66,6 @@ export const tasksTimeChart = (
     }
   }
   const labels = steps.map(s => moment(s).format('DD.MM'));
-  const maxTasks = [ ...series]
-    .sort((a, b) => a > b ? 0 : 1)[0];
   return {
     labels,
     datasets: [

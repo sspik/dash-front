@@ -1,4 +1,3 @@
-import { grayColor, defaultFont } from "assets/jss/all"
 import { createStyles } from "@material-ui/core";
 
 const metricStyle = createStyles({

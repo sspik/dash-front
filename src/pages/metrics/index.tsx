@@ -133,7 +133,7 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   const {
     data: counterData,
     loading: counterLoading,
-    error: counterError
+    error: counterError,
   } = useQuery<{ GetCounter: ICounter }, { bitrixGroupId: string }>(
     GetYandexMetrikaCounter,
     { variables: { bitrixGroupId } }
@@ -157,9 +157,11 @@ export const Metrics: FC<IMetricsProps> = (props) => {
   return (
     <GridContainer>
       { metricsLoading && <Loading /> }
-      <CounterStatus
-        { ...counter }
-      />
+      { counterError
+        ? <p>{ counterError.message }</p>
+        : <CounterStatus
+            { ...counter }
+          />}
       <GridItem xs={12} sm={12} md={12}>
         <Card hovered chart>
           <CardHeader color="white">

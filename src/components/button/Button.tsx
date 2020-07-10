@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import Button, { ButtonProps } from "@material-ui/core/Button";
 
 import { iInputColor } from "interfaces";
 import styles from 'assets/jss/components/buttonStyle';
@@ -20,6 +20,8 @@ interface IButtonProps {
   muiClasses?: object;
   href?: string;
   children?: ReactNode;
+  variant?: "text" | "outlined" | "contained";
+  component?: string;
   onClick?: (event: React.MouseEvent<HTMLElement, globalThis.MouseEvent>) => void;
 }
 

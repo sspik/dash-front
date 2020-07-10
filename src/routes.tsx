@@ -2,7 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { Redirect, Route } from "react-router";
 import { IDashboardRoute } from "./interfaces";
-import { List, Person, Dashboard as Dash } from "@material-ui/icons";
+import { List, Dashboard as Dash } from "@material-ui/icons";
 import Pages from "pages";
 
 export const PrivateRouter = ({ component, ...rest }: any ): any => {
