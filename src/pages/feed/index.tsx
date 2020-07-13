@@ -17,9 +17,10 @@ import {
 } from "components/card";
 import { IFeedResponse } from "interfaces";
 import { Spinner } from "components/loading/Spinner";
+import { FileUploader } from "components/fileUploader/FileUploader";
 
 import styles from "assets/jss/pages/feedStyle";
-import {FileUploader} from "../../components/fileUploader/FileUploader";
+
 
 const useStyles = makeStyles(styles);
 
@@ -49,15 +50,21 @@ const getFeed = gql`
   }
 `;
 
+// const SendMessage = gql`
+//   mutation SendMessage()
+// `
+
 
 interface IFeedState {
   start: number;
   userMessage: string;
+  attachmentFilesId: string[]
 }
 
 const initState: IFeedState = {
   start: 0,
   userMessage: "",
+  attachmentFilesId: [],
 }
 
 export const Feed: FC = () => {
@@ -69,9 +76,14 @@ export const Feed: FC = () => {
     >(getFeed, {
       variables: { start: state.start }
   });
-
   if (!data && loading) return <Loading />;
   if (error) return <p>{ error }</p>;
+  const handleAttachedFile = (filesId: string[]): void => {
+    setState({
+      ...state,
+      attachmentFilesId: filesId
+    })
+  }
   const feeds = data!.GetFeed;
   const handleFetchMore = (next: number) => {
     fetchMore({
@@ -92,6 +104,9 @@ export const Feed: FC = () => {
       }
     })
   };
+  const handleSendMessage = async () => {
+
+  }
   return (
     <div>
       <GridContainer>
@@ -101,6 +116,9 @@ export const Feed: FC = () => {
               <h4 className={classes.cardTitleWhite}>Сообщение в живую ленту</h4>
             </CardHeader>
             <CardBody>
+              <CustomInput
+
+              />
               <CustomInput
                 labelText="Введите сообщение"
                 formControlProps={{
@@ -132,11 +150,9 @@ export const Feed: FC = () => {
           </Card>
         </GridItem>
         <GridItem xs={12} sm={5} md={5}>
-          <Card>
-            <CardBody>
-              <FileUploader />
-            </CardBody>
-          </Card>
+          <FileUploader
+            handleAttachedFile={handleAttachedFile}
+          />
         </GridItem>
       </GridContainer>
       <GridContainer>

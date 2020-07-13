@@ -1,7 +1,7 @@
 import {
   primaryColor,
   dangerColor,
-  infoColor,
+  infoColor, warningColor,
 } from 'assets/jss/all'
 import { createStyles } from "@material-ui/core";
 
@@ -24,36 +24,6 @@ const feedStyle = createStyles({
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
-  },
-  fileInput: {
-    display: "none",
-  },
-  dropZoneBase: {
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#eeeeee',
-    borderStyle: 'dashed',
-    backgroundColor: '#fafafa',
-    color: '#bdbdbd',
-    outline: 'none',
-    transition: 'all .24s ease-in-out',
-    justifyContent: "center",
-    cursor: "pointer",
-  },
-  active: {
-    borderColor: infoColor[0],
-    color: infoColor[0]
-  },
-  reject: {
-    borderColor: dangerColor[0]
-  },
-  accept: {
-    borderColor: primaryColor[0],
-    color: primaryColor[0]
   }
 })
 export default feedStyle;
