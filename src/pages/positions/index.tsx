@@ -105,14 +105,14 @@ const initState: IPositionsState = {
 export const Positions: FC<IPositionProps> = (props) => {
   const classes = useStyles();
   const bitrixGroupId = props.match.params.groupId;
-  const [ state, setState ] = useState(initState);
+  const [state, setState] = useState(initState);
   const {
     loading: projectLoading,
     data: projectData,
     error: projectError,
   } = useQuery<{ GetTopvisorProject: ITopVisorProject }, { bitrixGroupId: string }>(
     getProject,
-    { variables: { bitrixGroupId }}
+    {variables: {bitrixGroupId}}
   );
   const {
     loading: keywordsLoading,
@@ -128,10 +128,10 @@ export const Positions: FC<IPositionProps> = (props) => {
       date2: state.date2,
     }
   });
-  if (projectError) return <p>{ projectError.message }</p>;
-  if (keywordsError) return <p>{ keywordsError.message }</p>;
-  if (!projectData && projectLoading) return <Loading />;
-  if (!keywordsData && keywordsLoading) return <Loading />;
+  if (projectError) return <p>{projectError.message}</p>;
+  if (keywordsError) return <p>{keywordsError.message}</p>;
+  if (!projectData && projectLoading) return <Loading/>;
+  if (!keywordsData && keywordsLoading) return <Loading/>;
   const project = projectData!.GetTopvisorProject;
   const positions = keywordsData!.GetTopvisorPositions;
   const dates: Set<string> = new Set();
@@ -142,13 +142,13 @@ export const Positions: FC<IPositionProps> = (props) => {
   const datesArr = Array.from(dates);
   return (
     <div>
-      { projectLoading && <Loading /> }
-      { keywordsLoading && <Loading /> }
+      {projectLoading && <Loading/>}
+      {keywordsLoading && <Loading/>}
       <GridContainer>
         <GridItem xs={12} lg={12} md={12}>
           <GridContainer alignItems="center">
             <GridItem xs={8} lg={8} md={8}>
-              <h2>{ project.name }</h2>
+              <h2>{project.name}</h2>
             </GridItem>
             <GridContainer>
               <GridItem>
@@ -162,7 +162,7 @@ export const Positions: FC<IPositionProps> = (props) => {
                     id="date-picker-inline"
                     label="Начало"
                     value={state.date1}
-                    onChange={( date ) => setState({
+                    onChange={(date) => setState({
                       ...state,
                       date1: moment(date!).format('YYYY-MM-DD')
                     })}
@@ -180,7 +180,7 @@ export const Positions: FC<IPositionProps> = (props) => {
                     id="date-picker-inline"
                     label="Конец"
                     value={state.date2}
-                    onChange={( date ) => setState({
+                    onChange={(date) => setState({
                       ...state,
                       date2: moment(date!).format('YYYY-MM-DD')
                     })}

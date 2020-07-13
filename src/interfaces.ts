@@ -321,3 +321,10 @@ export interface ITopvisorSummaryChart {
   avg: number[],
   dates: string[],
 }
+
+export interface IAttachedFile {
+  name: string;
+  path: string;
+  size: number;
+  type: string;
+}

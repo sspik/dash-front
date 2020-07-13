@@ -1,9 +1,8 @@
-import React, { FC, useState, useMemo, useCallback } from 'react';
+import React, { FC, useState } from 'react';
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { useDropzone } from 'react-dropzone'
 
 import { GridItem, GridContainer } from "components/grid";
 import { CustomInput } from "components/input/CustomInput";
@@ -20,6 +19,7 @@ import { IFeedResponse } from "interfaces";
 import { Spinner } from "components/loading/Spinner";
 
 import styles from "assets/jss/pages/feedStyle";
+import {FileUploader} from "../../components/fileUploader/FileUploader";
 
 const useStyles = makeStyles(styles);
 
@@ -49,15 +49,6 @@ const getFeed = gql`
   }
 `;
 
-const SendAttachment = gql`
-  mutation AttachmentUpload($folderId: ID! $files: [UploadFix!]!){
-    AttachmentUpload(folderId: $folderId files: $files) {
-      ID
-      NAME
-      DOWNLOAD_URL
-    }
-  }
-`
 
 interface IFeedState {
   start: number;
@@ -69,11 +60,6 @@ const initState: IFeedState = {
   userMessage: "",
 }
 
-interface ISendAttachmentVariables {
-  folderId: string;
-  files: any[];
-}
-
 export const Feed: FC = () => {
   const [ state, setState ] = useState<IFeedState>(initState)
   const classes = useStyles();
@@ -83,37 +69,7 @@ export const Feed: FC = () => {
     >(getFeed, {
       variables: { start: state.start }
   });
-  const [ uploadAttachment ] = useMutation<any, ISendAttachmentVariables>(SendAttachment);
 
-  const onDrop = useCallback(() => async (acceptedFiles: any[]) => {
-    console.log(acceptedFiles)
-    await uploadAttachment({
-      variables: {
-        folderId: process.env.BITRIX24_UPLOAD_FOLDER_ID!,
-        files: acceptedFiles,
-      }
-    })
-  }, [uploadAttachment])
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject
-  } = useDropzone({
-    onDrop,
-  });
-  const dropZoneStyle = useMemo(() => ({
-    ...styles.dropZoneBase,
-    ...(isDragActive ? styles.active : {}),
-    ...(isDragAccept ? styles.accept : {}),
-    ...(isDragReject ? styles.reject : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
   if (!data && loading) return <Loading />;
   if (error) return <p>{ error }</p>;
   const feeds = data!.GetFeed;
@@ -178,12 +134,7 @@ export const Feed: FC = () => {
         <GridItem xs={12} sm={5} md={5}>
           <Card>
             <CardBody>
-              <div {...getRootProps({ style: dropZoneStyle })}>
-                <input
-                  { ...getInputProps() }
-                />
-                <p>Перетащите сюда файлы или нажмите для выбора</p>
-              </div>
+              <FileUploader />
             </CardBody>
           </Card>
         </GridItem>

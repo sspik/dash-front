@@ -1,0 +1,1 @@
+export const BITRIX_UPLOAD_FOLDER = '189232';
