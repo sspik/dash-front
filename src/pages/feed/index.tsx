@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -15,9 +15,9 @@ import {
   Card,
   CardFooter,
 } from "components/card";
-import { IFeedResponse } from "interfaces";
 import { Spinner } from "components/loading/Spinner";
 import { FileUploader } from "components/fileUploader/FileUploader";
+import { IFeedResponse, ISendFeedResponse } from "interfaces";
 
 import styles from "assets/jss/pages/feedStyle";
 
@@ -50,41 +50,75 @@ const getFeed = gql`
   }
 `;
 
-// const SendMessage = gql`
-//   mutation SendMessage()
-// `
+const SendMessage = gql`
+  mutation SendMessage(
+    $title: String
+    $message: String!
+    $files: [String]
+  ) {
+    SendFeedMessage(
+      message: $message
+      title: $title
+      files: $files
+    ) {
+      result
+    }
+  }
+`
 
+interface ISendFeedVariables {
+  message: string,
+  title: string,
+  files: string[],
+}
 
-interface IFeedState {
+interface IFeedState extends ISendFeedVariables {
   start: number;
-  userMessage: string;
-  attachmentFilesId: string[]
 }
 
 const initState: IFeedState = {
   start: 0,
-  userMessage: "",
-  attachmentFilesId: [],
+  message: "",
+  title: "",
+  files: [],
 }
 
 export const Feed: FC = () => {
   const [ state, setState ] = useState<IFeedState>(initState)
   const classes = useStyles();
-  const { data, loading, error, fetchMore } = useQuery<
+
+  const {
+    data: feedData,
+    loading: feedLoading,
+    error: feedError,
+    fetchMore
+  } = useQuery<
     IFeedResponse,
     { start: number }
     >(getFeed, {
       variables: { start: state.start }
   });
-  if (!data && loading) return <Loading />;
-  if (error) return <p>{ error }</p>;
+
+  const [
+    sendFeedMessage,
+    {
+      loading: sendFeedLoading,
+      error: sendFeedError,
+    }
+  ] = useMutation<
+    ISendFeedResponse,
+    ISendFeedVariables
+    >(SendMessage);
+
+  if (!feedData && feedLoading) return <Loading />;
+  if (feedError) return <p>{ feedError }</p>;
   const handleAttachedFile = (filesId: string[]): void => {
     setState({
       ...state,
-      attachmentFilesId: filesId
+      files: filesId
     })
   }
-  const feeds = data!.GetFeed;
+  const feeds = feedData!.GetFeed;
   const handleFetchMore = (next: number) => {
     fetchMore({
       variables: { start: next },
@@ -105,7 +139,16 @@ export const Feed: FC = () => {
     })
   };
   const handleSendMessage = async () => {
-
+    const { title, message, files } = state;
+    if (!message.length) return;
+    const sendFeedResponse = await sendFeedMessage({
+      variables: { title, message, files }
+    });
+    if (sendFeedResponse.data &&
+      sendFeedResponse.data.SendMessage.result
+    ) {
+      handleFetchMore(0)
+    }
   }
   return (
     <div>
@@ -117,21 +160,31 @@ export const Feed: FC = () => {
             </CardHeader>
             <CardBody>
               <CustomInput
-
+                labelText="Заголовок"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  onChange: (event) =>
+                    setState({
+                      ...state,
+                      title: event.target.value,
+                    })
+                }}
               />
               <CustomInput
-                labelText="Введите сообщение"
+                labelText="Сообщение"
                 formControlProps={{
                   fullWidth: true
                 }}
                 inputProps={{
                   multiline: true,
                   rows: 2,
-                  value: state.userMessage,
+                  value: state.message,
                   onChange: (event) =>
                     setState({
                       ...state,
-                      userMessage: event.target.value
+                      message: event.target.value
                     })
                 }}
               />
@@ -140,11 +193,12 @@ export const Feed: FC = () => {
               <div className={classes.footer}>
                 <RegularButton
                   color="info"
-                  disabled={!!loading}
+                  disabled={!!feedLoading}
+                  onClick={() => handleSendMessage()}
                 >
                   Отправить
                 </RegularButton>
-                { loading ? <Spinner /> : null }
+                { feedLoading ? <Spinner /> : null }
               </div>
             </CardFooter>
           </Card>

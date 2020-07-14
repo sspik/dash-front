@@ -86,6 +86,12 @@ export interface IFeedResponse {
   }
 }
 
+export interface ISendFeedResponse {
+  SendMessage: {
+    result: boolean;
+  }
+}
+
 export interface IAttachment {
   ID: iIdType;
   OBJECT_ID: iIdType;
