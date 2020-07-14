@@ -54,7 +54,7 @@ const SendMessage = gql`
   mutation SendMessage(
     $title: String
     $message: String!
-    $files: [String]
+    $files: [UploadFix]
   ) {
     SendFeedMessage(
       message: $message
@@ -69,7 +69,7 @@ const SendMessage = gql`
 interface ISendFeedVariables {
   message: string,
   title: string,
-  files: string[],
+  files: File[],
 }
 
 interface IFeedState extends ISendFeedVariables {
@@ -112,14 +112,20 @@ export const Feed: FC = () => {
 
   if (!feedData && feedLoading) return <Loading />;
   if (feedError) return <p>{ feedError }</p>;
-  const handleAttachedFile = (filesId: string[]): void => {
+  const handleAttachedFile = (files: File[]): void => {
     setState({
       ...state,
-      files: filesId
+      files: state.files.concat(files)
+    })
+  }
+  const handleDeleteAttachedFile = (file: File): void => {
+    setState({
+      ...state,
+      files: state.files.filter(f => f !== file)
     })
   }
   const feeds = feedData!.GetFeed;
-  const handleFetchMore = (next: number) => {
+  const handleFetchMore = (next: number, reload: boolean = false) => {
     fetchMore({
       variables: { start: next },
       updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -128,10 +134,12 @@ export const Feed: FC = () => {
           GetFeed: {
             ...previousResult.GetFeed,
             next: fetchMoreResult!.GetFeed.next,
-            result: [
-              ...previousResult.GetFeed.result,
-              ...fetchMoreResult!.GetFeed.result
-            ]
+            result: reload
+              ? fetchMoreResult!.GetFeed.result
+              : [
+                ...previousResult.GetFeed.result,
+                ...fetchMoreResult!.GetFeed.result
+              ]
           }
 
         }
@@ -145,13 +153,20 @@ export const Feed: FC = () => {
       variables: { title, message, files }
     });
     if (sendFeedResponse.data &&
-      sendFeedResponse.data.SendMessage.result
+      sendFeedResponse.data.SendFeedMessage
     ) {
-      handleFetchMore(0)
+      setState({
+        ...state,
+        files: [],
+        title: "",
+        message: "",
+      })
+      handleFetchMore(0, true)
     }
   }
   return (
     <div>
+      { feedLoading && <Loading /> }
       <GridContainer>
         <GridItem xs={12} sm={7} md={7}>
           <Card>
@@ -165,6 +180,7 @@ export const Feed: FC = () => {
                   fullWidth: true
                 }}
                 inputProps={{
+                  value: state.title,
                   onChange: (event) =>
                     setState({
                       ...state,
@@ -175,7 +191,7 @@ export const Feed: FC = () => {
               <CustomInput
                 labelText="Сообщение"
                 formControlProps={{
-                  fullWidth: true
+                  fullWidth: true,
                 }}
                 inputProps={{
                   multiline: true,
@@ -198,7 +214,10 @@ export const Feed: FC = () => {
                 >
                   Отправить
                 </RegularButton>
-                { feedLoading ? <Spinner /> : null }
+                <div className={classes.sendInfo}>
+                  { sendFeedLoading && <Spinner /> }
+                  { sendFeedError && <p>{ sendFeedError.message }</p> }
+                </div>
               </div>
             </CardFooter>
           </Card>
@@ -206,6 +225,8 @@ export const Feed: FC = () => {
         <GridItem xs={12} sm={5} md={5}>
           <FileUploader
             handleAttachedFile={handleAttachedFile}
+            handleDeleteAttachedFile={handleDeleteAttachedFile}
+            files={state.files}
           />
         </GridItem>
       </GridContainer>

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { ChartData } from 'react-chartjs-2';
 import chartJs from "chart.js";
 
+
 import {
   warningColor,
   dangerColor,

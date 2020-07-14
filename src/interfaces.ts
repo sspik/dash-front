@@ -87,7 +87,7 @@ export interface IFeedResponse {
 }
 
 export interface ISendFeedResponse {
-  SendMessage: {
+  SendFeedMessage: {
     result: boolean;
   }
 }
@@ -250,10 +250,10 @@ export interface IYandexMetrika {
 
 export interface IYandexMetrikaResponse {
   GetYandexMetrics: {
-    query: IYandexMetrikaQuery,
-    data: IYandexMetrika[],
-    time_intervals: [[string, string]]
-    totals: [[number]]
+    query: IYandexMetrikaQuery;
+    data: IYandexMetrika[];
+    time_intervals: [[string, string]];
+    totals: [[number]];
   }
 }
 

@@ -7,7 +7,9 @@ import { createStyles } from "@material-ui/core";
 
 const feedStyle = createStyles({
   footer: {
-    width: "100%"
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
   },
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -24,6 +26,9 @@ const feedStyle = createStyles({
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
+  },
+  sendInfo: {
+    marginLeft: 10
   }
 })
 export default feedStyle;
