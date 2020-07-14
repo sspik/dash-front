@@ -14,6 +14,7 @@ import { Card, CardBody, CardHeader, CardIcon } from "components/card";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { TableTask } from "components/table/TableTask";
 import { RegularButton } from "components/button/Button";
+import { FeedContainer } from "components/feed/FeedContainer";
 import { GroupTaskGraph } from './groupTaskGraph';
 import { tasksTimeChart } from "utils";
 
@@ -22,7 +23,9 @@ import styles from "assets/jss/pages/workGroupStyle";
 const useStyles = makeStyles(styles);
 
 const getWorkGroup = gql`
-  query GetWorkGroup ($groupId: ID!) {
+  query GetWorkGroup (
+    $groupId: ID!,
+  ) {
     GetGroupById(groupId: $groupId) {
       NAME
       DESCRIPTION
@@ -58,9 +61,13 @@ interface IGroupProps extends RouteComponentProps<iRouterParams>{}
 export const Group: FC<IGroupProps> = (props) => {
   const classes = useStyles();
   const { groupId } = props.match.params;
-  const { data, loading, error } = useQuery<IQuery, iRouterParams>(getWorkGroup, {
-    variables: { groupId }
-  });
+  const { data, loading, error } = useQuery<
+    IQuery,
+    iRouterParams
+    >(getWorkGroup, {
+      variables: { groupId }
+    }
+  );
   if (!data && loading) return <Loading />
   if (error) return <p>{ error }</p>
   const group = data?.GetGroupById;
@@ -235,11 +242,17 @@ export const Group: FC<IGroupProps> = (props) => {
                   }
                 ]}
               >
-
               </CustomTabs>
           </GridItem>
         </GridContainer>
       </Fade>
+      <h2>
+        Сообщения в группе
+      </h2>
+      <FeedContainer
+        filter={[`SG${groupId}`]}
+        showMessageFor={[`SG${groupId}`]}
+      />
     </div>
   );
 }

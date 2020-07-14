@@ -70,7 +70,7 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
         )) }
         { emptyRows > 0 && (
           <TableRow style={{ height: 44 * emptyRows }}>
-            <TableCell colSpan={4} />
+            <TableCell colSpan={6} />
           </TableRow>
         ) }
       </TableBody>

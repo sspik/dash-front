@@ -1,11 +1,6 @@
 import { createStyles } from "@material-ui/core";
 
-const feedStyle = createStyles({
-  footer: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-  },
+const postMessageStyle = createStyles({
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
     margin: "0",
@@ -24,6 +19,12 @@ const feedStyle = createStyles({
   },
   sendInfo: {
     marginLeft: 10
-  }
-})
-export default feedStyle;
+  },
+  cardFooter: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+  },
+});
+
+export default postMessageStyle;
