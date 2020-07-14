@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { v4 as uuid4 } from "uuid";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -27,11 +28,11 @@ export const CustomTable: FC<ITableProps> = (props) => {
         { tableHead
           ? <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
             <TableRow className={classes.tableHeadRow}>
-              { tableHead.map((prop, key) => {
+              { tableHead.map((prop) => {
                   return (
                     <TableCell
                       className={classes.tableCell + " " + classes.tableHeadCell}
-                      key={key}
+                      key={uuid4()}
                     >
                       { prop }
                     </TableCell>

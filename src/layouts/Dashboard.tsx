@@ -1,4 +1,5 @@
 import React, { FC, createRef, useState } from "react";
+import { v4 as uuid4 } from "uuid";
 import { Switch, Route } from "react-router-dom";
 
 import PerfectScrollbar from "perfect-scrollbar";
@@ -22,13 +23,13 @@ const useStyles = makeStyles(styles);
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
+    {routes.map((prop) => {
       if (prop.layout === "/dashboard") {
         return (
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
-            key={key}
+            key={uuid4()}
             exact={prop.exact}
           />
         );
@@ -43,7 +44,7 @@ export const Dashboard: FC = ({ ...rest }) => {
   const mainPanel = createRef<any>();
   const color = "purple";
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [ mobileOpen, setMobileOpen ] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

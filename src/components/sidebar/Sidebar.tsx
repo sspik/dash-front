@@ -1,5 +1,6 @@
 import React from 'react';
-import { iBgColor, IDashboardRoute } from "../../interfaces";
+import { iBgColor, IDashboardRoute } from "interfaces";
+import { v4 as uuid4 } from "uuid";
 import styles from 'assets/jss/components/sidebarStyle';
 import classNames from 'classnames';
 
@@ -37,7 +38,7 @@ export const Sidebar: React.FC<ISidebarProps> = (props) => {
 
   const links = (
     <List className={classes.list}>
-      { routes.filter(prop => prop.sidebar).map((prop, key) => {
+      { routes.filter(prop => prop.sidebar).map((prop) => {
         const listItemClasses = classNames({
           [" " + classes[color]]: activeRoute(prop.layout + prop.path)
         });
@@ -49,7 +50,7 @@ export const Sidebar: React.FC<ISidebarProps> = (props) => {
             to={prop.layout + prop.path}
             className={classes.item}
             activeClassName="active"
-            key={key}
+            key={uuid4()}
           >
             <ListItem
               button

@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { v4 as uuid4 } from "uuid";
 import {
   makeStyles,
   Table,
@@ -67,11 +68,14 @@ export const TableYandexMetrics: FC<IYandexMetrikaResponse> = (props) => {
               page * rowsPerPage + rowsPerPage
             )
             : tableTimes
-          ).map((time, timeIndex) => (
-          <TableRow key={timeIndex} hover>
+          ).map((time) => (
+          <TableRow
+            key={ uuid4() }
+            hover
+          >
             <TableCell>{ time }</TableCell>
-            { data.map(dt => dt.metrics.map((metric, metricIndex) => (
-              <TableCell key={ metricIndex } align="center">
+            { data.map(dt => dt.metrics.map((metric) => (
+              <TableCell key={ uuid4() } align="center">
                 { metric[tableTimes.indexOf(time)] }
               </TableCell>
             ))) }

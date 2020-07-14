@@ -4,6 +4,7 @@ import React, {
   ReactNode,
   useState
 } from 'react';
+import { v4 as uuid4 } from "uuid";
 
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
@@ -62,7 +63,7 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
           variant={ fullWidth ? "fullWidth" : "scrollable" }
           scrollButtons="auto"
         >
-          { tabs.map((prop, key) => {
+          { tabs.map((prop) => {
             let icon = prop.tabIcon ? { icon: <prop.tabIcon /> } : {}
             return (
               <Tab
@@ -71,7 +72,7 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
                   selected: classes.tabSelected,
                   wrapper: classes.tabWrapper
                 }}
-                key={key}
+                key={uuid4()}
                 label={prop.tabName}
                 {...icon}
               />
@@ -80,12 +81,12 @@ export const CustomTabs: FC<ICustomTabsProps> = (props) => {
         </Tabs>
       </CardHeader>
       <CardBody>
-        {tabs.map((prop, key) => {
+        { tabs.map((prop, key) => {
           if (key === value) {
             return <div key={key}>{prop.tabContent}</div>;
           }
           return null;
-        })}
+        }) }
       </CardBody>
     </Card>
   )

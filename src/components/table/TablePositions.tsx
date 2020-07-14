@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { v4 as uuid4 } from "uuid";
 import {
   Table,
   TableHead,
@@ -39,8 +40,8 @@ export const TablePositions: FC<ITablePositionsProps> = (props) => {
             Ключевое слово
           </TableCell>
           { dates.length
-            ? dates.map((d, index) => (
-                <TableCell align="center" key={index}>{ d }</TableCell>
+            ? dates.map((d) => (
+                <TableCell align="center" key={ uuid4() }>{ d }</TableCell>
             ))
             : <TableCell>За выбранный период позиции не снимались</TableCell>
           }
@@ -53,23 +54,23 @@ export const TablePositions: FC<ITablePositionsProps> = (props) => {
               page * rowsPerPage + rowsPerPage
             )
             : keywords
-          ).map((keyword, index) => (
-          <TableRow key={index} hover>
+          ).map((keyword) => (
+          <TableRow key={ uuid4() } hover>
             <TableCell>{ keyword.name }</TableCell>
             { dates
-              ? dates.map((date, index) =>{
+              ? dates.map((date) =>{
                 const positionData = keyword.positionsData.filter(p => p.data === date);
                 const position = positionData.length ? positionData[0].position : ''
                 return (
                   <TableCell
-                    key={date + index.toString()}
+                    key={ uuid4() }
                     align="center"
                   >
                     { position }
                   </TableCell>
                 )
               })
-              : <TableCell key={index} />
+              : <TableCell key={ uuid4() } />
             }
           </TableRow>
         )) }

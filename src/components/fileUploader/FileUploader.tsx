@@ -1,4 +1,5 @@
-import React, { FC, useMemo, useState} from 'react';
+import React, { FC, useMemo } from 'react';
+import { v4 as uuid4 } from "uuid";
 import { useDropzone } from "react-dropzone";
 
 import { Badge, makeStyles } from "@material-ui/core";
@@ -61,8 +62,8 @@ export const FileUploader: FC<IFileUploadProps> = (props) => {
       </CardBody>
       <CardFooter>
         <div className={classes.fileContainer}>
-          { files.map(( file, index ) => (
-            <div className={classes.fileItem} key={index}>
+          { files.map(( file ) => (
+            <div className={classes.fileItem} key={uuid4()}>
               <Card className={classes.file}>
                 <Badge
                   badgeContent={(
