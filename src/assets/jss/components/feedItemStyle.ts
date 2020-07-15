@@ -34,5 +34,9 @@ export default createStyles({
   feedItem: {
     display: "flex",
     justifyContent: "center"
+  },
+  collapse: {
+    justifyContent: "center",
+    marginTop: "30px"
   }
 })

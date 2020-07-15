@@ -1,10 +1,21 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, useState } from 'react';
 import moment from 'moment';
-import { IFeed } from "interfaces";
-import { BBCode } from "components/BBcode/BBcode";
-import {GridContainer, GridItem} from "components/grid";
-import {FileIcon} from "components/fileIcon/FileIcon";
 
+import {
+  Typography,
+  makeStyles,
+  Collapse,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
+import {
+  KeyboardArrowUp,
+  KeyboardArrowDown,
+} from "@material-ui/icons";
+
+import { BBCode } from "components/BBcode/BBcode";
+import { GridContainer, GridItem } from "components/grid";
+import { FileIcon } from "components/fileIcon/FileIcon";
 import {
   Card,
   CardAvatar,
@@ -12,14 +23,15 @@ import {
   CardFooter,
   CardHeader
 } from "components/card";
-import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { IFeed } from "interfaces";
+
 import styles from "assets/jss/components/feedItemStyle";
 
 const useStyles = makeStyles(styles);
 
-
 export const FeedItem: FC<IFeed> = (props) => {
+  const [ state, setState ] = useState(false);
+  const handleCollapse = () => setState(!state);
   const classes = useStyles();
   const {
     AUTHOR,
@@ -48,9 +60,31 @@ export const FeedItem: FC<IFeed> = (props) => {
             </h4>
           </CardHeader>
           <CardBody profile>
-            <Typography variant="body2">
-              <BBCode content={ DETAIL_TEXT } />
-            </Typography>
+            <Collapse in={state} collapsedHeight={150}>
+              <Typography variant="body2">
+                  <BBCode content={ DETAIL_TEXT } />
+              </Typography>
+            </Collapse>
+            <div
+              className={classes.collapse}
+              style={{
+                display: DETAIL_TEXT.split('\n').length > 5 ? "flex" : "none"
+              }}
+            >
+              <Tooltip
+                title={ state ? "Свернуть" : "Развернуть" }
+              >
+                <IconButton
+                  size="small"
+                  onClick={ handleCollapse }
+                >
+                  { state
+                    ? <KeyboardArrowUp color="primary" />
+                    : <KeyboardArrowDown color="primary" />
+                  }
+                </IconButton>
+              </Tooltip>
+            </div>
           </CardBody>
           <CardFooter className={classes.footer}>
             <div>
@@ -60,7 +94,7 @@ export const FeedItem: FC<IFeed> = (props) => {
         </Card>
       </GridItem>
       { Array.isArray(FILES) && FILES.length > 0
-        ? <GridItem xs={12} sm={5} md={5}>
+        && <GridItem xs={12} sm={5} md={5}>
           <Card className={classes.fileCardBody}>
             <CardBody>
               <GridContainer>
@@ -79,7 +113,6 @@ export const FeedItem: FC<IFeed> = (props) => {
             </CardBody>
           </Card>
         </GridItem>
-        : null
       }
     </Fragment>
   )

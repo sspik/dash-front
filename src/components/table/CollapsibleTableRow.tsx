@@ -19,7 +19,7 @@ import {
 import { BBCode } from "components/BBcode/BBcode";
 import styles from "assets/jss/components/collapsibleTableRowStyle";
 import styles2 from "assets/jss/components/tableTaskStyle";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface ICollapsibleRowProps {
   task: IGroupTask
