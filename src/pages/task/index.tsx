@@ -26,7 +26,7 @@ import {
   CardFooter,
 } from "components/card";
 import { BBCode } from "components/BBcode/BBcode"
-import {PostMessage} from "../../components/forms/PostMessage";
+import { PostMessage } from "components/forms/PostMessage";
 
 
 const styles = createStyles({
@@ -38,6 +38,9 @@ const styles = createStyles({
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
+  },
+  card: {
+    minHeight: "295px"
   }
 });
 
@@ -219,13 +222,14 @@ export const Task: FC<ITaskDetailProps> = (props) => {
   const taskStatus =  task.status > 4 ? 3 : task.status - 2;
   return (
     <div>
+      { sendTaskMessageError && <p>{ sendTaskMessageError.message }</p> }
       <GridContainer>
         <GridItem
           xs={12}
           sm={12}
           md={7}
         >
-          <Card>
+          <Card className={classes.card}>
             <CardHeader color="success">
               <h4 className={classes.cardTitleWhite}>
                 { task.title }

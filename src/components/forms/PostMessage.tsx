@@ -42,7 +42,7 @@ export const PostMessage: FC<IPostMessageProps> = (props) => {
         <h4 className={classes.cardTitleWhite}>Отправить сообщение</h4>
       </CardHeader>
       <CardBody>
-        { title &&
+        { typeof title !== 'undefined' &&
           <CustomInput
             labelText="Заголовок"
             formControlProps={{
