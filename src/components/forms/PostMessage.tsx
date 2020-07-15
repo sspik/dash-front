@@ -18,7 +18,7 @@ import styles from 'assets/jss/components/postMessageStyle';
 const useStyles = makeStyles(styles);
 
 interface IPostMessageProps {
-  title: string;
+  title?: string;
   message: string;
   loading: boolean;
   handleSendMessage: () => void;
@@ -42,17 +42,19 @@ export const PostMessage: FC<IPostMessageProps> = (props) => {
         <h4 className={classes.cardTitleWhite}>Отправить сообщение</h4>
       </CardHeader>
       <CardBody>
-        <CustomInput
-          labelText="Заголовок"
-          formControlProps={{
-            fullWidth: true
-          }}
-          inputProps={{
-            value: title,
-            name: 'title',
-            onChange: (event) => handleChangeInput(event)
-          }}
-        />
+        { title &&
+          <CustomInput
+            labelText="Заголовок"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              value: title,
+              name: 'title',
+              onChange: (event) => handleChangeInput(event)
+            }}
+          />
+        }
         <CustomInput
           labelText="Сообщение"
           formControlProps={{

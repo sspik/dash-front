@@ -17,9 +17,6 @@ import {
 import { ITaskDetail, ITaskMessage } from "interfaces";
 import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
-import { CustomInput } from "components/input/CustomInput";
-import { RegularButton } from "components/button/Button";
-import { Spinner } from "components/loading/Spinner";
 import { FileIcon } from "components/fileIcon/FileIcon";
 import { FeedItem }  from "components/feed/FeedItem";
 import {
@@ -29,6 +26,7 @@ import {
   CardFooter,
 } from "components/card";
 import { BBCode } from "components/BBcode/BBcode"
+import {PostMessage} from "../../components/forms/PostMessage";
 
 
 const styles = createStyles({
@@ -102,8 +100,14 @@ const getTaskDetail = gql`
 `
 
 const sendTaskMessage = gql`
-  mutation SendTaskComment($taskId: ID! $message: String!) {
-    SendTaskMessage(taskId: $taskId, message: $message) {
+  mutation SendTaskComment(
+    $taskId: ID!
+    $message: String!
+  ) {
+    SendTaskMessage(
+      taskId: $taskId,
+      message: $message,
+    ) {
       result
     }
   }
@@ -140,27 +144,76 @@ interface IAddTaskMessageVariables {
 }
 
 interface IAddTaskMessageResponse {
-  error?: string;
-  error_message?: string;
-  result?: string;
+  SendTaskMessage: {
+    error?: string;
+    error_message?: string;
+    result?: string;
+  }
+}
+
+const initState: ITaskDetailState = {
+  message: '',
 }
 
 export const Task: FC<ITaskDetailProps> = (props) => {
   const classes = useStyles();
   const taskId = props.match.params.taskId;
-  const [ sendMessage ] = useMutation<
+  const [ state, setState ] = useState<ITaskDetailState>(initState)
+
+  const [
+    sendMessage,
+    {
+      error: sendTaskMessageError,
+      loading: sendTaskMessageLoading,
+    }
+  ] = useMutation<
     IAddTaskMessageResponse,
     IAddTaskMessageVariables
-    >(sendTaskMessage)
-  const [ state, setState ] = useState<ITaskDetailState>({message: ''})
-  const { data, loading, error } = useQuery<
+    >(sendTaskMessage, {
+      variables: {
+        taskId,
+        message: state.message,
+      }
+  })
+  const { data, loading, error, refetch } = useQuery<
       ITaskData,
       iRouteParams
     >(getTaskDetail, {
-    variables: { taskId }
+    variables: { taskId },
+    fetchPolicy: "no-cache"
   })
   if (!data && loading) return <Loading />;
   if (error) return <p>{ error.message }</p>;
+  console.log(data)
+  const handleChangeInput = (
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ): void => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const handleSendMessage = async () => {
+    const { message } = state;
+    if (!message.length) return;
+    const sendFeedResponse = await sendMessage({
+      variables: {
+        message,
+        taskId
+      }
+    });
+    if (sendFeedResponse.data &&
+      sendFeedResponse.data.SendTaskMessage.result
+    ) {
+      setState({
+        ...state,
+        message: "",
+      })
+      refetch();
+    }
+  }
+
   const task = data!.GetTaskByID;
   const comments = data!.GetTaskComments;
   const taskStatus =  task.status > 4 ? 3 : task.status - 2;
@@ -229,52 +282,12 @@ export const Task: FC<ITaskDetailProps> = (props) => {
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>
-                Написать комментарий к задаче
-              </h4>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <CustomInput
-                    labelText="Введите сообщение"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 2,
-                      onChange: (event: ChangeEvent<HTMLTextAreaElement>) =>
-                        setState({
-                          ...state,
-                          message: event.target.value
-                        })
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <RegularButton
-                color="info"
-                disabled={!!loading}
-                onClick={async () => {
-                  const resp = await sendMessage({
-                    variables: {
-                      taskId,
-                      message: state.message
-                    }
-                  });
-                  // TODO Недописана отправка сообщения
-                }}
-              >
-                Отправить
-              </RegularButton>
-              { loading && <Spinner />  }
-            </CardFooter>
-          </Card>
+          <PostMessage
+            message={state.message}
+            loading={sendTaskMessageLoading}
+            handleSendMessage={handleSendMessage}
+            handleChangeInput={handleChangeInput}
+          />
         </GridItem>
       </GridContainer>
       <GridContainer>

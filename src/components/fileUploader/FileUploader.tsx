@@ -18,8 +18,6 @@ interface IFileUploadProps {
   files: File[];
 }
 
-const initState: Array<File> = [];
-
 export const FileUploader: FC<IFileUploadProps> = (props) => {
   const classes = useStyles();
   const { handleAttachedFile, handleDeleteAttachedFile, files } = props;
