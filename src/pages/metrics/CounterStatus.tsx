@@ -3,7 +3,7 @@ import moment from "moment";
 import { Card, CardBody, CardHeader } from "components/card";
 import { GridContainer, GridItem } from "components/grid";
 
-import { ICounter } from "interfaces";
+import { ICounter } from "./interfaces";
 
 import { makeStyles } from "@material-ui/core";
 import styles from "assets/jss/pages/metricCounterStatusStyle";

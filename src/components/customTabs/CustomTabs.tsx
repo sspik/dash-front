@@ -1,33 +1,17 @@
-import React, {
-  ChangeEvent,
-  FC,
-  ReactNode,
-  useState
-} from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import { v4 as uuid4 } from "uuid";
 
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
-import { SvgIconTypeMap, Tab, Tabs } from "@material-ui/core"
-import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { Tab, Tabs } from "@material-ui/core"
 
 import { Card, CardBody, CardHeader } from "components/card";
 import styles from "assets/jss/components/customTabsStyle";
-import { iHeaderColor } from "interfaces";
+
+import { ICustomTabsProps } from "./interfaces";
 
 const useStyles = makeStyles(styles);
 
-interface ICustomTabsProps {
-  headerColor: iHeaderColor;
-  title?: string;
-  tabs: Array<{
-    tabName: string;
-    tabIcon?: OverridableComponent<SvgIconTypeMap>;
-    tabContent: ReactNode;
-  }>;
-  plainTabs?: boolean;
-  fullWidth?: boolean;
-}
 
 export const CustomTabs: FC<ICustomTabsProps> = (props) => {
   const classes = useStyles();

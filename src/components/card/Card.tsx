@@ -11,17 +11,10 @@ import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
 import styles from 'assets/jss/components/cardStyle';
+import { ICardProps } from "./interfaces";
 
 const useStyles = makeStyles(styles);
 
-interface ICardProps {
-  className?: string;
-  plain?: boolean;
-  profile?: boolean;
-  chart?: boolean;
-  hovered?: boolean;
-  children: ReactNode;
-}
 
 export const Card: FC<ICardProps> = (props) => {
   const classes = useStyles();

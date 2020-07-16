@@ -1,18 +1,12 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "assets/jss/components/cardIconStyle";
-import { iCardHeaderColor } from "../../interfaces";
+import { ICardIconProps } from "./interfaces";
 
 const useStyles = makeStyles(styles);
 
-interface ICardIconProps {
-  className?: string;
-  color: iCardHeaderColor;
-  children?: ReactNode;
-  [key: string]: any;
-}
 
 export const CardIcon: FC<ICardIconProps> = (props) => {
   const classes = useStyles();

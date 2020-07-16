@@ -5,12 +5,8 @@ import React, {
   Fragment,
   useMemo
 } from 'react';
+import { IIconProps } from "./interfaces";
 
-interface IIconProps {
-  fileType: string;
-  downloadUrl: string;
-  name: string;
-}
 
 export const Icon: FC<IIconProps> = (props) => {
   const { fileType } = props;

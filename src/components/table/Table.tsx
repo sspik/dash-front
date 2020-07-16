@@ -8,16 +8,13 @@ import {
   TableBody,
   TableCell
 } from "@material-ui/core";
-import { iTableHeaderColor } from "interfaces";
+
+import { ITableProps } from './interfaces'
+
 import styles from 'assets/jss/components/tableStyle';
 
 const useStyles = makeStyles(styles);
 
-interface ITableProps {
-  tableHeaderColor: iTableHeaderColor;
-  tableHead?: string[];
-  tableData: string[][];
-}
 
 export const CustomTable: FC<ITableProps> = (props) => {
   const classes = useStyles() as any;

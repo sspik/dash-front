@@ -13,16 +13,14 @@ import {
 import { TablePaginationActions } from "components/table/PaginationTable";
 import { CollapsibleRow } from "./CollapsibleTableRow";
 import { calcEmptyRows } from "utils";
-import { IGroupTask } from "interfaces";
+
+import { ITableTaskProps } from "./interfaces";
 
 import styles from "assets/jss/components/tableTaskStyle";
 
 
 const useStyles = makeStyles(styles);
 
-interface ITableTaskProps {
-  tasks: IGroupTask[];
-}
 
 export const TableTask: FC<ITableTaskProps> = (props) => {
   const classes = useStyles();

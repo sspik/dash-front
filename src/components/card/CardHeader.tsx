@@ -1,22 +1,12 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { ICardHeaderProps } from "./interfaces";
+
 import styles from "assets/jss/components/cardHeaderStyle";
-import { iCardHeaderColor } from "interfaces";
 
 const useStyles = makeStyles(styles);
-
-interface ICardHeaderProps {
-  className?: string;
-  color: iCardHeaderColor;
-  plain?: boolean;
-  stats?: boolean;
-  icon?: boolean;
-  hover?: string;
-  children: ReactNode;
-  [key: string]: any
-}
 
 export const CardHeader: FC<ICardHeaderProps> = (props) => {
   const classes = useStyles();

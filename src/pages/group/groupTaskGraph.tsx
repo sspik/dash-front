@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
-import { Line, ChartData } from 'react-chartjs-2';
-import chartJs from "chart.js";
+import { Line } from 'react-chartjs-2';
 
-interface IGroupTaskGraphProps {
-  data: ChartData<chartJs.ChartData>
-}
+import { IGroupTaskGraphProps } from "./interfaces";
+
 
 export const GroupTaskGraph: FC<IGroupTaskGraphProps> = (props) => {
   const { data } = props;

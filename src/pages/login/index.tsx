@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+
 import Cookies from 'js-cookie';
 import { Redirect } from "react-router";
-import { Logo } from '../../components/logo/Logo';
-import logoImage from '../../assets/img/logo-dark.svg';
+
 import { makeStyles, createStyles } from "@material-ui/core";
+
 import { RegularButton } from "components/button/Button";
+
+import { Logo } from 'components/logo/Logo';
+import logoImage from 'assets/img/logo-dark.svg';
 
 const useStyles = makeStyles( createStyles({
   loginForm: {

@@ -1,6 +1,5 @@
 import React, { FC, useState, Fragment } from 'react';
 import moment from 'moment';
-import { IGroupTask } from "interfaces";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   IconButton,
@@ -21,9 +20,9 @@ import styles from "assets/jss/components/collapsibleTableRowStyle";
 import styles2 from "assets/jss/components/tableTaskStyle";
 import { Link } from "react-router-dom";
 
-interface ICollapsibleRowProps {
-  task: IGroupTask
-}
+import {
+  ICollapsibleRowProps,
+} from "./interfaces";
 
 const useStyles = makeStyles({
   ...styles,

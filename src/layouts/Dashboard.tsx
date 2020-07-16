@@ -10,12 +10,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Header } from "components/navbars/Navbar";
 import { Footer } from "components/footer/Footer";
 import { Sidebar } from "components/sidebar/Sidebar";
+import { Loading } from "components/loading/Loading";
 
 import { routes } from "routes";
 import styles from "assets/jss/layouts/dashboardStyle";
 import sidebarImage from "assets/img/sidebar.jpg";
 import logo from "assets/img/akiwa.svg";
-import {Loading} from "../components/loading/Loading";
 
 
 let ps: PerfectScrollbar;

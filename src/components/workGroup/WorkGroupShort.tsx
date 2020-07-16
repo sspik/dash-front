@@ -1,12 +1,24 @@
 import React, { FC } from 'react';
-import { IBitrixGroup } from "../../interfaces";
-import { Card, CardBody, CardFooter, CardHeader } from "components/card";
-import { Typography } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
+import {
+  createStyles,
+  makeStyles,
+  Typography
+} from "@material-ui/core";
 import { People } from '@material-ui/icons';
+
+import { RegularButton } from "components/button/Button";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+} from "components/card";
+
 import { warningColor } from 'assets/jss/all';
-import { RegularButton } from "../button/Button";
-import {Link} from "react-router-dom";
+
+import { IBitrixGroup } from "interfaces";
 
 const useStyles = makeStyles(createStyles({
   footer: {

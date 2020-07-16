@@ -1,20 +1,13 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
+
+import { ICardFooterProps } from "./interfaces";
 
 import styles from 'assets/jss/components/cardFooterStyle';
 
 const useStyles = makeStyles(styles);
 
-interface ICardFooterProps {
-  className?: string;
-  plain?: boolean;
-  profile?: boolean;
-  stats?: boolean;
-  chart?: boolean;
-  children?: ReactNode;
-  [key: string]: any;
-}
 
 export const CardFooter: FC<ICardFooterProps> = (props) => {
   const classes = useStyles();

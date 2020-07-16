@@ -1,5 +1,10 @@
 import React from "react";
-import {createStyles, IconButton, makeStyles, Theme} from "@material-ui/core";
+import {
+  createStyles,
+  IconButton,
+  makeStyles,
+  Theme
+} from "@material-ui/core";
 import {
   FirstPage as FirstPageIcon,
   KeyboardArrowLeft,
@@ -7,12 +12,7 @@ import {
   LastPage as LastPageIcon
 } from "@material-ui/icons";
 
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onChangePage: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
-}
+import { TablePaginationActionsProps } from './interfaces'
 
 const usePaginationStyles = makeStyles((theme: Theme) =>
   createStyles({

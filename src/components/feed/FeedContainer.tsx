@@ -2,13 +2,21 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
-import { IFeedResponse, ISendFeedResponse } from "interfaces";
 import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 import { PostMessage } from "components/forms/PostMessage";
 import { FileUploader } from "components/fileUploader/FileUploader";
 import { FeedList } from "./FeedList";
 import { RegularButton } from "components/button/Button";
+
+import {
+  IFeedProps,
+  IFeedResponse,
+  IFeedState,
+  IGetFeedVariables,
+  ISendFeedResponse,
+  ISendFeedVariables,
+} from "./interfaces";
 
 
 const GetFeed = gql`
@@ -40,48 +48,6 @@ const GetFeed = gql`
   }
 `
 
-const SendMessage = gql`
-  mutation SendMessage(
-    $title: String
-    $message: String!
-    $files: [UploadFix]
-    $showFor: [String]
-  ) {
-    SendFeedMessage(
-      message: $message
-      title: $title
-      files: $files
-      showFor: $showFor
-    ) {
-      result
-    }
-  }
-`
-
-interface IFeedProps {
-  filter?: string[];
-  showMessageFor?: string[];
-}
-
-interface IFeedState {
-  title: string;
-  message: string;
-  files: File[];
-  start: number;
-}
-
-interface ISendFeedVariables {
-  message?: string,
-  title: string,
-  files?: File[],
-  showFor?: string[]
-}
-
-interface IGetFeedVariables {
-  start: number;
-  filter?: string[];
-}
-
 const initState: IFeedState = {
   title: "",
   message: "",
@@ -105,6 +71,24 @@ export const FeedContainer: FC<IFeedProps> = (props) => {
     variables: { start: state.start, filter },
     fetchPolicy: "no-cache"
   });
+
+  const SendMessage = gql`
+    mutation SendMessage(
+      $title: String
+      $message: String!
+      $files: [UploadFix]
+      $showFor: [String]
+    ) {
+      SendFeedMessage(
+        message: $message
+        title: $title
+        files: $files
+        showFor: $showFor
+      ) {
+        result
+      }
+    }
+  `
 
   const [
     sendFeedMessage,

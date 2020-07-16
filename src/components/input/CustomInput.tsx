@@ -1,25 +1,18 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
-import FormControl, { FormControlProps }  from "@material-ui/core/FormControl";
-import Input, { InputProps } from "@material-ui/core/Input";
-import InputLabel, {InputLabelProps} from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import Clear from "@material-ui/icons/Clear";
 import Check from "@material-ui/icons/Check";
 
+import { ICustomInputProps } from "./interfaces";
+
 import styles from 'assets/jss/components/inputStyle';
 
-interface ICustomInputProps {
-  labelText?: ReactNode;
-  labelProps?: InputLabelProps;
-  id?: string;
-  inputProps?: InputProps;
-  formControlProps?: FormControlProps;
-  error?: boolean;
-  success?: boolean;
-}
 
 const useStyles = makeStyles(styles);
 

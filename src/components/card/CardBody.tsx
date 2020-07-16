@@ -1,19 +1,14 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
+
+import { ICardBodyProps } from './interfaces'
 
 import styles from 'assets/jss/components/cardBodyStyle';
 
 const useStyles = makeStyles(styles);
 
-interface ICardBodyProps {
-  className?: string;
-  plain?: string;
-  profile?: boolean;
-  children: ReactNode;
-  underHover?: ReactNode;
-  [key: string]: any;
-}
+
 
 export const CardBody: FC<ICardBodyProps> = (props) => {
   const classes = useStyles();

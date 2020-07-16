@@ -5,8 +5,8 @@ import React, {
 } from "react";
 import gql from "graphql-tag";
 import moment from "moment"
-import {useMutation, useQuery} from "@apollo/react-hooks";
-import {Link, RouteComponentProps} from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
 import {
   Step,
   StepLabel,
@@ -14,7 +14,6 @@ import {
   createStyles,
   makeStyles
 } from "@material-ui/core";
-import { ITaskDetail, ITaskMessage } from "interfaces";
 import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 import { FileIcon } from "components/fileIcon/FileIcon";
@@ -28,6 +27,14 @@ import {
 import { BBCode } from "components/BBcode/BBcode"
 import { PostMessage } from "components/forms/PostMessage";
 
+import {
+  ITaskDetailState,
+  IAddTaskMessageResponse,
+  IAddTaskMessageVariables,
+  ITaskData,
+  ITaskDetailProps,
+  TRouteParams
+} from './interfaces';
 
 const styles = createStyles({
   cardTitleWhite: {
@@ -116,10 +123,6 @@ const sendTaskMessage = gql`
   }
 `
 
-type iRouteParams = {
-  taskId: string;
-}
-
 const priority = {
   "0": "низкий",
   "1": "средний",
@@ -133,26 +136,7 @@ const taskSteps = [
   "Задача завершена"
 ]
 
-interface ITaskDetailProps extends RouteComponentProps<iRouteParams>{}
-interface ITaskDetailState {
-  message: string;
-}
-interface ITaskData {
-  GetTaskByID: ITaskDetail;
-  GetTaskComments: ITaskMessage[];
-}
-interface IAddTaskMessageVariables {
-  taskId: string;
-  message: string;
-}
 
-interface IAddTaskMessageResponse {
-  SendTaskMessage: {
-    error?: string;
-    error_message?: string;
-    result?: string;
-  }
-}
 
 const initState: ITaskDetailState = {
   message: '',
@@ -180,7 +164,7 @@ const Task: FC<ITaskDetailProps> = (props) => {
   })
   const { data, loading, error, refetch } = useQuery<
       ITaskData,
-      iRouteParams
+      TRouteParams
     >(getTaskDetail, {
     variables: { taskId },
     fetchPolicy: "no-cache"

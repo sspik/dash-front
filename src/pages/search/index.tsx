@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { GridContainer, GridItem } from "components/grid";
-import { WorkGroupShort } from "../../components/workGroup/WorkGroupShort";
-import { ISearchGroupResponse } from "../../interfaces";
-import { Loading } from "../../components/loading/Loading";
+import { WorkGroupShort } from "components/workGroup/WorkGroupShort";
+import { Loading } from "components/loading/Loading";
 
+import { ISearchProps, ISearchGroupResponse } from "./interfaces";
 
 const searchGroupByNameQuery = gql`
   query searchGroup($name: String!){
@@ -18,7 +18,7 @@ const searchGroupByNameQuery = gql`
   }
 `
 
-const Search: FC = (props: any) => {
+const Search: FC<ISearchProps> = (props) => {
   const search = props.location.state ? props.location.state.search.value : ""
   const { data, loading, error } = useQuery<ISearchGroupResponse>(searchGroupByNameQuery, {
     variables: {name: search}

@@ -1,29 +1,12 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Button, { ButtonProps } from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 
-import { iInputColor } from "interfaces";
+import { IButtonProps } from "./interfaces";
 import styles from 'assets/jss/components/buttonStyle';
 
-interface IButtonProps {
-  color: iInputColor;
-  size?: "sm" | "lg";
-  simple?: boolean;
-  round?: boolean;
-  disabled?: boolean;
-  block?: boolean;
-  link?: boolean;
-  justIcon?: boolean;
-  className?: string
-  muiClasses?: object;
-  href?: string;
-  children?: ReactNode;
-  variant?: "text" | "outlined" | "contained";
-  component?: string;
-  onClick?: (event: React.MouseEvent<HTMLElement, globalThis.MouseEvent>) => void;
-}
 
 const useStyles = makeStyles(styles);
 

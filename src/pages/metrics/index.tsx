@@ -32,7 +32,13 @@ import {
 import { MetricsGraph } from "./MetricsGraph";
 import { CounterStatus } from "./CounterStatus";
 
-import { ICounter, IYandexMetrikaResponse, TGraphType } from "interfaces";
+import { IYandexMetrikaResponse } from 'interfaces';
+import {
+  IYandexMetrikaCounterResponse,
+  IYandexMetrikaCounterVariables,
+  IMetricsVariables,
+  IMetricsState
+} from "./interfaces";
 
 import styles from "assets/jss/pages/metricStyle"
 
@@ -103,14 +109,6 @@ type iRouterParams = {
 }
 interface IMetricsProps extends RouteComponentProps<iRouterParams>{}
 
-interface IMetricsState {
-  metrics?: string;
-  dimensions?: string;
-  preset?: string;
-  date1: string;
-  date2: string;
-  graphType: TGraphType;
-}
 
 const initState: IMetricsState = {
   date1: moment().subtract(14, 'days').format('YYYY-MM-DD'),
@@ -134,7 +132,10 @@ const Metrics: FC<IMetricsProps> = (props) => {
     data: counterData,
     loading: counterLoading,
     error: counterError,
-  } = useQuery<{ GetCounter: ICounter }, { bitrixGroupId: string }>(
+  } = useQuery<
+    IYandexMetrikaCounterResponse,
+    IYandexMetrikaCounterVariables
+    >(
     GetYandexMetrikaCounter,
     { variables: { bitrixGroupId } }
   )
@@ -142,7 +143,10 @@ const Metrics: FC<IMetricsProps> = (props) => {
     data: metricsData,
     error: metricsError,
     loading: metricsLoading
-  } = useQuery<IYandexMetrikaResponse>(
+  } = useQuery<
+    IYandexMetrikaResponse,
+    IMetricsVariables
+    >(
     GetYandexMetrics,
     { variables: { bitrixGroupId, ...metricsQuery } }
   )

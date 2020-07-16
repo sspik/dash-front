@@ -1,13 +1,7 @@
-import React, { FC, ChangeEvent } from 'react';
+import React, { FC } from 'react';
 import PaginationCore from '@material-ui/lab/Pagination';
 
-interface IPaginationProps {
-  start: number;
-  next?: number;
-  total?: number;
-  changePage?: (event: ChangeEvent<unknown>, page: number) => void;
-}
-
+import { IPaginationProps } from "./interfaces";
 
 export const Pagination: FC<IPaginationProps> = (props) => {
   const { total, changePage, start } = props;

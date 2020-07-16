@@ -1,5 +1,4 @@
 import React from 'react';
-import { iBgColor, IDashboardRoute } from "interfaces";
 import { v4 as uuid4 } from "uuid";
 import styles from 'assets/jss/components/sidebarStyle';
 import classNames from 'classnames';
@@ -14,19 +13,12 @@ import Hidden from "@material-ui/core/Hidden";
 import Drawer from '@material-ui/core/Drawer';
 import { AdminNavbarLinks } from "components/navbars/AdminNavbarLinks";
 
+import { ISidebarProps } from './interfaces'
+import { IDashboardRoute } from "interfaces";
 
 const useStyles = makeStyles(styles);
 
-interface ISidebarProps {
-  handleDrawerToggle: () => void;
-  bgColor: iBgColor;
-  color: iBgColor;
-  logo: string;
-  image?: string;
-  logoText: string;
-  routes: Array<IDashboardRoute>;
-  open: boolean;
-}
+
 
 export const Sidebar: React.FC<ISidebarProps> = (props) => {
   const classes = useStyles();

@@ -1,19 +1,11 @@
 import React from 'react';
-import { makeStyles, createStyles, Theme } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core";
+import {
+  IImageContainerSize,
+  ILogoProps,
+} from "./interfaces";
 
-interface IImageContainerSize {
-  width?: number,
-  height?: number,
-}
-
-interface ILogoProps {
-  width?: number;
-  height?: number;
-  image: string;
-  alt?: string;
-}
-
-const useStyles = (size: IImageContainerSize) => makeStyles((theme: Theme) => createStyles({
+const useStyles = (size: IImageContainerSize) => makeStyles(() => createStyles({
   imageContainer: {
     maxWidth: size.width || '100%',
     height: size.height || '100%',

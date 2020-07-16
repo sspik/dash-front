@@ -8,15 +8,11 @@ import { Close } from "@material-ui/icons";
 import { Card, CardBody, CardFooter } from "components/card";
 import { RegularButton } from "components/button/Button";
 
+import { IFileUploadProps } from "./interfaces";
+
 import styles from "assets/jss/components/fileUpalodStyle";
 
 const useStyles = makeStyles(styles);
-
-interface IFileUploadProps {
-  handleAttachedFile: (files: File[]) => void;
-  handleDeleteAttachedFile: (file: File) => void;
-  files: File[];
-}
 
 export const FileUploader: FC<IFileUploadProps> = (props) => {
   const classes = useStyles();

@@ -23,7 +23,7 @@ import {
   CardFooter,
   CardHeader
 } from "components/card";
-import { IFeed } from "interfaces";
+import { IFeed } from "./interfaces";
 
 import styles from "assets/jss/components/feedItemStyle";
 

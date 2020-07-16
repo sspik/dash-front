@@ -7,13 +7,10 @@ import {
   TableBody,
   TableCell, TableFooter, TablePagination
 } from "@material-ui/core";
-
-import { ITopvisorResult } from 'interfaces';
 import { TablePaginationActions } from "./PaginationTable";
 
-interface ITablePositionsProps extends ITopvisorResult {
-  dates: string[];
-}
+import { ITablePositionsProps } from "./interfaces";
+
 
 export const TablePositions: FC<ITablePositionsProps> = (props) => {
   const { keywords, dates } = props;

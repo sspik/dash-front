@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 
 import { TablePaginationActions } from "components/table/PaginationTable";
-import {calcEmptyRows, metricNames} from "utils";
+import { calcEmptyRows, metricNames } from "utils";
 
 import styles from "assets/jss/components/tableTaskStyle";
 import { IYandexMetrikaResponse } from "interfaces";

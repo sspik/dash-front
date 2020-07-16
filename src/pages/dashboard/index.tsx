@@ -2,25 +2,24 @@ import React, { Fragment, useState, ChangeEvent } from 'react';
 
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { IWorkGroupsResponse } from "interfaces";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { WorkGroupShort } from "components/workGroup/WorkGroupShort";
 import { Pagination } from "components/pagination/Pagination";
 import { GridContainer, GridItem } from "components/grid";
 import { Loading } from "components/loading/Loading";
 
+import { IWorkGroupsResponse } from "interfaces";
+import { IDashboardState, IWorkGroupsVariables } from "./interfaces";
+
 import styles from "assets/jss/layouts/dashboardStyle";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(styles);
 
-interface IDashboardState {
-  start: number;
-}
 
 const initState: IDashboardState = {
   start: 0,
 }
-
 
 const GetWorkGroups = gql`
   query WorkGroups($start: Int!) {
@@ -42,10 +41,13 @@ const Dashboard: React.FC = () => {
   const [ state, setState ] = useState<IDashboardState>(initState);
   const { start } = state;
   const { data, error, loading } = useQuery<
-    IWorkGroupsResponse
+    IWorkGroupsResponse,
+    IWorkGroupsVariables
     >(
       GetWorkGroups,
-    {variables: { start }}
+    {
+      variables: { start }
+    }
   );
   if (!data && loading) return <Loading />;
   if (error) return <Fragment>{ error }</Fragment>;

@@ -3,11 +3,12 @@ import _ from 'lodash';
 import { Link, Tooltip } from "@material-ui/core";
 import { formatBytes } from "utils";
 
-import { IAttachment } from "interfaces";
 import { Icon } from "./Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from 'assets/jss/components/fileIcon';
 import iconsName from "./iconsName";
+
+import { IAttachment } from "./interfaces";
 
 const useStyles = makeStyles(styles);
 

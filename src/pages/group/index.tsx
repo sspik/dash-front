@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Done, Reorder, Cancel, Work } from "@material-ui/icons";
 
 import { Loading } from "components/loading/Loading";
-import { IGroup, IGroupTask } from "interfaces";
 import { GridContainer, GridItem } from "components/grid";
 import { Card, CardBody, CardHeader, CardIcon } from "components/card";
 import { CustomTabs } from "components/customTabs/CustomTabs";
@@ -17,6 +16,8 @@ import { RegularButton } from "components/button/Button";
 import { FeedContainer } from "components/feed/FeedContainer";
 import { GroupTaskGraph } from './groupTaskGraph';
 import { tasksTimeChart } from "utils";
+
+import { iRouterParams, IQuery } from "./interfaces";
 
 import styles from "assets/jss/pages/workGroupStyle";
 
@@ -47,14 +48,7 @@ const getWorkGroup = gql`
   }
 `;
 
-type iRouterParams = {
-  groupId: string
-}
 
-interface IQuery {
-  GetGroupById: IGroup;
-  GetGroupsTasks: IGroupTask[];
-}
 
 interface IGroupProps extends RouteComponentProps<iRouterParams>{}
 

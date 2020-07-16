@@ -1,18 +1,14 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
+
+import { ICardAvatarProps } from "./interfaces";
 
 import styles from 'assets/jss/components/cardAvatarStyle';
 
 const useStyles = makeStyles(styles);
 
-interface ICardAvatarProps {
-  children: ReactNode;
-  className?: string;
-  profile?: boolean;
-  plain?: boolean;
-  [key: string]: any;
-}
+
 
 export const CardAvatar: FC<ICardAvatarProps> = (props) => {
   const classes = useStyles();

@@ -1,6 +1,4 @@
-import React, {ChangeEvent, FC} from 'react';
-import { ApolloError } from "apollo-client";
-
+import React, { FC } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -13,18 +11,11 @@ import { CustomInput } from "components/input/CustomInput";
 import { RegularButton } from "components/button/Button";
 import { Spinner } from "components/loading/Spinner";
 
+import { IPostMessageProps } from "./interfaces";
+
 import styles from 'assets/jss/components/postMessageStyle';
 
 const useStyles = makeStyles(styles);
-
-interface IPostMessageProps {
-  title?: string;
-  message: string;
-  loading: boolean;
-  handleSendMessage: () => void;
-  handleChangeInput: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
-  sendFeedError?: ApolloError;
-}
 
 export const PostMessage: FC<IPostMessageProps> = (props) => {
   const {

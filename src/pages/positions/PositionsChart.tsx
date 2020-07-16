@@ -13,9 +13,14 @@ import { Loading } from "components/loading/Loading";
 import { Card } from "components/card";
 import { GridContainer, GridItem } from "components/grid";
 import { RegularButton } from "components/button/Button";
-
-import { ITopvisorSummaryChart } from "interfaces";
 import { positionsGraphData } from "utils";
+
+import {
+  IPositionChartProps,
+  IPositionsChartVariables,
+  IPositionsChartResponse,
+  IPositionsChartState,
+} from './interfaces';
 
 import { grayColor } from "assets/jss/all";
 
@@ -49,29 +54,7 @@ const getSummaryChart = gql`
   }
 `
 
-
-interface IPositionChartProps {
-  dates: string[];
-  projectId: string;
-  bitrixGroupId: string;
-  regionIndex: number;
-}
-
-interface IPositionsChartVariables {
-  bitrixGroupId: string;
-  projectId: string;
-  regionIndex: number;
-  date1: string;
-  date2: string;
-}
-interface IPositionsChartResponse {
-  GetTopvisorSummaryChart: { result: ITopvisorSummaryChart };
-}
-interface IPositionsChartState {
-  chartType: 'bar' | 'line';
-}
-
-const initState:IPositionsChartState = {
+const initState: IPositionsChartState = {
   chartType: 'line',
 }
 

@@ -1,13 +1,12 @@
-import React, {FC, useState} from 'react';
-import { RouteComponentProps } from "react-router";
+import React, { FC, useState } from 'react';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
-import { GridContainer, GridItem } from "components/grid";
+import { makeStyles, Card } from "@material-ui/core";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
-import { makeStyles } from "@material-ui/core";
-import { ITopvisorPositions, ITopVisorProject } from "interfaces";
+import { GridContainer, GridItem } from "components/grid";
 import { TablePositions } from "components/table/TablePositions";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { Loading } from "components/loading/Loading";
@@ -16,28 +15,17 @@ import { PositionChart } from "./PositionsChart";
 import { getRegionIndexes } from "utils";
 
 import styles from "assets/jss/pages/topvisorStyle";
-import Card from "@material-ui/core/Card";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 
+import { ITopVisorProject } from "interfaces";
+import {
+  IPositionsVariables,
+  IPositionsResponse,
+  IPositionProps,
+} from './interfaces'
 
 const useStyles = makeStyles(styles);
 
-type iRouterParams = {
-  groupId: string
-}
-
-interface IPositionProps extends RouteComponentProps<iRouterParams>{}
-interface IPositionsResponse {
-  GetTopvisorPositions: ITopvisorPositions
-}
-interface IPositionsVariables {
-  bitrixGroupId: string;
-  projectId?: string;
-  regionIndexes?: number[];
-  date1: string;
-  date2: string;
-}
 
 const getProject = gql`
   query GetProject($bitrixGroupId: ID!) {

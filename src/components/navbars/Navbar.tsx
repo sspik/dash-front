@@ -12,16 +12,9 @@ import Menu from "@material-ui/icons/Menu";
 import { AdminNavbarLinks } from "./AdminNavbarLinks";
 import { RegularButton } from "components/button/Button";
 
+import { IHeaderProps } from './interfaces';
+
 import styles from "assets/jss/components/headerStyle";
-import { IDashboardRoute, iHeaderColor } from "interfaces";
-
-
-interface IHeaderProps {
-  color?: iHeaderColor;
-  handleDrawerToggle: () => void;
-  routes: Array<IDashboardRoute>;
-  brand?: string;
-}
 
 
 const useStyles = makeStyles(styles);
@@ -48,7 +41,6 @@ export const Header: FC<IHeaderProps> = (props) => {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
           <RegularButton color="transparent" className={classes.title}>
             { makeBrand() }
           </RegularButton>
