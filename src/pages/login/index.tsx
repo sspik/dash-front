@@ -23,7 +23,7 @@ const useStyles = makeStyles( createStyles({
 }))
 
 
-export const LoginPage: React.FC = () => {
+const LoginPage: React.FC = () => {
 
   const classes = useStyles();
   const [ ,setState ] = useState({
@@ -62,3 +62,4 @@ export const LoginPage: React.FC = () => {
       </div>
     )
 }
+export default LoginPage;

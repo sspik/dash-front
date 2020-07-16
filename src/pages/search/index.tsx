@@ -18,7 +18,7 @@ const searchGroupByNameQuery = gql`
   }
 `
 
-export const Search: FC = (props: any) => {
+const Search: FC = (props: any) => {
   const search = props.location.state ? props.location.state.search.value : ""
   const { data, loading, error } = useQuery<ISearchGroupResponse>(searchGroupByNameQuery, {
     variables: {name: search}
@@ -40,3 +40,4 @@ export const Search: FC = (props: any) => {
     </div>
   )
 }
+export default Search;

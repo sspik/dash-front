@@ -58,7 +58,7 @@ interface IQuery {
 
 interface IGroupProps extends RouteComponentProps<iRouterParams>{}
 
-export const Group: FC<IGroupProps> = (props) => {
+const Group: FC<IGroupProps> = (props) => {
   const classes = useStyles();
   const { groupId } = props.match.params;
   const { data, loading, error } = useQuery<
@@ -256,3 +256,5 @@ export const Group: FC<IGroupProps> = (props) => {
     </div>
   );
 }
+
+export default Group;

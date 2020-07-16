@@ -12,7 +12,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { LoginPage } from "./pages/login";
+import LoginPage from "./pages/login";
 import { Dashboard } from "./layouts/Dashboard";
 
 import gql from "graphql-tag";

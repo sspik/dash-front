@@ -158,7 +158,7 @@ const initState: ITaskDetailState = {
   message: '',
 }
 
-export const Task: FC<ITaskDetailProps> = (props) => {
+const Task: FC<ITaskDetailProps> = (props) => {
   const classes = useStyles();
   const taskId = props.match.params.taskId;
   const [ state, setState ] = useState<ITaskDetailState>(initState)
@@ -187,7 +187,6 @@ export const Task: FC<ITaskDetailProps> = (props) => {
   })
   if (!data && loading) return <Loading />;
   if (error) return <p>{ error.message }</p>;
-  console.log(data)
   const handleChangeInput = (
     event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ): void => {
@@ -309,3 +308,5 @@ export const Task: FC<ITaskDetailProps> = (props) => {
     </div>
   )
 }
+
+export default Task;

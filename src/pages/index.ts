@@ -1,19 +1,10 @@
-import { Dashboard } from "./dashboard";
-import { Feed } from "./feed";
-import { Group } from "./group";
-import { LoginPage } from "./login";
-import { Positions } from "./positions";
-import { Search } from "./search";
-import { Task } from "./task";
-import { Metrics } from "./metrics";
+import { lazy } from 'react';
 
-export default {
-  Dashboard,
-  Feed,
-  Group,
-  LoginPage,
-  Positions,
-  Search,
-  Task,
-  Metrics,
-}
+export const Dashboard = lazy(() => import('./dashboard'));
+export const Feed = lazy(() => import('./feed'));
+export const Group = lazy(() => import('./group'));
+export const LoginPage = lazy(() => import('./login'));
+export const Positions = lazy(() => import('./positions'));
+export const Search = lazy(() => import('./search'));
+export const Task = lazy(() => import('./task'));
+export const Metrics = lazy(() => import('./metrics'));

@@ -37,7 +37,7 @@ const GetWorkGroups = gql`
   }
 `
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
   const classes = useStyles();
   const [ state, setState ] = useState<IDashboardState>(initState);
   const { start } = state;
@@ -84,5 +84,4 @@ export const Dashboard: React.FC = () => {
     </div>
   )
 }
-
-
+export default Dashboard;

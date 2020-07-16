@@ -102,7 +102,7 @@ const initState: IPositionsState = {
 }
 
 
-export const Positions: FC<IPositionProps> = (props) => {
+const Positions: FC<IPositionProps> = (props) => {
   const classes = useStyles();
   const bitrixGroupId = props.match.params.groupId;
   const [state, setState] = useState(initState);
@@ -245,3 +245,4 @@ export const Positions: FC<IPositionProps> = (props) => {
     </div>
   )
 }
+export default Positions;

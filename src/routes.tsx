@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { Redirect, Route } from "react-router";
 import { IDashboardRoute } from "./interfaces";
 import { List, Dashboard as Dash } from "@material-ui/icons";
-import Pages from "pages";
+import * as Pages from "pages";
 
 export const PrivateRouter = ({ component, ...rest }: any ): any => {
   const token = Cookies.get('token')

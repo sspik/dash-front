@@ -119,7 +119,7 @@ const initState: IMetricsState = {
   graphType: "line"
 }
 
-export const Metrics: FC<IMetricsProps> = (props) => {
+const Metrics: FC<IMetricsProps> = (props) => {
   const classes = useStyles();
   const bitrixGroupId = props.match.params.groupId;
   const [ state, setState ] = useState<IMetricsState>(initState);
@@ -325,3 +325,5 @@ export const Metrics: FC<IMetricsProps> = (props) => {
     </GridContainer>
   )
 }
+
+export default Metrics;

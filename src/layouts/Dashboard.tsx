@@ -1,4 +1,4 @@
-import React, { FC, createRef, useState } from "react";
+import React, { FC, createRef, useState, Suspense } from "react";
 import { v4 as uuid4 } from "uuid";
 import { Switch, Route } from "react-router-dom";
 
@@ -15,6 +15,7 @@ import { routes } from "routes";
 import styles from "assets/jss/layouts/dashboardStyle";
 import sidebarImage from "assets/img/sidebar.jpg";
 import logo from "assets/img/akiwa.svg";
+import {Loading} from "../components/loading/Loading";
 
 
 let ps: PerfectScrollbar;
@@ -22,21 +23,23 @@ let ps: PerfectScrollbar;
 const useStyles = makeStyles(styles);
 
 const switchRoutes = (
-  <Switch>
-    {routes.map((prop) => {
-      if (prop.layout === "/dashboard") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={uuid4()}
-            exact={prop.exact}
-          />
-        );
-      }
-      return null;
-    })}
-  </Switch>
+  <Suspense fallback={<Loading />}>
+    <Switch>
+      {routes.map((prop) => {
+        if (prop.layout === "/dashboard") {
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              component={prop.component}
+              key={uuid4()}
+              exact={prop.exact}
+            />
+          );
+        }
+        return null;
+      })}
+    </Switch>
+  </Suspense>
 );
 
 export const Dashboard: FC = ({ ...rest }) => {
