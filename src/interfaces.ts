@@ -125,7 +125,7 @@ interface IYandexMetrikaQuery  {
   date1: string;
   date2: string;
   limit?: number;
-  offcet?: number;
+  offset?: number;
   group?: string;
   auto_group_size?: string;
   quantile?: string;

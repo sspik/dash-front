@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
@@ -6,8 +6,8 @@ import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 import { PostMessage } from "components/forms/PostMessage";
 import { FileUploader } from "components/fileUploader/FileUploader";
-import { FeedList } from "./FeedList";
 import { RegularButton } from "components/button/Button";
+import { FeedList } from "./FeedList";
 
 import {
   IFeedProps,
@@ -69,7 +69,8 @@ export const FeedContainer: FC<IFeedProps> = (props) => {
     IGetFeedVariables
     >(GetFeed, {
     variables: { start: state.start, filter },
-    fetchPolicy: "no-cache"
+    fetchPolicy: "network-only",
+    notifyOnNetworkStatusChange: true,
   });
 
   const SendMessage = gql`
@@ -125,25 +126,23 @@ export const FeedContainer: FC<IFeedProps> = (props) => {
     })
   }
   const feeds = feedData!.GetFeed;
-  const handleFetchMore = (next: number, reload: boolean = true) => {
-    fetchMore({
-      variables: { start: next, filter },
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        return {
-          ...previousResult,
-          GetFeed: {
-            ...previousResult.GetFeed,
-            next: fetchMoreResult!.GetFeed.next,
-            result: reload
-              ? fetchMoreResult!.GetFeed.result
-              : [
-                ...previousResult.GetFeed.result,
-                ...fetchMoreResult!.GetFeed.result
-              ]
-          }
-        }
-      }
-    })
+  const handleFetchMore = (next: number) => {
+     fetchMore({
+       variables: { start: next, filter },
+       updateQuery: (previousResult, { fetchMoreResult }) => {
+         return {
+           ...previousResult,
+           GetFeed: {
+             ...previousResult.GetFeed,
+             next: fetchMoreResult!.GetFeed.next,
+             result: [
+               ...previousResult.GetFeed.result,
+               ...fetchMoreResult!.GetFeed.result
+             ]
+           }
+         }
+       }
+     })
   };
   const handleSendMessage = async () => {
     const { title, message, files } = state;
