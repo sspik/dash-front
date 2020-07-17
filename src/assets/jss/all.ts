@@ -166,7 +166,7 @@ const roseCardHeader = {
 };
 const whiteCardHeader = {
   background:
-    "linear-gradient(60deg, " + grayColor[12] + ", " + grayColor[13] + ")",
+    "#FFF",
   ...whiteBoxShadow
 };
 const cardActions = {
