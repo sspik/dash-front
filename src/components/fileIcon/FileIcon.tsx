@@ -34,7 +34,10 @@ export const FileIcon: FC<IAttachment> = (props) => {
           />
         </div>
         <div className={classes.iconText}>
-          {NAME}
+          { NAME.length > 20
+            ? `${NAME.slice(0, 20)}...`
+            : NAME
+          }
         </div>
       </Link>
     </Tooltip>
