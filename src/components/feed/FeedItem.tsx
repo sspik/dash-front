@@ -61,14 +61,17 @@ export const FeedItem: FC<IFeed> = (props) => {
           </CardHeader>
           <CardBody profile>
             <Collapse in={state} collapsedHeight={150}>
-              <Typography variant="body2">
+              <div>
                   <BBCode content={ DETAIL_TEXT } />
-              </Typography>
+              </div>
             </Collapse>
             <div
               className={classes.collapse}
               style={{
-                display: DETAIL_TEXT.split('\n').length > 5 ? "flex" : "none"
+                display: DETAIL_TEXT
+                  .split('\n')
+                  .filter(chunk => chunk.length > 0)
+                  .length > 5 ? "flex" : "none"
               }}
             >
               <Tooltip
