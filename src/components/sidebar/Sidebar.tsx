@@ -101,13 +101,14 @@ export const Sidebar: React.FC<ISidebarProps> = (props) => {
           {brand}
           <div className={classes.sidebarWrapper}>
             <AdminNavbarLinks />
+            { links }
           </div>
-          {image ? (
+          {image && (
             <div
               className={classes.background}
               style={{ backgroundImage: "url(" + image + ")" }}
             />
-          ) : null}
+          )}
         </Drawer>
       </Hidden>
       <Hidden smDown implementation="css">
@@ -121,12 +122,12 @@ export const Sidebar: React.FC<ISidebarProps> = (props) => {
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
-          {image !== undefined ? (
+          {image !== undefined && (
             <div
               className={classes.background}
               style={{ backgroundImage: "url(" + image + ")" }}
             />
-          ) : null}
+          )}
         </Drawer>
       </Hidden>
     </div>
