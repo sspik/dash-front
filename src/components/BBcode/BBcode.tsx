@@ -17,31 +17,36 @@ class UserTag extends parser.Tag {
     const attributes = {
       userId: this.params['USER']
     };
-    const content = this.getContent(true).replace(/\[\/?url]/g, '')
+    const content = this.getContent()
     return <a
       target={"_blank"}
+      rel="noopener noreferrer"
       href={`/dashboard/profile/${attributes.userId}`}
     >
-      {content}
+      {parser.toReact(content)}
     </a>
   }
 }
 
 class PTag extends parser.Tag {
   toReact() {
-    return <p>{this.getContent()}</p>
+    return <p>{parser.toReact(this.getContent())}</p>
   }
 }
 
 class URLTag extends parser.Tag {
   toReact() {
-    console.log(this.getContent())
-    console.log(this.params)
     const attributes = {
       text: this.getContent(),
       url: this.params.URL
     };
-    return <a href={attributes.url} target="_blank">{ attributes.text }</a>
+    return <a
+      href={attributes.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      { parser.toReact(attributes.text) }
+    </a>
   }
 }
 parser.registerTag('font', FontTag);
