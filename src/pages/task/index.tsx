@@ -262,12 +262,8 @@ const Task: FC<ITaskDetailProps> = (props) => {
               </Stepper>
               <div>Приоритет {priority[task.priority]}</div>
               <div>Дата создания: { moment(task.createdDate).format("DD.MM.YYYY") }</div>
-              <div>Постановщик: <Link
-                to={`/dashboard/profile/${task.creator.id}`}
-              >{ task.creator.name }</Link></div>
-              <div>Ответственный: <Link
-                to={`/dashboard/profile/${task.responsible.id}`}
-              >{ task.responsible.name }</Link></div>
+              <div>Постановщик: { task.creator.name } </div>
+              <div>Ответственный: { task.responsible.name } </div>
             </CardBody>
           </Card>
         </GridItem>
