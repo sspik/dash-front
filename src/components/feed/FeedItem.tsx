@@ -43,14 +43,14 @@ export const FeedItem: FC<IFeed> = (props) => {
       <GridItem xs={12} sm={7} md={7}>
         <Card className={classes.feedCard}>
           <CardHeader color="primary" className={classes.header}>
-            { AUTHOR ?
+            { AUTHOR &&
               <CardAvatar profile className={classes.cardAvatar}>
                 <img
                   alt={`${AUTHOR.NAME} ${AUTHOR.LAST_NAME}`}
                   src={AUTHOR.PERSONAL_PHOTO}
                   className={classes.cardAvatarImg}
                 />
-              </CardAvatar> : null
+              </CardAvatar>
             }
             <h4 className={classes.cardTitleWhite}>
               { AUTHOR && AUTHOR.NAME
