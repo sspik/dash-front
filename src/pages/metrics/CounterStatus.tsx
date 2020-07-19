@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
 import moment from "moment";
+import { makeStyles, Fade } from "@material-ui/core";
+
+
 import { Card, CardBody, CardHeader } from "components/card";
 import { GridContainer, GridItem } from "components/grid";
 
 import { ICounter } from "./interfaces";
 
-import { makeStyles } from "@material-ui/core";
 import styles from "assets/jss/pages/metricCounterStatusStyle";
 
 const useStyles = makeStyles(styles);
@@ -42,158 +44,160 @@ const filterRobotsText = {
 export const CounterStatus: FC<ICounter> = (props) => {
   const classes = useStyles();
   return (
-    <Card>
-      <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>
-          Информация о счётчике
-        </h4>
-      </CardHeader>
-      <CardBody>
-        <GridContainer>
+    <Fade in timeout={400}>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>
+            Информация о счётчике
+          </h4>
+        </CardHeader>
+        <CardBody>
+          <GridContainer>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Имя
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.name }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Имя
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.name }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Сайт
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.site }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Сайт
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.site }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Дата создания
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { moment(props.create_time).format("DD.MM.YYYY") }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Дата создания
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { moment(props.create_time).format("DD.MM.YYYY") }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Номер
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.id }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Номер
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.id }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader
-                color={props.status === "Active" ? "info" : "danger"}
-                className={classes.counterCardHeader}
-              >
-                Статус
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { statusText[props.status] }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader
+                  color={props.status === "Active" ? "info" : "danger"}
+                  className={classes.counterCardHeader}
+                >
+                  Статус
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { statusText[props.status] }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader
-                color={props.code_status === "CS_OK" ? "info" : "danger"}
-                className={classes.counterCardHeader}
-              >
-                Статус счётчика
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { codeStatusText[props.code_status] }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader
+                  color={props.code_status === "CS_OK" ? "info" : "danger"}
+                  className={classes.counterCardHeader}
+                >
+                  Статус счётчика
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { codeStatusText[props.code_status] }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Владелец
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.owner_login }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Владелец
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.owner_login }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Права
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { permissionText[props.permission] }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Права
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { permissionText[props.permission] }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Зеркала
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.mirrors ? props.mirrors.join(', ') : "Зеркала отсуствуют" }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Зеркала
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.mirrors ? props.mirrors.join(', ') : "Зеркала отсуствуют" }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Роботы
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { filterRobotsText[props.filter_robots] }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Роботы
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { filterRobotsText[props.filter_robots] }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader color="info" className={classes.counterCardHeader}>
-                Временная зона
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.time_zone_name }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader color="info" className={classes.counterCardHeader}>
+                  Временная зона
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.time_zone_name }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={2}>
-            <Card className={classes.counterCard}>
-              <CardHeader
-                color={props.errors && props.errors.length ? "danger" : "info" }
-                className={classes.counterCardHeader}
-              >
-                Ошибки
-              </CardHeader>
-              <CardBody className={classes.counterCardBody}>
-                { props.errors ? props.errors.map(e => e.message).join(', ') : "Ошибок не найдено" }
-              </CardBody>
-            </Card>
-          </GridItem>
+            <GridItem xs={6} sm={4} md={2}>
+              <Card className={classes.counterCard}>
+                <CardHeader
+                  color={props.errors && props.errors.length ? "danger" : "info" }
+                  className={classes.counterCardHeader}
+                >
+                  Ошибки
+                </CardHeader>
+                <CardBody className={classes.counterCardBody}>
+                  { props.errors ? props.errors.map(e => e.message).join(', ') : "Ошибок не найдено" }
+                </CardBody>
+              </Card>
+            </GridItem>
 
-        </GridContainer>
-      </CardBody>
-    </Card>
+          </GridContainer>
+        </CardBody>
+      </Card>
+    </Fade>
   )
 }

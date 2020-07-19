@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 
-import { makeStyles, Card } from "@material-ui/core";
+import { makeStyles, Card, Fade } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import { GridContainer, GridItem } from "components/grid";
@@ -132,104 +132,106 @@ const Positions: FC<IPositionProps> = (props) => {
     <div>
       {projectLoading && <Loading/>}
       {keywordsLoading && <Loading/>}
-      <GridContainer>
-        <GridItem xs={12} lg={12} md={12}>
-          <GridContainer alignItems="center">
-            <GridItem xs={8} lg={8} md={8}>
-              <h2>{project.name}</h2>
-            </GridItem>
-            <GridContainer>
-              <GridItem>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <DatePicker
-                    disableFuture
-                    autoOk
-                    variant="inline"
-                    format="DD-MM-YYYY"
-                    margin="none"
-                    id="date-picker-inline"
-                    label="Начало"
-                    value={state.date1}
-                    onChange={(date) => setState({
-                      ...state,
-                      date1: moment(date!).format('YYYY-MM-DD')
-                    })}
-                  />
-                </MuiPickersUtilsProvider>
+      <Fade in timeout={400}>
+        <GridContainer>
+          <GridItem xs={12} lg={12} md={12}>
+            <GridContainer alignItems="center">
+              <GridItem xs={8} lg={8} md={8}>
+                <h2>{project.name}</h2>
               </GridItem>
-              <GridItem>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <DatePicker
-                    disableFuture
-                    autoOk
-                    variant="inline"
-                    format="DD-MM-YYYY"
-                    margin="none"
-                    id="date-picker-inline"
-                    label="Конец"
-                    value={state.date2}
-                    onChange={(date) => setState({
-                      ...state,
-                      date2: moment(date!).format('YYYY-MM-DD')
-                    })}
-                  />
-                </MuiPickersUtilsProvider>
-              </GridItem>
+              <GridContainer>
+                <GridItem>
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <DatePicker
+                      disableFuture
+                      autoOk
+                      variant="inline"
+                      format="DD-MM-YYYY"
+                      margin="none"
+                      id="date-picker-inline"
+                      label="Начало"
+                      value={state.date1}
+                      onChange={(date) => setState({
+                        ...state,
+                        date1: moment(date!).format('YYYY-MM-DD')
+                      })}
+                    />
+                  </MuiPickersUtilsProvider>
+                </GridItem>
+                <GridItem>
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <DatePicker
+                      disableFuture
+                      autoOk
+                      variant="inline"
+                      format="DD-MM-YYYY"
+                      margin="none"
+                      id="date-picker-inline"
+                      label="Конец"
+                      value={state.date2}
+                      onChange={(date) => setState({
+                        ...state,
+                        date2: moment(date!).format('YYYY-MM-DD')
+                      })}
+                    />
+                  </MuiPickersUtilsProvider>
+                </GridItem>
+              </GridContainer>
             </GridContainer>
-          </GridContainer>
-        </GridItem>
-        <GridItem xs={12} lg={12} md={12}>
-          <Card className={classes.card}>
-            <CustomTabs
-              plainTabs
-              headerColor="info"
-              fullWidth
-              tabs={project.searchers.map((searcher) => ({
-                tabName: searcher.name,
-                tabContent: (
-                  <CustomTabs
-                    plainTabs
-                    headerColor="primary"
-                    fullWidth
-                    tabs={searcher.regions.map((region) => {
-                      const keywords = positions.result.keywords.map((keyword) => ({
-                        ...keyword,
-                        positionsData: keyword.positionsData
-                          ? keyword.positionsData
-                            .filter((position) => region.index === position.regionIndex)
-                          : []
-                      }))
-                      return (
-                        {
-                          tabName: `${region.name}`,
-                          tabContent: (
-                            <GridContainer>
-                              <GridItem xs={12} lg={12} md={12}>
-                                <PositionChart
-                                  dates={datesArr}
-                                  projectId={project.id}
-                                  bitrixGroupId={bitrixGroupId}
-                                  regionIndex={region.index}
-                                />
-                              </GridItem>
-                              <GridItem xs={12} lg={12} md={12}>
-                                <TablePositions
-                                  keywords={keywords}
-                                  dates={datesArr}
-                                />
-                              </GridItem>
-                            </GridContainer>
-                          )
-                        }
-                      )
-                    })}
-                  />
-                )
-              }))}
-            />
-          </Card>
-        </GridItem>
-      </GridContainer>
+          </GridItem>
+          <GridItem xs={12} lg={12} md={12}>
+            <Card className={classes.card}>
+              <CustomTabs
+                plainTabs
+                headerColor="info"
+                fullWidth
+                tabs={project.searchers.map((searcher) => ({
+                  tabName: searcher.name,
+                  tabContent: (
+                    <CustomTabs
+                      plainTabs
+                      headerColor="primary"
+                      fullWidth
+                      tabs={searcher.regions.map((region) => {
+                        const keywords = positions.result.keywords.map((keyword) => ({
+                          ...keyword,
+                          positionsData: keyword.positionsData
+                            ? keyword.positionsData
+                              .filter((position) => region.index === position.regionIndex)
+                            : []
+                        }))
+                        return (
+                          {
+                            tabName: `${region.name}`,
+                            tabContent: (
+                              <GridContainer>
+                                <GridItem xs={12} lg={12} md={12}>
+                                  <PositionChart
+                                    dates={datesArr}
+                                    projectId={project.id}
+                                    bitrixGroupId={bitrixGroupId}
+                                    regionIndex={region.index}
+                                  />
+                                </GridItem>
+                                <GridItem xs={12} lg={12} md={12}>
+                                  <TablePositions
+                                    keywords={keywords}
+                                    dates={datesArr}
+                                  />
+                                </GridItem>
+                              </GridContainer>
+                            )
+                          }
+                        )
+                      })}
+                    />
+                  )
+                }))}
+              />
+            </Card>
+          </GridItem>
+        </GridContainer>
+      </Fade>
     </div>
   )
 }

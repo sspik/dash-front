@@ -11,7 +11,8 @@ import {
   StepLabel,
   Stepper,
   createStyles,
-  makeStyles
+  makeStyles,
+  Fade
 } from "@material-ui/core";
 import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
@@ -208,25 +209,26 @@ const Task: FC<ITaskDetailProps> = (props) => {
   return (
     <div>
       { sendTaskMessageError && <p>{ sendTaskMessageError.message }</p> }
-      <GridContainer>
-        <GridItem
-          xs={12}
-          sm={12}
-          md={7}
-        >
-          <Card className={classes.card}>
-            <CardHeader color="success">
-              <h4 className={classes.cardTitleWhite}>
-                { task.title }
-              </h4>
-            </CardHeader>
-            <CardBody>
-              { task.description
+      <Fade in timeout={400}>
+        <GridContainer>
+          <GridItem
+            xs={12}
+            sm={12}
+            md={7}
+          >
+            <Card className={classes.card}>
+              <CardHeader color="success">
+                <h4 className={classes.cardTitleWhite}>
+                  { task.title }
+                </h4>
+              </CardHeader>
+              <CardBody>
+                { task.description
                   ? <BBCode content={task.description} />
                   : <p>Описание отсутствует</p>
-              }
-            </CardBody>
-            { Array.isArray(task.files) &&
+                }
+              </CardBody>
+              { Array.isArray(task.files) &&
               <CardFooter>
                 <GridContainer className={classes.cardFooter}>
                   { task.files.map(f => (
@@ -238,55 +240,58 @@ const Task: FC<ITaskDetailProps> = (props) => {
                   )) }
                 </GridContainer>
               </CardFooter>
-            }
-          </Card>
-        </GridItem>
-        <GridItem
-          xs={12}
-          sm={12}
-          md={5}
-        >
-          <Card>
-            <CardBody>
-              <Stepper
-                alternativeLabel
-                activeStep={taskStatus}
-                nonLinear
-              >
-                { taskSteps.map(step => (
-                  <Step key={step}>
-                    <StepLabel>{ step }</StepLabel>
-                  </Step>
-                )) }
-              </Stepper>
-              <div>Приоритет {priority[task.priority]}</div>
-              <div>Дата создания: { moment(task.createdDate).format("DD.MM.YYYY") }</div>
-              <div>Постановщик: { task.creator.name } </div>
-              <div>Ответственный: { task.responsible.name } </div>
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
-          <PostMessage
-            message={state.message}
-            loading={sendTaskMessageLoading}
-            handleSendMessage={handleSendMessage}
-            handleChangeInput={handleChangeInput}
-          />
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        { comments.map(comment => (
-          <FeedItem
-            key={comment.ID}
-            ID={comment.ID}
-            AUTHOR={comment.AUTHOR}
-            DETAIL_TEXT={comment.POST_MESSAGE}
-            DATE_PUBLISH={comment.POST_DATE}
-            FILES={comment.FILES}
-          />
-        )) }
-      </GridContainer>
+              }
+            </Card>
+          </GridItem>
+          <GridItem
+            xs={12}
+            sm={12}
+            md={5}
+          >
+            <Card>
+              <CardBody>
+                <Stepper
+                  alternativeLabel
+                  activeStep={taskStatus}
+                  nonLinear
+                >
+                  { taskSteps.map(step => (
+                    <Step key={step}>
+                      <StepLabel>{ step }</StepLabel>
+                    </Step>
+                  )) }
+                </Stepper>
+                <div>Приоритет {priority[task.priority]}</div>
+                <div>Дата создания: { moment(task.createdDate).format("DD.MM.YYYY") }</div>
+                <div>Постановщик: { task.creator.name } </div>
+                <div>Ответственный: { task.responsible.name } </div>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+            <PostMessage
+              message={state.message}
+              loading={sendTaskMessageLoading}
+              handleSendMessage={handleSendMessage}
+              handleChangeInput={handleChangeInput}
+            />
+          </GridItem>
+        </GridContainer>
+      </Fade>
+      <Fade in timeout={600}>
+        <GridContainer>
+          { comments.map(comment => (
+            <FeedItem
+              key={comment.ID}
+              ID={comment.ID}
+              AUTHOR={comment.AUTHOR}
+              DETAIL_TEXT={comment.POST_MESSAGE}
+              DATE_PUBLISH={comment.POST_DATE}
+              FILES={comment.FILES}
+            />
+          )) }
+        </GridContainer>
+      </Fade>
     </div>
   )
 }

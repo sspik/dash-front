@@ -2,6 +2,8 @@ import React, { ChangeEvent, FC, useState } from 'react';
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
+import { Fade } from "@material-ui/core";
+
 import { Loading } from "components/loading/Loading";
 import { GridContainer, GridItem } from "components/grid";
 import { PostMessage } from "components/forms/PostMessage";
@@ -48,6 +50,24 @@ const GetFeed = gql`
   }
 `
 
+const SendMessage = gql`
+  mutation SendMessage(
+    $title: String
+    $message: String!
+    $files: [UploadFix]
+    $showFor: [String]
+  ) {
+    SendFeedMessage(
+      message: $message
+      title: $title
+      files: $files
+      showFor: $showFor
+    ) {
+      result
+    }
+  }
+`
+
 const initState: IFeedState = {
   title: "",
   message: "",
@@ -72,24 +92,6 @@ export const FeedContainer: FC<IFeedProps> = (props) => {
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
   });
-
-  const SendMessage = gql`
-    mutation SendMessage(
-      $title: String
-      $message: String!
-      $files: [UploadFix]
-      $showFor: [String]
-    ) {
-      SendFeedMessage(
-        message: $message
-        title: $title
-        files: $files
-        showFor: $showFor
-      ) {
-        result
-      }
-    }
-  `
 
   const [
     sendFeedMessage,
@@ -170,29 +172,35 @@ export const FeedContainer: FC<IFeedProps> = (props) => {
   return (
     <div>
       { feedLoading && <Loading /> }
+      <Fade in timeout={300}>
+        <GridContainer>
+          <GridItem xs={12} sm={7} md={7}>
+            <PostMessage
+              title={state.title}
+              message={state.message}
+              loading={sendFeedLoading}
+              handleSendMessage={handleSendMessage}
+              handleChangeInput={handleChangeInput}
+              sendFeedError={sendFeedError}
+            />
+          </GridItem>
+          <GridItem xs={12} sm={5} md={5}>
+            <FileUploader
+              handleAttachedFile={handleAttachedFile}
+              handleDeleteAttachedFile={handleDeleteAttachedFile}
+              files={state.files}
+            />
+          </GridItem>
+        </GridContainer>
+      </Fade>
       <GridContainer>
-        <GridItem xs={12} sm={7} md={7}>
-          <PostMessage
-            title={state.title}
-            message={state.message}
-            loading={sendFeedLoading}
-            handleSendMessage={handleSendMessage}
-            handleChangeInput={handleChangeInput}
-            sendFeedError={sendFeedError}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={5} md={5}>
-          <FileUploader
-            handleAttachedFile={handleAttachedFile}
-            handleDeleteAttachedFile={handleDeleteAttachedFile}
-            files={state.files}
-          />
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <FeedList
-          { ...feeds }
-        />
+        { feeds.result.length &&
+          <Fade in timeout={400}>
+            <FeedList
+              { ...feeds }
+            />
+          </Fade>
+        }
       </GridContainer>
       { feeds.next
       && <div>

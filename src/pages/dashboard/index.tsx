@@ -3,6 +3,7 @@ import React, { Fragment, useState, ChangeEvent } from 'react';
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
+import { Fade } from "@material-ui/core";
 
 import { WorkGroupShort } from "components/workGroup/WorkGroupShort";
 import { Pagination } from "components/pagination/Pagination";
@@ -71,18 +72,20 @@ const Dashboard: React.FC = () => {
           />
         }
       </div>
-      <GridContainer>
-        { data
-          ? data.GetUserGroups.result.map(group => {
-            return (
-              <GridItem xs={12} sm={6} md={3} key={group.ID}>
-                <WorkGroupShort { ...group } />
-              </GridItem>
-            )
-          })
-          : <p>Нет групп с вашим участием</p>
-        }
-      </GridContainer>
+      <Fade in timeout={300}>
+        <GridContainer>
+          { data
+            ? data.GetUserGroups.result.map(group => {
+              return (
+                <GridItem xs={12} sm={6} md={3} key={group.ID}>
+                  <WorkGroupShort { ...group } />
+                </GridItem>
+              )
+            })
+            : <p>Нет групп с вашим участием</p>
+          }
+        </GridContainer>
+      </Fade>
     </div>
   )
 }

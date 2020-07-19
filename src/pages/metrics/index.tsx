@@ -2,6 +2,7 @@ import React, { ChangeEvent, FC, useState } from 'react';
 import moment from "moment";
 import gql from "graphql-tag";
 import { RouteComponentProps } from "react-router";
+import { Fade } from "@material-ui/core";
 
 import { useQuery } from "@apollo/react-hooks";
 import { Loading } from "components/loading/Loading";
@@ -164,168 +165,172 @@ const Metrics: FC<IMetricsProps> = (props) => {
       { counterError
         ? <p>{ counterError.message }</p>
         : <CounterStatus
-            { ...counter }
-          />}
-      <GridItem xs={12} sm={12} md={12}>
-        <Card hovered chart>
-          <CardHeader color="white">
-            <GridContainer>
-              <GridItem xs={11} sm={11} md={11}>
-                <RadioGroup
-                  row
-                  onChange={(e) => handleChangeMetric(e)}
-                  value={state.metrics}
-                >
-                  <Tooltip
-                    title="Суммарное количество визитов"
-                    placement="top-end"
+          { ...counter }
+        />
+      }
+
+      <Fade in timeout={800}>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card hovered chart>
+            <CardHeader color="white">
+              <GridContainer>
+                <GridItem xs={11} sm={11} md={11}>
+                  <RadioGroup
+                    row
+                    onChange={(e) => handleChangeMetric(e)}
+                    value={state.metrics}
                   >
-                    <FormControlLabel
-                      value="ym:s:visits"
-                      control={<Radio size="small" color="primary" />}
-                      label={<div className={classes.cardHeaderFont}>Визиты</div>}
-                    />
-                  </Tooltip>
-                  <Tooltip
-                    title="Количество уникальных посетителей"
-                    placement="top-end"
-                  >
-                    <FormControlLabel
-                      value="ym:s:users"
-                      control={<Radio size="small" color="primary" />}
-                      label={<div className={classes.cardHeaderFont}>Посетители</div>}
-                    />
-                  </Tooltip>
-                  <Tooltip
-                    title="Доля визитов, в рамках которых состоялся лишь один просмотр страницы,
-                    продолжавшийся менее 15 секунд."
-                    placement="top-end"
+                    <Tooltip
+                      title="Суммарное количество визитов"
+                      placement="top-end"
                     >
-                    <FormControlLabel
-                      value="ym:s:bounceRate"
-                      control={<Radio size="small" color="primary" />}
-                      label={<div className={classes.cardHeaderFont}>% отказов</div>}
-                    />
-                  </Tooltip>
-                </RadioGroup>
+                      <FormControlLabel
+                        value="ym:s:visits"
+                        control={<Radio size="small" color="primary" />}
+                        label={<div className={classes.cardHeaderFont}>Визиты</div>}
+                      />
+                    </Tooltip>
+                    <Tooltip
+                      title="Количество уникальных посетителей"
+                      placement="top-end"
+                    >
+                      <FormControlLabel
+                        value="ym:s:users"
+                        control={<Radio size="small" color="primary" />}
+                        label={<div className={classes.cardHeaderFont}>Посетители</div>}
+                      />
+                    </Tooltip>
+                    <Tooltip
+                      title="Доля визитов, в рамках которых состоялся лишь один просмотр страницы,
+                    продолжавшийся менее 15 секунд."
+                      placement="top-end"
+                    >
+                      <FormControlLabel
+                        value="ym:s:bounceRate"
+                        control={<Radio size="small" color="primary" />}
+                        label={<div className={classes.cardHeaderFont}>% отказов</div>}
+                      />
+                    </Tooltip>
+                  </RadioGroup>
+                </GridItem>
+                <GridItem xs={1} sm={1} md={1}>
+                  <RegularButton
+                    color={ state.graphType === "line" ? "primary" : "white" }
+                    justIcon
+                    round
+                    onClick={() => setState({ ...state, graphType: "line" })}
+                  >
+                    <ShowChart />
+                  </RegularButton>
+                  <RegularButton
+                    color={ state.graphType === "pie" ? "primary" : "white" }
+                    justIcon
+                    round
+                    onClick={() => setState({ ...state, graphType: "pie" })}
+                  >
+                    <PieChart />
+                  </RegularButton>
+                </GridItem>
+              </GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <MetricsGraph
+                  error={metricsError}
+                  data={metricsData}
+                  graphType={graphType}
+                />
               </GridItem>
-              <GridItem xs={1} sm={1} md={1}>
-                <RegularButton
-                  color={ state.graphType === "line" ? "primary" : "white" }
-                  justIcon
-                  round
-                  onClick={() => setState({ ...state, graphType: "line" })}
-                >
-                  <ShowChart />
-                </RegularButton>
-                <RegularButton
-                  color={ state.graphType === "pie" ? "primary" : "white" }
-                  justIcon
-                  round
-                  onClick={() => setState({ ...state, graphType: "pie" })}
-                >
-                  <PieChart />
-                </RegularButton>
-              </GridItem>
-            </GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <MetricsGraph
-                error={metricsError}
-                data={metricsData}
-                graphType={graphType}
+            </CardHeader>
+            <CardBody
+              underHover={(
+                <div className={classes.chartControl}>
+                  <div className={classes.chartPresets}>
+                    <RegularButton
+                      size="sm"
+                      color={!state.dimensions ? "primary" : "white"}
+                      onClick={() => setState({
+                        date1: state.date1,
+                        date2: state.date2,
+                        metrics: state.metrics,
+                        graphType: state.graphType,
+                      })}
+                    >
+                      Источники
+                    </RegularButton>
+                    <RegularButton
+                      size="sm"
+                      color={state.dimensions === "ym:s:browser" ? "primary" : "white"}
+                      onClick={() => setState({
+                        ...state,
+                        dimensions: "ym:s:browser",
+                      })}
+                    >
+                      Браузеры
+                    </RegularButton>
+                    <RegularButton
+                      size="sm"
+                      color={state.dimensions === "ym:s:searchEngine" ? "primary" : "white"}
+                      onClick={() => setState({
+                        ...state,
+                        dimensions: "ym:s:searchEngine",
+                      })}
+                    >
+                      Поисковые системы
+                    </RegularButton>
+                    <RegularButton
+                      size="sm"
+                      color={state.dimensions === "ym:s:regionCity" ? "primary" : "white"}
+                      onClick={() => setState({
+                        ...state,
+                        dimensions: "ym:s:regionCity",
+                      })}
+                    >
+                      География
+                    </RegularButton>
+                  </div>
+                  <div>
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                      <DatePicker
+                        disableFuture
+                        autoOk
+                        variant="inline"
+                        format="DD-MM-YYYY"
+                        margin="none"
+                        id="date-picker-inline"
+                        label="Начало"
+                        value={state.date1}
+                        onChange={( date ) => setState({
+                          ...state,
+                          date1: moment(date!).format('YYYY-MM-DD')
+                        })}
+                      />
+                    </MuiPickersUtilsProvider>
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                      <DatePicker
+                        disableFuture
+                        autoOk
+                        variant="inline"
+                        format="DD-MM-YYYY"
+                        margin="none"
+                        id="date-picker-inline"
+                        label="Конец"
+                        value={state.date2}
+                        onChange={( date ) => setState({
+                          ...state,
+                          date2: moment(date!).format('YYYY-MM-DD')
+                        })}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
+                </div>
+              )}
+            >
+              <TableYandexMetrics
+                GetYandexMetrics={metricsData!.GetYandexMetrics}
               />
-            </GridItem>
-          </CardHeader>
-          <CardBody
-            underHover={(
-              <div className={classes.chartControl}>
-                <div className={classes.chartPresets}>
-                  <RegularButton
-                    size="sm"
-                    color={!state.dimensions ? "primary" : "white"}
-                    onClick={() => setState({
-                      date1: state.date1,
-                      date2: state.date2,
-                      metrics: state.metrics,
-                      graphType: state.graphType,
-                    })}
-                  >
-                    Источники
-                  </RegularButton>
-                  <RegularButton
-                    size="sm"
-                    color={state.dimensions === "ym:s:browser" ? "primary" : "white"}
-                    onClick={() => setState({
-                      ...state,
-                      dimensions: "ym:s:browser",
-                    })}
-                  >
-                    Браузеры
-                  </RegularButton>
-                  <RegularButton
-                    size="sm"
-                    color={state.dimensions === "ym:s:searchEngine" ? "primary" : "white"}
-                    onClick={() => setState({
-                      ...state,
-                      dimensions: "ym:s:searchEngine",
-                    })}
-                  >
-                    Поисковые системы
-                  </RegularButton>
-                  <RegularButton
-                    size="sm"
-                    color={state.dimensions === "ym:s:regionCity" ? "primary" : "white"}
-                    onClick={() => setState({
-                      ...state,
-                      dimensions: "ym:s:regionCity",
-                    })}
-                  >
-                    География
-                  </RegularButton>
-                </div>
-                <div>
-                  <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DatePicker
-                      disableFuture
-                      autoOk
-                      variant="inline"
-                      format="DD-MM-YYYY"
-                      margin="none"
-                      id="date-picker-inline"
-                      label="Начало"
-                      value={state.date1}
-                      onChange={( date ) => setState({
-                        ...state,
-                        date1: moment(date!).format('YYYY-MM-DD')
-                      })}
-                    />
-                  </MuiPickersUtilsProvider>
-                  <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DatePicker
-                      disableFuture
-                      autoOk
-                      variant="inline"
-                      format="DD-MM-YYYY"
-                      margin="none"
-                      id="date-picker-inline"
-                      label="Конец"
-                      value={state.date2}
-                      onChange={( date ) => setState({
-                        ...state,
-                        date2: moment(date!).format('YYYY-MM-DD')
-                      })}
-                    />
-                  </MuiPickersUtilsProvider>
-                </div>
-              </div>
-            )}
-          >
-            <TableYandexMetrics
-              GetYandexMetrics={metricsData!.GetYandexMetrics}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </Fade>
     </GridContainer>
   )
 }
