@@ -55,7 +55,7 @@ const getSummaryChart = gql`
 `
 
 const initState: IPositionsChartState = {
-  chartType: 'line',
+  chartType: 'bar',
 }
 
 export const PositionChart: FC<IPositionChartProps> = (props) => {
@@ -98,20 +98,20 @@ export const PositionChart: FC<IPositionChartProps> = (props) => {
                 <RegularButton
                   justIcon
                   round
-                  color={state.chartType === 'line' ? 'primary' : 'white'}
-                  onClick={() => setState({ ...state, chartType: 'line' })}
+                  color={state.chartType === 'bar' ? 'primary' : 'white'}
+                  onClick={() => setState({ ...state, chartType: 'bar' })}
                 >
-                  <ShowChart />
+                  <BarChart />
                 </RegularButton>
               </GridItem>
               <GridItem xs={6} lg={6} md={6}>
                 <RegularButton
                   justIcon
                   round
-                  color={state.chartType === 'bar' ? 'primary' : 'white'}
-                  onClick={() => setState({ ...state, chartType: 'bar' })}
+                  color={state.chartType === 'line' ? 'primary' : 'white'}
+                  onClick={() => setState({ ...state, chartType: 'line' })}
                 >
-                  <BarChart />
+                  <ShowChart />
                 </RegularButton>
               </GridItem>
             </GridContainer>
