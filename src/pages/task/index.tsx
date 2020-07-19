@@ -6,7 +6,6 @@ import React, {
 import gql from "graphql-tag";
 import moment from "moment"
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { Link } from "react-router-dom";
 import {
   Step,
   StepLabel,

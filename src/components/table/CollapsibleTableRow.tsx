@@ -1,4 +1,4 @@
-import React, { FC, useState, Fragment } from 'react';
+import React, { FC, useState } from 'react';
 import moment from 'moment';
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -34,7 +34,7 @@ export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
   const { task } = props;
   const [ open, setOpen ] = useState(false);
   return (
-    <Fragment>
+    <>
       <Fade
         in={true}
         timeout={200}
@@ -133,6 +133,6 @@ export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
           </Collapse>
         </TableCell>
       </TableRow>
-    </Fragment>
+    </>
   )
 }
