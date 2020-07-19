@@ -5,10 +5,17 @@ import {
   TableHead,
   TableRow,
   TableBody,
-  TableCell, TableFooter, TablePagination
+  TableCell,
+  TableFooter,
+  TablePagination,
 } from "@material-ui/core";
 import { TablePaginationActions } from "./PaginationTable";
 
+import {
+  blackColor,
+  dangerColor,
+  successColor
+} from "assets/jss/all";
 import { ITablePositionsProps } from "./interfaces";
 
 
@@ -55,13 +62,24 @@ export const TablePositions: FC<ITablePositionsProps> = (props) => {
           <TableRow key={ uuid4() } hover>
             <TableCell>{ keyword.name }</TableCell>
             { dates
-              ? dates.map((date) =>{
+              ? dates.map((date, index) =>{
                 const positionData = keyword.positionsData.filter(p => p.data === date);
                 const position = positionData.length ? positionData[0].position : ''
+                const prevPosition = index !== 0 && positionData.length
+                  ? keyword.positionsData[keyword.positionsData.indexOf(positionData[0]) - 1].position
+                  : positionData[0].position;
+                const positionColor = prevPosition !== position
+                  ? parseInt(position) > parseInt(prevPosition)
+                    ? dangerColor[2]
+                    : successColor[0]
+                  : blackColor
                 return (
                   <TableCell
                     key={ uuid4() }
                     align="center"
+                    style={{
+                      color: positionColor,
+                    }}
                   >
                     { position }
                   </TableCell>
