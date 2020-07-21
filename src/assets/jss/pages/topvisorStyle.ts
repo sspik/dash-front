@@ -5,6 +5,9 @@ const topvisorStyle = createStyles({
     paddingLeft: "5px",
     paddingRight: "5px",
     marginBottom: "15px"
+  },
+  tableContainer: {
+    overflowY: "scroll",
   }
 });
 

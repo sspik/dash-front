@@ -213,7 +213,7 @@ const Positions: FC<IPositionProps> = (props) => {
                                     regionIndex={region.index}
                                   />
                                 </GridItem>
-                                <GridItem xs={12} lg={12} md={12}>
+                                <GridItem xs={12} lg={12} md={12} className={classes.tableContainer}>
                                   <TablePositions
                                     keywords={keywords}
                                     dates={datesArr}
