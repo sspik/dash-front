@@ -64,10 +64,17 @@ export const TablePositions: FC<ITablePositionsProps> = (props) => {
             { dates
               ? dates.map((date, index) =>{
                 const positionData = keyword.positionsData.filter(p => p.data === date);
-                const position = positionData.length ? positionData[0].position : ''
-                const prevPosition = index !== 0 && positionData.length
-                  ? keyword.positionsData[keyword.positionsData.indexOf(positionData[0]) - 1].position
-                  : positionData[0].position;
+                const position = positionData.length ? positionData[0].position : '';
+                let prevPosition: number | string;
+                try {
+                  // Что бы не городить кучу условий, если позиции на выбранной дате не сущесвует
+                  // просто предыдущую прировнять к текущей и та всё равно будет чёрной.
+                  prevPosition = index !== 0
+                    ? keyword.positionsData[keyword.positionsData.indexOf(positionData[0]) - 1].position
+                    : positionData[0].position;
+                } catch {
+                  prevPosition = position;
+                }
                 const positionColor = prevPosition !== position
                   ? parseInt(position) > parseInt(prevPosition)
                     ? dangerColor[2]
