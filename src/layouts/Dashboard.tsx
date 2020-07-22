@@ -16,36 +16,45 @@ import { routes } from "routes";
 import styles from "assets/jss/layouts/dashboardStyle";
 import sidebarImage from "assets/img/sidebar.jpg";
 import logo from "assets/img/akiwa.svg";
-
+import { client, GET_PROFILE } from "../index";
 
 let ps: PerfectScrollbar;
-
 const useStyles = makeStyles(styles);
+const SwitchRoutes: FC = () => {
+  const data = client.readQuery({query: GET_PROFILE});
+  const isAdmin = data.GetProfile.ADMIN;
+  return (
+    <Suspense fallback={<Loading />}>
+      <Switch>
+        { routes
+          .filter((prop) => isAdmin ? true : !prop.isAdmin)
+          .map((prop) => {
+            if (prop.layout === "/dashboard") {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  component={prop.component}
+                  key={uuid4()}
+                  exact={prop.exact}
+                />
+              );
+            }
+            return null;
+          }) }
+      </Switch>
+    </Suspense>
+  )
+};
 
-const switchRoutes = (
-  <Suspense fallback={<Loading />}>
-    <Switch>
-      {routes.map((prop) => {
-        if (prop.layout === "/dashboard") {
-          return (
-            <Route
-              path={prop.layout + prop.path}
-              component={prop.component}
-              key={uuid4()}
-              exact={prop.exact}
-            />
-          );
-        }
-        return null;
-      })}
-    </Switch>
-  </Suspense>
-);
+
 
 export const Dashboard: FC = ({ ...rest }) => {
   const classes = useStyles();
   const mainPanel = createRef<any>();
   const color = "purple";
+
+  const data = client.readQuery({query: GET_PROFILE});
+  const isAdmin = data.GetProfile.ADMIN;
 
   const [ mobileOpen, setMobileOpen ] = useState(false);
 
@@ -78,7 +87,7 @@ export const Dashboard: FC = ({ ...rest }) => {
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
+        routes={routes.filter((prop) => isAdmin ? true : !prop.isAdmin)}
         logoText={"Акива"}
         logo={logo}
         image={sidebarImage}
@@ -95,7 +104,7 @@ export const Dashboard: FC = ({ ...rest }) => {
           {...rest}
         />
         <div className={classes.content}>
-          <div className={classes.container}>{switchRoutes}</div>
+          <div className={classes.container}><SwitchRoutes /></div>
         </div>
         <Footer />
       </div>

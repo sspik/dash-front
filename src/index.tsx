@@ -71,6 +71,7 @@ export const GET_PROFILE = gql`
       NAME
       LAST_NAME
       PERSONAL_PHOTO
+      ADMIN
     }
   }
 `

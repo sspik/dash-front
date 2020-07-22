@@ -2,7 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { Redirect, Route } from "react-router";
 import { IDashboardRoute } from "./interfaces";
-import { List, Dashboard as Dash } from "@material-ui/icons";
+import { List, Dashboard as Dash, Build } from "@material-ui/icons";
 import * as Pages from "pages";
 
 export const PrivateRouter = ({ component, ...rest }: any ): any => {
@@ -18,13 +18,24 @@ export const PrivateRouter = ({ component, ...rest }: any ): any => {
 
 export const routes: Array<IDashboardRoute> = [
   {
+    path: "/admin",
+    name: "Админка",
+    icon: Build,
+    component: Pages.Admin,
+    isPrivate: true,
+    layout: '/dashboard',
+    sidebar: true,
+    isAdmin: true,
+  },
+  {
     path: "/feed",
     name: "Живая лента",
     icon: List,
     component: Pages.Feed,
     isPrivate: true,
     layout: '/dashboard',
-    sidebar: true
+    sidebar: true,
+    isAdmin: false
   },
   {
     path: "/groups",
@@ -33,7 +44,8 @@ export const routes: Array<IDashboardRoute> = [
     component: Pages.Dashboard,
     isPrivate: true,
     layout: '/dashboard',
-    sidebar: true
+    sidebar: true,
+    isAdmin: false
   },
   {
     path: "/group/:groupId",
@@ -44,6 +56,7 @@ export const routes: Array<IDashboardRoute> = [
     layout: '/dashboard',
     sidebar: false,
     exact: true,
+    isAdmin: false
   },
   {
     path: "/group/:groupId/positions",
@@ -54,6 +67,7 @@ export const routes: Array<IDashboardRoute> = [
     layout: '/dashboard',
     sidebar: false,
     exact: true,
+    isAdmin: false
   },
   {
     path: "/group/:groupId/metrics",
@@ -64,6 +78,7 @@ export const routes: Array<IDashboardRoute> = [
     layout: '/dashboard',
     sidebar: false,
     exact: true,
+    isAdmin: false
   },
   {
     path: "/task/:taskId",
@@ -72,7 +87,8 @@ export const routes: Array<IDashboardRoute> = [
     component: Pages.Task,
     isPrivate: true,
     layout: '/dashboard',
-    sidebar: false
+    sidebar: false,
+    isAdmin: false
   },
   {
     path: "/search",
@@ -80,6 +96,7 @@ export const routes: Array<IDashboardRoute> = [
     component: Pages.Search,
     isPrivate: true,
     layout: '/dashboard',
-    sidebar: false
+    sidebar: false,
+    isAdmin: false
   }
 ]

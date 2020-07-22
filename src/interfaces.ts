@@ -22,6 +22,7 @@ export interface IDashboardRoute extends IRoute {
   icon?: OverridableComponent<SvgIconTypeMap>;
   sidebar: boolean;
   exact?: boolean;
+  isAdmin: boolean;
 }
 
 export interface IProfile {
