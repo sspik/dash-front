@@ -36,6 +36,7 @@ const switchRoutes = (
             />
           );
         }
+        return null;
       })}
     </Switch>
   </Suspense>
