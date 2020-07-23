@@ -48,8 +48,6 @@ const getWorkGroup = gql`
   }
 `;
 
-
-
 interface IGroupProps extends RouteComponentProps<iRouterParams>{}
 
 const Group: FC<IGroupProps> = (props) => {

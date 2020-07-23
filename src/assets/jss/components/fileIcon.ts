@@ -22,6 +22,7 @@ export default createStyles({
   iconText: {
     fontSize: "12px",
     textAlign: "center",
-    lineHeight: "15px"
+    lineHeight: "15px",
+    maxWidth: "75px",
   }
 });

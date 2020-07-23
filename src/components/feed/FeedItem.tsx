@@ -45,10 +45,11 @@ export const FeedItem: FC<IFeed> = (props) => {
           <CardHeader color="primary" className={classes.header}>
             { AUTHOR &&
               <CardAvatar profile className={classes.cardAvatar}>
-                <img
-                  alt={`${AUTHOR.NAME} ${AUTHOR.LAST_NAME}`}
-                  src={AUTHOR.PERSONAL_PHOTO}
+                <div
                   className={classes.cardAvatarImg}
+                  style={{
+                    backgroundImage: `url("${AUTHOR.PERSONAL_PHOTO}")`
+                  }}
                 />
               </CardAvatar>
             }

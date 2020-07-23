@@ -19,11 +19,15 @@ export default createStyles({
   cardAvatar: {
     margin: "-50px 40px 0 0",
     maxWidth: "80px",
-    maxHeight: "80px"
+    maxHeight: "80px",
   },
   cardAvatarImg: {
-    width: "auto !important",
-    height: "100% !important"
+    width: "80px",
+    height: "80px",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    position: "relative",
   },
   footer: {
     flexWrap: "wrap",

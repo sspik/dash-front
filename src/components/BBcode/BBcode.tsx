@@ -14,17 +14,8 @@ class FontTag extends parser.Tag {
 
 class UserTag extends parser.Tag {
   toReact() {
-    const attributes = {
-      userId: this.params['USER']
-    };
     const content = this.getContent()
-    return <a
-      target={"_blank"}
-      rel="noopener noreferrer"
-      href={`/dashboard/profile/${attributes.userId}`}
-    >
-      {parser.toReact(content)}
-    </a>
+    return parser.toReact(content)
   }
 }
 
@@ -49,6 +40,7 @@ class URLTag extends parser.Tag {
     </a>
   }
 }
+
 parser.registerTag('font', FontTag);
 parser.registerTag('user', UserTag);
 parser.registerTag('p', PTag);
