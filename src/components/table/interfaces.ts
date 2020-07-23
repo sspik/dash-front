@@ -1,5 +1,5 @@
 import {IGroupTask, iTableHeaderColor, ITopvisorResult} from "interfaces";
-import React from "react";
+import React, { ReactNode } from "react";
 
 export interface ICollapsibleRowProps {
   task: IGroupTask
@@ -19,7 +19,7 @@ export interface TablePaginationActionsProps {
 export interface ITableProps {
   tableHeaderColor: iTableHeaderColor;
   tableHead?: string[];
-  tableData: string[][];
+  tableData: Array<Array<ReactNode>>;
 }
 
 export interface ITablePositionsProps extends ITopvisorResult {
