@@ -39,6 +39,7 @@ export interface IUser {
   ACTIVE: boolean;
   NAME: string;
   LAST_NAME: string;
+  WORK_POSITION: string;
   SECOND_NAME: string;
   PERSONAL_GENDER: iGenderType;
   PERSONAL_PROFESSION: string;

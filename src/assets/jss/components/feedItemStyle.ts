@@ -38,5 +38,13 @@ export default createStyles({
   collapse: {
     justifyContent: "center",
     marginTop: "30px"
+  },
+  personal: {
+    marginTop: "-7px",
+    "& span": {
+      marginTop: "-7px",
+      display: "block",
+      fontSize: "14px",
+    }
   }
 })

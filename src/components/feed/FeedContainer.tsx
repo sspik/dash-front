@@ -38,6 +38,7 @@ const GetFeed = gql`
           NAME
           LAST_NAME
           PERSONAL_PHOTO
+          WORK_POSITION
         }
         FILES {
           NAME

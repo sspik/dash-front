@@ -52,11 +52,14 @@ export const FeedItem: FC<IFeed> = (props) => {
                 />
               </CardAvatar>
             }
-            <h4 className={classes.cardTitleWhite}>
-              { AUTHOR && AUTHOR.NAME
-                ? `${AUTHOR.NAME} ${AUTHOR.LAST_NAME}`
-                : 'Сотрудник компании' }
-            </h4>
+            <div className={classes.personal}>
+              <h4 className={classes.cardTitleWhite}>
+                { AUTHOR && AUTHOR.NAME
+                  ? `${AUTHOR.NAME} ${AUTHOR.LAST_NAME}`
+                  : 'Сотрудник компании' }
+              </h4>
+              { AUTHOR.WORK_POSITION && <span>{ AUTHOR.WORK_POSITION }</span> }
+            </div>
           </CardHeader>
           <CardBody profile>
             <Collapse in={state} collapsedHeight={150}>
