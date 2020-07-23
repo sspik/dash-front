@@ -38,11 +38,25 @@ export interface IYandexMetrikaCounterVariables {
 }
 
 export interface IMetricsBase {
-  metrics?: string;
+  metrics: string;
   dimensions?: string;
-  preset?: string;
   date1: string;
   date2: string;
+}
+
+type TMetricVariable = {
+  name: string;
+  display: string;
+}
+export interface IMetricsData {
+  ad: {
+    dimensions: { [key: string]: TMetricVariable },
+    metrics: { [key: string]: TMetricVariable }
+  };
+  s: {
+    dimensions: { [key: string]: TMetricVariable },
+    metrics: { [key: string]: TMetricVariable }
+  };
 }
 
 export interface IMetricsState extends IMetricsBase {

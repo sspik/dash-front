@@ -15,6 +15,9 @@ const metricStyle = createStyles({
   },
   cardHeaderFont: {
     fontSize: "12px"
+  },
+  settingsHead: {
+    marginBottom: "10px"
   }
 });
 

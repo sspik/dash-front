@@ -38,8 +38,9 @@ import {
   IYandexMetrikaCounterResponse,
   IYandexMetrikaCounterVariables,
   IMetricsVariables,
-  IMetricsState
+  IMetricsState,
 } from "./interfaces";
+import { metricsVariables } from "./metricVariables";
 
 import styles from "assets/jss/pages/metricStyle"
 
@@ -185,7 +186,7 @@ const Metrics: FC<IMetricsProps> = (props) => {
                       placement="top-end"
                     >
                       <FormControlLabel
-                        value="ym:s:visits"
+                        value={metricsVariables.s.metrics.visits.name}
                         control={<Radio size="small" color="primary" />}
                         label={<div className={classes.cardHeaderFont}>Визиты</div>}
                       />
@@ -195,7 +196,7 @@ const Metrics: FC<IMetricsProps> = (props) => {
                       placement="top-end"
                     >
                       <FormControlLabel
-                        value="ym:s:users"
+                        value={metricsVariables.s.metrics.users.name}
                         control={<Radio size="small" color="primary" />}
                         label={<div className={classes.cardHeaderFont}>Посетители</div>}
                       />
@@ -206,14 +207,14 @@ const Metrics: FC<IMetricsProps> = (props) => {
                       placement="top-end"
                     >
                       <FormControlLabel
-                        value="ym:s:bounceRate"
+                        value={metricsVariables.s.metrics.bounceRate.name}
                         control={<Radio size="small" color="primary" />}
                         label={<div className={classes.cardHeaderFont}>% отказов</div>}
                       />
                     </Tooltip>
                   </RadioGroup>
                 </GridItem>
-                <GridItem xs={1} sm={1} md={1}>
+                <GridItem>
                   <RegularButton
                     color={ state.graphType === "line" ? "primary" : "white" }
                     justIcon
@@ -303,8 +304,6 @@ const Metrics: FC<IMetricsProps> = (props) => {
                           date1: moment(date!).format('YYYY-MM-DD')
                         })}
                       />
-                    </MuiPickersUtilsProvider>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
                       <DatePicker
                         disableFuture
                         autoOk
