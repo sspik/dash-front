@@ -1,7 +1,9 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import moment from "moment";
+import _ from 'lodash';
 import gql from "graphql-tag";
-import { RouteComponentProps } from "react-router";
+import { v4 as uuid4 } from "uuid";
+
 import { Fade } from "@material-ui/core";
 
 import { useQuery } from "@apollo/react-hooks";
@@ -16,7 +18,7 @@ import {
   makeStyles,
   Radio,
   RadioGroup,
-  Tooltip
+  Tooltip,
 } from "@material-ui/core";
 import {
   ShowChart,
@@ -39,6 +41,8 @@ import {
   IYandexMetrikaCounterVariables,
   IMetricsVariables,
   IMetricsState,
+  IMetricsProps,
+  TMetricType
 } from "./interfaces";
 import { metricsVariables } from "./metricVariables";
 
@@ -106,17 +110,13 @@ const GetYandexMetrikaCounter = gql`
   }
 `;
 
-type iRouterParams = {
-  groupId: string
-}
-interface IMetricsProps extends RouteComponentProps<iRouterParams>{}
-
 
 const initState: IMetricsState = {
   date1: moment().subtract(14, 'days').format('YYYY-MM-DD'),
   date2: moment().subtract(1, 'days').format('YYYY-MM-DD'),
   metrics: "ym:s:visits",
-  graphType: "line"
+  graphType: "line",
+  metricType: "search",
 }
 
 const Metrics: FC<IMetricsProps> = (props) => {
@@ -129,7 +129,16 @@ const Metrics: FC<IMetricsProps> = (props) => {
       metrics: e.target.value
     })
   }
-  const { graphType, ...metricsQuery } = state;
+  const { graphType, metricType, ...metricsQuery } = state;
+  const handleChangeMetricVariables = (metricType: TMetricType) => {
+    if (state.metricType === metricType) return;
+    setState({
+      ...state,
+      metrics: _.values(metricsVariables[metricType].metrics)[0].name,
+      dimensions: _.values(metricsVariables[metricType].dimensions)[0].name,
+      metricType
+    })
+  }
   const {
     data: counterData,
     loading: counterLoading,
@@ -174,63 +183,72 @@ const Metrics: FC<IMetricsProps> = (props) => {
         <GridItem xs={12} sm={12} md={12}>
           <Card hovered chart>
             <CardHeader color="white">
-              <GridContainer>
-                <GridItem xs={11} sm={11} md={11}>
+              <GridContainer justify="flex-end" alignItems="center">
+                <GridItem className={classes.settingsMetricType}>
                   <RadioGroup
                     row
                     onChange={(e) => handleChangeMetric(e)}
                     value={state.metrics}
                   >
-                    <Tooltip
-                      title="Суммарное количество визитов"
-                      placement="top-end"
-                    >
-                      <FormControlLabel
-                        value={metricsVariables.s.metrics.visits.name}
-                        control={<Radio size="small" color="primary" />}
-                        label={<div className={classes.cardHeaderFont}>Визиты</div>}
-                      />
-                    </Tooltip>
-                    <Tooltip
-                      title="Количество уникальных посетителей"
-                      placement="top-end"
-                    >
-                      <FormControlLabel
-                        value={metricsVariables.s.metrics.users.name}
-                        control={<Radio size="small" color="primary" />}
-                        label={<div className={classes.cardHeaderFont}>Посетители</div>}
-                      />
-                    </Tooltip>
-                    <Tooltip
-                      title="Доля визитов, в рамках которых состоялся лишь один просмотр страницы,
-                    продолжавшийся менее 15 секунд."
-                      placement="top-end"
-                    >
-                      <FormControlLabel
-                        value={metricsVariables.s.metrics.bounceRate.name}
-                        control={<Radio size="small" color="primary" />}
-                        label={<div className={classes.cardHeaderFont}>% отказов</div>}
-                      />
-                    </Tooltip>
+                    { Object.keys(metricsVariables[state.metricType].metrics)
+                      .map<JSX.Element>((key) => {
+                        const value = metricsVariables[state.metricType].metrics[key];
+                        return (
+                          <Tooltip
+                            key={uuid4()}
+                            title={ value.tooltip }
+                            placement="top-end"
+                          >
+                            <FormControlLabel
+                              value={ value.name }
+                              control={ <Radio size="small" color="primary" /> }
+                              label={<div className={classes.cardHeaderFont}>{ value.display }</div>}
+                            />
+                          </Tooltip>
+                        )
+                      })
+                    }
                   </RadioGroup>
                 </GridItem>
                 <GridItem>
                   <RegularButton
-                    color={ state.graphType === "line" ? "primary" : "white" }
-                    justIcon
-                    round
-                    onClick={() => setState({ ...state, graphType: "line" })}
+                    color={state.metricType === "search" ? "primary" : "white"}
+                    variant="text"
+                    onClick={() => handleChangeMetricVariables("search")}
                   >
-                    <ShowChart />
+                    Органическая выдача
                   </RegularButton>
                   <RegularButton
-                    color={ state.graphType === "pie" ? "primary" : "white" }
-                    justIcon
-                    round
-                    onClick={() => setState({ ...state, graphType: "pie" })}
+                    color={state.metricType === "direct" ? "primary" : "white"}
+                    variant="text"
+                    onClick={() => handleChangeMetricVariables("direct")}
                   >
-                    <PieChart />
+                    Ядекс Директ
                   </RegularButton>
+                </GridItem>
+                <GridItem xs={1} sm={1} md={1}>
+                  <GridContainer spacing={1}>
+                    <GridItem xs={5} sm={5} md={5}>
+                      <RegularButton
+                        color={ state.graphType === "line" ? "primary" : "white" }
+                        justIcon
+                        round
+                        onClick={() => setState({ ...state, graphType: "line" })}
+                      >
+                        <ShowChart />
+                      </RegularButton>
+                    </GridItem>
+                    <GridItem xs={5} sm={5} md={5}>
+                      <RegularButton
+                        color={ state.graphType === "pie" ? "primary" : "white" }
+                        justIcon
+                        round
+                        onClick={() => setState({ ...state, graphType: "pie" })}
+                      >
+                        <PieChart />
+                      </RegularButton>
+                    </GridItem>
+                  </GridContainer>
                 </GridItem>
               </GridContainer>
               <GridItem xs={12} sm={12} md={12}>
@@ -245,48 +263,57 @@ const Metrics: FC<IMetricsProps> = (props) => {
               underHover={(
                 <div className={classes.chartControl}>
                   <div className={classes.chartPresets}>
-                    <RegularButton
-                      size="sm"
-                      color={!state.dimensions ? "primary" : "white"}
-                      onClick={() => setState({
-                        date1: state.date1,
-                        date2: state.date2,
-                        metrics: state.metrics,
-                        graphType: state.graphType,
-                      })}
-                    >
-                      Источники
-                    </RegularButton>
-                    <RegularButton
-                      size="sm"
-                      color={state.dimensions === "ym:s:browser" ? "primary" : "white"}
-                      onClick={() => setState({
-                        ...state,
-                        dimensions: "ym:s:browser",
-                      })}
-                    >
-                      Браузеры
-                    </RegularButton>
-                    <RegularButton
-                      size="sm"
-                      color={state.dimensions === "ym:s:searchEngine" ? "primary" : "white"}
-                      onClick={() => setState({
-                        ...state,
-                        dimensions: "ym:s:searchEngine",
-                      })}
-                    >
-                      Поисковые системы
-                    </RegularButton>
-                    <RegularButton
-                      size="sm"
-                      color={state.dimensions === "ym:s:regionCity" ? "primary" : "white"}
-                      onClick={() => setState({
-                        ...state,
-                        dimensions: "ym:s:regionCity",
-                      })}
-                    >
-                      География
-                    </RegularButton>
+                    { Object.keys(metricsVariables[state.metricType].dimensions)
+                      .map<JSX.Element>((key) => {
+                        const value = metricsVariables[state.metricType].dimensions[key];
+                        return (
+                          value.name.length
+                            ? (
+                              <Tooltip
+                                key={uuid4()}
+                                title={ value.tooltip }
+                                placement="top-end"
+                              >
+                                <span>
+                                  <RegularButton
+                                    size="sm"
+                                    color={state.dimensions === value.name ? "primary" : "white"}
+                                    onClick={() => setState({
+                                      ...state,
+                                      dimensions: value.name,
+                                    })}
+                                  >
+                                    { value.display }
+                                  </RegularButton>
+                                </span>
+                              </Tooltip>
+                            )
+                            : (
+                              <Tooltip
+                                key={uuid4()}
+                                title={ value.tooltip }
+                                placement="top-end"
+                                interactive
+                              >
+                                <span>
+                                  <RegularButton
+                                    size="sm"
+                                    color={!state.dimensions ? "primary" : "white"}
+                                    onClick={() => setState({
+                                      date1: state.date1,
+                                      date2: state.date2,
+                                      metrics: state.metrics,
+                                      graphType: state.graphType,
+                                      metricType: state.metricType,
+                                    })}
+                                  >
+                                    Источники
+                                  </RegularButton>
+                                </span>
+                              </Tooltip>
+                            )
+                        )
+                      }) }
                   </div>
                   <div>
                     <MuiPickersUtilsProvider utils={MomentUtils}>

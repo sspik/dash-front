@@ -18,6 +18,9 @@ const metricStyle = createStyles({
   },
   settingsHead: {
     marginBottom: "10px"
+  },
+  settingsMetricType: {
+    flex: "1 1 auto"
   }
 });
 

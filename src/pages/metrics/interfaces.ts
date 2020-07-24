@@ -1,4 +1,5 @@
 import { IYandexMetrikaResponse, TGraphType } from "interfaces";
+import {RouteComponentProps} from "react-router";
 
 type counterStatus = "Active" | "Deleted";
 type counterPermission = "view" | "edit" | "own";
@@ -11,6 +12,8 @@ interface ICounterError {
   error_type: string;
   message: string
 }
+
+export type TMetricType = "search" | "direct";
 
 export interface ICounter {
   id: string;
@@ -47,13 +50,14 @@ export interface IMetricsBase {
 type TMetricVariable = {
   name: string;
   display: string;
+  tooltip: string;
 }
 export interface IMetricsData {
-  ad: {
+  direct: {
     dimensions: { [key: string]: TMetricVariable },
     metrics: { [key: string]: TMetricVariable }
   };
-  s: {
+  search: {
     dimensions: { [key: string]: TMetricVariable },
     metrics: { [key: string]: TMetricVariable }
   };
@@ -61,6 +65,7 @@ export interface IMetricsData {
 
 export interface IMetricsState extends IMetricsBase {
   graphType: TGraphType;
+  metricType: TMetricType;
 }
 
 export interface IMetricsVariables {
@@ -73,3 +78,7 @@ export interface IMetricsGraphProps {
   graphType: TGraphType;
 }
 
+type TRouterParams = {
+  groupId: string
+}
+export interface IMetricsProps extends RouteComponentProps<TRouterParams>{}
