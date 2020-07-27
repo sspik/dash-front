@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import moment from "moment";
-import _ from 'lodash';
 import gql from "graphql-tag";
 import { v4 as uuid4 } from "uuid";
 
@@ -42,7 +41,6 @@ import {
   IMetricsVariables,
   IMetricsState,
   IMetricsProps,
-  TMetricType
 } from "./interfaces";
 import { metricsVariables } from "./metricVariables";
 
@@ -101,11 +99,14 @@ const GetYandexMetrikaCounter = gql`
       }
       create_time
       permission
-      code
       code_status
       site
       filter_robots
       time_zone_name
+      goals {
+        id
+        name
+      }
     }
   }
 `;
@@ -130,15 +131,6 @@ const Metrics: FC<IMetricsProps> = (props) => {
     })
   }
   const { graphType, metricType, ...metricsQuery } = state;
-  const handleChangeMetricVariables = (metricType: TMetricType) => {
-    if (state.metricType === metricType) return;
-    setState({
-      ...state,
-      metrics: _.values(metricsVariables[metricType].metrics)[0].name,
-      dimensions: _.values(metricsVariables[metricType].dimensions)[0].name,
-      metricType
-    })
-  }
   const {
     data: counterData,
     loading: counterLoading,
@@ -178,7 +170,6 @@ const Metrics: FC<IMetricsProps> = (props) => {
           { ...counter }
         />
       }
-
       <Fade in timeout={800}>
         <GridItem xs={12} sm={12} md={12}>
           <Card hovered chart>
@@ -190,9 +181,9 @@ const Metrics: FC<IMetricsProps> = (props) => {
                     onChange={(e) => handleChangeMetric(e)}
                     value={state.metrics}
                   >
-                    { Object.keys(metricsVariables[state.metricType].metrics)
+                    { Object.keys(metricsVariables.metrics)
                       .map<JSX.Element>((key) => {
-                        const value = metricsVariables[state.metricType].metrics[key];
+                        const value = metricsVariables.metrics[key];
                         return (
                           <Tooltip
                             key={uuid4()}
@@ -209,22 +200,6 @@ const Metrics: FC<IMetricsProps> = (props) => {
                       })
                     }
                   </RadioGroup>
-                </GridItem>
-                <GridItem>
-                  <RegularButton
-                    color={state.metricType === "search" ? "primary" : "white"}
-                    variant="text"
-                    onClick={() => handleChangeMetricVariables("search")}
-                  >
-                    Органическая выдача
-                  </RegularButton>
-                  <RegularButton
-                    color={state.metricType === "direct" ? "primary" : "white"}
-                    variant="text"
-                    onClick={() => handleChangeMetricVariables("direct")}
-                  >
-                    Ядекс Директ
-                  </RegularButton>
                 </GridItem>
                 <GridItem xs={1} sm={1} md={1}>
                   <GridContainer spacing={1}>
@@ -263,9 +238,9 @@ const Metrics: FC<IMetricsProps> = (props) => {
               underHover={(
                 <div className={classes.chartControl}>
                   <div className={classes.chartPresets}>
-                    { Object.keys(metricsVariables[state.metricType].dimensions)
+                    { Object.keys(metricsVariables.dimensions)
                       .map<JSX.Element>((key) => {
-                        const value = metricsVariables[state.metricType].dimensions[key];
+                        const value = metricsVariables.dimensions[key];
                         return (
                           value.name.length
                             ? (

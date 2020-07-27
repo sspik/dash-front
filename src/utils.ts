@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { ChartData } from 'react-chartjs-2';
 import chartJs from "chart.js";
 
-
 import {
   warningColor,
   dangerColor,
@@ -85,7 +84,9 @@ type TMetricNames = {[key: string]: string};
 export const metricNames: TMetricNames = {
   'ym:s:visits': 'Визиты',
   'ym:s:bounceRate': 'Отказы',
-  'ym:s:users': 'Посетители'
+  'ym:s:users': 'Посетители',
+  'ym:s:newUsers': 'Новые посетители',
+  'ym:s:sumGoalReachesAny': 'Достигнутые цели'
 }
 
 export const yandexMetricsChartLine = (

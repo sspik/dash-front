@@ -53,19 +53,14 @@ type TMetricVariable = {
   tooltip: string;
 }
 export interface IMetricsData {
-  direct: {
-    dimensions: { [key: string]: TMetricVariable },
-    metrics: { [key: string]: TMetricVariable }
-  };
-  search: {
-    dimensions: { [key: string]: TMetricVariable },
-    metrics: { [key: string]: TMetricVariable }
-  };
+  dimensions: { [key: string]: TMetricVariable },
+  metrics: { [key: string]: TMetricVariable }
 }
 
 export interface IMetricsState extends IMetricsBase {
   graphType: TGraphType;
   metricType: TMetricType;
+  goal?: number;
 }
 
 export interface IMetricsVariables {
