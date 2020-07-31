@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { v4 as uuid4 } from "uuid";
-import * as parser from 'bbcode-to-react';
+import parser from 'bbcode-to-react';
 
 class FontTag extends parser.Tag {
   toReact() {
@@ -8,7 +8,7 @@ class FontTag extends parser.Tag {
       text: this.getContent(true),
       font: this.params.FONT
     };
-    return <span style={{fontFamily: attributes.font}}>${attributes.text}</span>
+    return <span style={{fontFamily: attributes.font}}>{attributes.text}</span>
   }
 }
 
