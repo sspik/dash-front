@@ -1,4 +1,4 @@
-import React, { Fragment, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { Helmet } from "react-helmet";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";

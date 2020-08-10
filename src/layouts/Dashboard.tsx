@@ -17,6 +17,7 @@ import styles from "assets/jss/layouts/dashboardStyle";
 import sidebarImage from "assets/img/sidebar.jpg";
 import logo from "assets/img/akiwa.svg";
 import { client, GET_PROFILE } from "../index";
+import {ScrollButton} from "./ScrollButton";
 
 let ps: PerfectScrollbar;
 const useStyles = makeStyles(styles);
@@ -106,6 +107,7 @@ export const Dashboard: FC = ({ ...rest }) => {
         <div className={classes.content}>
           <div className={classes.container}><SwitchRoutes /></div>
         </div>
+        <ScrollButton contentRef={mainPanel}/>
         <Footer />
       </div>
     </div>
