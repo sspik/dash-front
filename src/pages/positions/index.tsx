@@ -12,6 +12,7 @@ import { TablePositions } from "components/table/TablePositions";
 import { CustomTabs } from "components/customTabs/CustomTabs";
 import { Loading } from "components/loading/Loading";
 import { PositionChart } from "./PositionsChart";
+import { Error } from "components/error/Error";
 
 import { getRegionIndexes } from "utils";
 
@@ -117,8 +118,8 @@ const Positions: FC<IPositionProps> = (props) => {
       date2: state.date2,
     }
   });
-  if (projectError) return <p>{projectError.message}</p>;
-  if (keywordsError) return <p>{keywordsError.message}</p>;
+  if (projectError) return <Error error={projectError} />;
+  if (keywordsError) return <Error error={keywordsError} />;
   if (!projectData && projectLoading) return <Loading/>;
   if (!keywordsData && keywordsLoading) return <Loading/>;
   const project = projectData!.GetTopvisorProject;
