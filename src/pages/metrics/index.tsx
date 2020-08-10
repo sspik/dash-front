@@ -25,7 +25,6 @@ import {
   PieChart,
 } from "@material-ui/icons"
 
-
 import MomentUtils from '@date-io/moment';
 import {
   MuiPickersUtilsProvider,
@@ -34,6 +33,7 @@ import {
 
 import { MetricsGraph } from "./MetricsGraph";
 import { CounterStatus } from "./CounterStatus";
+import { Error } from "components/error/Error";
 
 import { IYandexMetrikaResponse } from 'interfaces';
 import {
@@ -157,7 +157,7 @@ const Metrics: FC<IMetricsProps> = (props) => {
   if (
     !metricsData && metricsLoading
   ) return <Loading />;
-  if (metricsError) return <p>{ metricsError.message }</p>
+  if (metricsError) return <Error error={metricsError} />;
   if (
     !counterData && counterLoading
   ) return <Loading />;

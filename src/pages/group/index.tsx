@@ -15,6 +15,7 @@ import { CustomTabs } from "components/customTabs/CustomTabs";
 import { TableTask } from "components/table/TableTask";
 import { RegularButton } from "components/button/Button";
 import { FeedContainer } from "components/feed/FeedContainer";
+import { Error } from "components/error/Error";
 import { GroupTaskGraph } from './groupTaskGraph';
 import { tasksTimeChart } from "utils";
 
@@ -61,8 +62,8 @@ const Group: FC<IGroupProps> = (props) => {
       variables: { groupId }
     }
   );
-  if (!data && loading) return <Loading />
-  if (error) return <p>{ error }</p>
+  if (!data && loading) return <Loading />;
+  if (error) return <Error error={error} />;
   const group = data?.GetGroupById;
   const tasks = data?.GetGroupsTasks || [];
   if (!group) return <p>Группа не найдена</p>

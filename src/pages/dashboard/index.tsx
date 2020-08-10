@@ -9,6 +9,7 @@ import { WorkGroupShort } from "components/workGroup/WorkGroupShort";
 import { Pagination } from "components/pagination/Pagination";
 import { GridContainer, GridItem } from "components/grid";
 import { Loading } from "components/loading/Loading";
+import { Error } from "components/error/Error"
 
 import { IWorkGroupsResponse } from "interfaces";
 import { IDashboardState, IWorkGroupsVariables } from "./interfaces";
@@ -51,7 +52,7 @@ const Dashboard: React.FC = () => {
     }
   );
   if (!data && loading) return <Loading />;
-  if (error) return <Fragment>{ error }</Fragment>;
+  if (error) return <Error error={error} />;
 
   const handleChangePage = (event: ChangeEvent<unknown>, page: number) => {
     setState({
