@@ -81,6 +81,9 @@ const sidebarStyle = ( theme: Theme ) => createStyles({
     color: whiteColor,
     "&,&:hover": {
       color: whiteColor
+    },
+    "&,&:focus": {
+      color: whiteColor
     }
   },
   logoImage: {
