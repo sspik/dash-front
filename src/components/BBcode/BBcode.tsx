@@ -73,7 +73,6 @@ parser.registerTag('b', StrongTag);
 
 export const BBCode: FC<{content: string}> = (props) => {
   let { content } = props;
-  console.log(content);
   let ReactContents = content
     .replace(
       /&lt;/g,
