@@ -59,7 +59,6 @@ class URLTag extends parser.Tag {
 
 class StrongTag extends parser.Tag {
   toReact(): JSX.Element {
-    console.log(this.getContent())
     return <b>{ parser.toReact(this.getContent()) }</b>
   }
 }

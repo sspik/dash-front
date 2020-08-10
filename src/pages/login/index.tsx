@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
 
   async function handleClick() {
     window.open(
-      'http://localhost:4000/auth/client',
+      '/auth/client',
       '_blank',
     );
     let checkToken = await setInterval(() => {
