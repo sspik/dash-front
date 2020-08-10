@@ -1,9 +1,15 @@
 import React, { FC } from 'react';
+import { Helmet } from "react-helmet";
 import { FeedContainer } from "components/feed/FeedContainer";
 
 const Feed: FC = () => {
   return (
-    <FeedContainer />
+    <>
+      <Helmet>
+        <title>Живая лента</title>
+      </Helmet>
+      <FeedContainer />
+    </>
   )
 };
 

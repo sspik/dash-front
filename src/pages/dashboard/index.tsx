@@ -1,5 +1,5 @@
 import React, { Fragment, useState, ChangeEvent } from 'react';
-
+import { Helmet } from "react-helmet";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { makeStyles } from "@material-ui/core/styles";
@@ -63,6 +63,9 @@ const Dashboard: React.FC = () => {
   return (
     <div>
       { loading && <Loading /> }
+      <Helmet>
+        <title>Рабочие группы</title>
+      </Helmet>
       <div className={classes.headPanel}>
         { data!.GetUserGroups.total > 50
           && <Pagination

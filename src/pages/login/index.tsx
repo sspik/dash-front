@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Helmet } from "react-helmet";
 import Cookies from 'js-cookie';
 import { Redirect } from "react-router";
 
@@ -51,6 +51,9 @@ const LoginPage: React.FC = () => {
     ? <Redirect to="/" />
     : (
       <div className={classes.loginForm}>
+        <Helmet>
+          <title>Войти</title>
+        </Helmet>
         <Logo
           image={logoImage}
           width={408}

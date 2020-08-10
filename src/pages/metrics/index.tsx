@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useState } from 'react';
+import { Helmet } from "react-helmet";
 import moment from "moment";
 import gql from "graphql-tag";
 import { v4 as uuid4 } from "uuid";
@@ -162,93 +163,97 @@ const Metrics: FC<IMetricsProps> = (props) => {
   ) return <Loading />;
   const counter = counterData!.GetCounter;
   return (
-    <GridContainer>
-      { metricsLoading && <Loading /> }
-      { counterError
-        ? <p>{ counterError.message }</p>
-        : <CounterStatus
-          { ...counter }
-        />
-      }
-      <Fade in timeout={800}>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card hovered chart>
-            <CardHeader color="white">
-              <GridContainer justify="flex-end" alignItems="center">
-                <GridItem className={classes.settingsMetricType}>
-                  <RadioGroup
-                    row
-                    onChange={(e) => handleChangeMetric(e)}
-                    value={state.metrics}
-                  >
-                    { Object.keys(metricsVariables.metrics)
-                      .map<JSX.Element>((key) => {
-                        const value = metricsVariables.metrics[key];
-                        return (
-                          <Tooltip
-                            key={uuid4()}
-                            title={ value.tooltip }
-                            placement="top-end"
-                          >
-                            <FormControlLabel
-                              value={ value.name }
-                              control={ <Radio size="small" color="primary" /> }
-                              label={<div className={classes.cardHeaderFont}>{ value.display }</div>}
-                            />
-                          </Tooltip>
-                        )
-                      })
-                    }
-                  </RadioGroup>
+    <>
+      <Helmet>
+        <title>Посещаемость сайта</title>
+      </Helmet>
+      <GridContainer>
+        { metricsLoading && <Loading /> }
+        { counterError
+          ? <p>{ counterError.message }</p>
+          : <CounterStatus
+            { ...counter }
+          />
+        }
+        <Fade in timeout={800}>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card hovered chart>
+              <CardHeader color="white">
+                <GridContainer justify="flex-end" alignItems="center">
+                  <GridItem className={classes.settingsMetricType}>
+                    <RadioGroup
+                      row
+                      onChange={(e) => handleChangeMetric(e)}
+                      value={state.metrics}
+                    >
+                      { Object.keys(metricsVariables.metrics)
+                        .map<JSX.Element>((key) => {
+                          const value = metricsVariables.metrics[key];
+                          return (
+                            <Tooltip
+                              key={uuid4()}
+                              title={ value.tooltip }
+                              placement="top-end"
+                            >
+                              <FormControlLabel
+                                value={ value.name }
+                                control={ <Radio size="small" color="primary" /> }
+                                label={<div className={classes.cardHeaderFont}>{ value.display }</div>}
+                              />
+                            </Tooltip>
+                          )
+                        })
+                      }
+                    </RadioGroup>
+                  </GridItem>
+                  <GridItem xs={1} sm={1} md={1}>
+                    <GridContainer spacing={1}>
+                      <GridItem xs={5} sm={5} md={5}>
+                        <RegularButton
+                          color={ state.graphType === "line" ? "primary" : "white" }
+                          justIcon
+                          round
+                          onClick={() => setState({ ...state, graphType: "line" })}
+                        >
+                          <ShowChart />
+                        </RegularButton>
+                      </GridItem>
+                      <GridItem xs={5} sm={5} md={5}>
+                        <RegularButton
+                          color={ state.graphType === "pie" ? "primary" : "white" }
+                          justIcon
+                          round
+                          onClick={() => setState({ ...state, graphType: "pie" })}
+                        >
+                          <PieChart />
+                        </RegularButton>
+                      </GridItem>
+                    </GridContainer>
+                  </GridItem>
+                </GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <MetricsGraph
+                    error={metricsError}
+                    data={metricsData}
+                    graphType={graphType}
+                  />
                 </GridItem>
-                <GridItem xs={1} sm={1} md={1}>
-                  <GridContainer spacing={1}>
-                    <GridItem xs={5} sm={5} md={5}>
-                      <RegularButton
-                        color={ state.graphType === "line" ? "primary" : "white" }
-                        justIcon
-                        round
-                        onClick={() => setState({ ...state, graphType: "line" })}
-                      >
-                        <ShowChart />
-                      </RegularButton>
-                    </GridItem>
-                    <GridItem xs={5} sm={5} md={5}>
-                      <RegularButton
-                        color={ state.graphType === "pie" ? "primary" : "white" }
-                        justIcon
-                        round
-                        onClick={() => setState({ ...state, graphType: "pie" })}
-                      >
-                        <PieChart />
-                      </RegularButton>
-                    </GridItem>
-                  </GridContainer>
-                </GridItem>
-              </GridContainer>
-              <GridItem xs={12} sm={12} md={12}>
-                <MetricsGraph
-                  error={metricsError}
-                  data={metricsData}
-                  graphType={graphType}
-                />
-              </GridItem>
-            </CardHeader>
-            <CardBody
-              underHover={(
-                <div className={classes.chartControl}>
-                  <div className={classes.chartPresets}>
-                    { Object.keys(metricsVariables.dimensions)
-                      .map<JSX.Element>((key) => {
-                        const value = metricsVariables.dimensions[key];
-                        return (
-                          value.name.length
-                            ? (
-                              <Tooltip
-                                key={uuid4()}
-                                title={ value.tooltip }
-                                placement="top-end"
-                              >
+              </CardHeader>
+              <CardBody
+                underHover={(
+                  <div className={classes.chartControl}>
+                    <div className={classes.chartPresets}>
+                      { Object.keys(metricsVariables.dimensions)
+                        .map<JSX.Element>((key) => {
+                          const value = metricsVariables.dimensions[key];
+                          return (
+                            value.name.length
+                              ? (
+                                <Tooltip
+                                  key={uuid4()}
+                                  title={ value.tooltip }
+                                  placement="top-end"
+                                >
                                 <span>
                                   <RegularButton
                                     size="sm"
@@ -261,15 +266,15 @@ const Metrics: FC<IMetricsProps> = (props) => {
                                     { value.display }
                                   </RegularButton>
                                 </span>
-                              </Tooltip>
-                            )
-                            : (
-                              <Tooltip
-                                key={uuid4()}
-                                title={ value.tooltip }
-                                placement="top-end"
-                                interactive
-                              >
+                                </Tooltip>
+                              )
+                              : (
+                                <Tooltip
+                                  key={uuid4()}
+                                  title={ value.tooltip }
+                                  placement="top-end"
+                                  interactive
+                                >
                                 <span>
                                   <RegularButton
                                     size="sm"
@@ -285,54 +290,55 @@ const Metrics: FC<IMetricsProps> = (props) => {
                                     Источники
                                   </RegularButton>
                                 </span>
-                              </Tooltip>
-                            )
-                        )
-                      }) }
+                                </Tooltip>
+                              )
+                          )
+                        }) }
+                    </div>
+                    <div>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DatePicker
+                          disableFuture
+                          autoOk
+                          variant="inline"
+                          format="DD-MM-YYYY"
+                          margin="none"
+                          id="date-picker-inline"
+                          label="Начало"
+                          value={state.date1}
+                          onChange={( date ) => setState({
+                            ...state,
+                            date1: moment(date!).format('YYYY-MM-DD')
+                          })}
+                        />
+                        <DatePicker
+                          disableFuture
+                          autoOk
+                          variant="inline"
+                          format="DD-MM-YYYY"
+                          margin="none"
+                          id="date-picker-inline"
+                          label="Конец"
+                          value={state.date2}
+                          onChange={( date ) => setState({
+                            ...state,
+                            date2: moment(date!).format('YYYY-MM-DD')
+                          })}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </div>
                   </div>
-                  <div>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <DatePicker
-                        disableFuture
-                        autoOk
-                        variant="inline"
-                        format="DD-MM-YYYY"
-                        margin="none"
-                        id="date-picker-inline"
-                        label="Начало"
-                        value={state.date1}
-                        onChange={( date ) => setState({
-                          ...state,
-                          date1: moment(date!).format('YYYY-MM-DD')
-                        })}
-                      />
-                      <DatePicker
-                        disableFuture
-                        autoOk
-                        variant="inline"
-                        format="DD-MM-YYYY"
-                        margin="none"
-                        id="date-picker-inline"
-                        label="Конец"
-                        value={state.date2}
-                        onChange={( date ) => setState({
-                          ...state,
-                          date2: moment(date!).format('YYYY-MM-DD')
-                        })}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </div>
-                </div>
-              )}
-            >
-              <TableYandexMetrics
-                GetYandexMetrics={metricsData!.GetYandexMetrics}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </Fade>
-    </GridContainer>
+                )}
+              >
+                <TableYandexMetrics
+                  GetYandexMetrics={metricsData!.GetYandexMetrics}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </Fade>
+      </GridContainer>
+    </>
   )
 }
 

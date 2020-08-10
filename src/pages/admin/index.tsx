@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import gql from "graphql-tag";
+import { Helmet } from "react-helmet";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 
 import { IconButton } from "@material-ui/core"
@@ -106,6 +107,9 @@ const Admin: FC = (props) => {
   }
   return (
     <div>
+      <Helmet>
+        <title>Админка</title>
+      </Helmet>
       <CustomTabs
         headerColor="primary"
         fullWidth

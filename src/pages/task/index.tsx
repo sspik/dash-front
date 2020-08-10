@@ -3,6 +3,7 @@ import React, {
   FC,
   useState,
 } from "react";
+import { Helmet } from "react-helmet";
 import gql from "graphql-tag";
 import moment from "moment"
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -208,6 +209,9 @@ const Task: FC<ITaskDetailProps> = (props) => {
   const taskStatus =  task.status > 4 ? 3 : task.status - 2;
   return (
     <div>
+      <Helmet>
+        <title>{ task.title }</title>
+      </Helmet>
       { sendTaskMessageError && <p>{ sendTaskMessageError.message }</p> }
       <Fade in timeout={400}>
         <GridContainer>

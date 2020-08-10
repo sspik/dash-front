@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { Helmet } from "react-helmet";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import moment from "moment";
@@ -132,6 +133,9 @@ const Positions: FC<IPositionProps> = (props) => {
     <div>
       {projectLoading && <Loading/>}
       {keywordsLoading && <Loading/>}
+      <Helmet>
+        <title>Позиции сайта</title>
+      </Helmet>
       <Fade in timeout={400}>
         <GridContainer>
           <GridItem xs={12} lg={12} md={12}>
