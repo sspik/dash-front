@@ -170,7 +170,7 @@ const Metrics: FC<IMetricsProps> = (props) => {
       <GridContainer>
         { metricsLoading && <Loading /> }
         { counterError
-          ? <p>{ counterError.message }</p>
+          ? <Error error={counterError} />
           : <CounterStatus
             { ...counter }
           />
