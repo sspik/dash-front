@@ -8,7 +8,7 @@ class FontTag extends parser.Tag {
       text: this.getContent(true),
       font: this.params.FONT
     };
-    return <span style={{fontFamily: attributes.font}}>{attributes.text}</span>
+    return <span style={{fontFamily: attributes.font}}>{parser.toReact(attributes.text)}</span>
   }
 }
 
@@ -22,6 +22,22 @@ class UserTag extends parser.Tag {
 class PTag extends parser.Tag {
   toReact() {
     return <p>{parser.toReact(this.getContent())}</p>
+  }
+}
+
+class SizeTag extends parser.Tag {
+  toReact(): JSX.Element {
+    const attributes = {
+      text: this.getContent(),
+      size: this.params.SIZE
+    };
+    return (
+      <span
+        style={{ fontSize: attributes.size }}
+      >
+        { parser.toReact(attributes.text) }
+      </span>
+    )
   }
 }
 
@@ -41,13 +57,23 @@ class URLTag extends parser.Tag {
   }
 }
 
+class StrongTag extends parser.Tag {
+  toReact(): JSX.Element {
+    console.log(this.getContent())
+    return <b>{ parser.toReact(this.getContent()) }</b>
+  }
+}
+
 parser.registerTag('font', FontTag);
 parser.registerTag('user', UserTag);
 parser.registerTag('p', PTag);
 parser.registerTag('url', URLTag);
+parser.registerTag('size', SizeTag);
+parser.registerTag('b', StrongTag);
 
 export const BBCode: FC<{content: string}> = (props) => {
   let { content } = props;
+  console.log(content);
   let ReactContents = content
     .replace(
       /&lt;/g,

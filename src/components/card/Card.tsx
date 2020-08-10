@@ -40,7 +40,7 @@ export const Card: FC<ICardProps> = (props) => {
   });
   const elements = Children.map(children, (child: ReactNode) => {
     if (!hovered || !isValidElement(child)) return child;
-    if (child.type == CardHeader){
+    if (child.type === CardHeader){
       return cloneElement(child, { hover: hover.toString() })
     }
     return child
