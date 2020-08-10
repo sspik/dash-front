@@ -3,11 +3,13 @@ import classNames from "classnames";
 import _ from "lodash";
 
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Hidden from "@material-ui/core/Hidden";
-import Menu from "@material-ui/icons/Menu";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Hidden,
+} from "@material-ui/core"
+import { ArrowLeft, Menu } from "@material-ui/icons"
 
 import { AdminNavbarLinks } from "./AdminNavbarLinks";
 import { RegularButton } from "components/button/Button";
@@ -41,9 +43,16 @@ export const Header: FC<IHeaderProps> = (props) => {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          <RegularButton color="transparent" className={classes.title}>
+            <RegularButton
+              color="transparent"
+              className={classes.buttonBack}
+              onClick={() => props.history!.goBack()}
+            >
+              <ArrowLeft /> Назад
+            </RegularButton>
+          <div className={classes.title}>
             { makeBrand() }
-          </RegularButton>
+          </div>
         </div>
         <Hidden smDown implementation="css">
           <AdminNavbarLinks />

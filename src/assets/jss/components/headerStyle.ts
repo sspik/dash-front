@@ -36,20 +36,21 @@ const headerStyle = createStyles({
     minHeight: "50px"
   },
   flex: {
-    flex: 1
+    flex: 1,
+    display: "flex",
+    fontSize: "18px",
   },
   title: {
     ...defaultFont,
     letterSpacing: "unset",
     lineHeight: "30px",
-    fontSize: "18px",
     borderRadius: "3px",
     textTransform: "none",
     color: "inherit",
     margin: "0",
-    "&:hover,&:focus": {
-      background: "transparent"
-    }
+    alignSelf: "center",
+    textAlign: "center",
+    flex: "1 1 auto",
   },
   appResponsive: {
     top: "8px"
@@ -78,6 +79,9 @@ const headerStyle = createStyles({
     backgroundColor: dangerColor[0],
     color: whiteColor,
     ...defaultBoxShadow
-  }
+  },
+  buttonBack: {
+    ...defaultFont,
+  },
 });
 export default headerStyle;
