@@ -11,6 +11,7 @@ import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
 import styles from 'assets/jss/components/cardStyle';
+import { CardHeader } from "./index";
 import { ICardProps } from "./interfaces";
 
 const useStyles = makeStyles(styles);
@@ -39,10 +40,10 @@ export const Card: FC<ICardProps> = (props) => {
   });
   const elements = Children.map(children, (child: ReactNode) => {
     if (!hovered || !isValidElement(child)) return child;
-    // @ts-ignore
-    const childName = child.type.name;
-    if (childName !== 'CardHeader') return child;
-    return cloneElement(child, { hover: hover.toString() })
+    if (child.type == CardHeader){
+      return cloneElement(child, { hover: hover.toString() })
+    }
+    return child
   })
   return (
     <div
