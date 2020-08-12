@@ -50,8 +50,8 @@ const styles = createStyles({
   card: {
     minHeight: "295px"
   },
-  cardFooter: {
-    width: "100%"
+  cardFooterIcons: {
+    width: "100%",
   }
 });
 
@@ -234,7 +234,9 @@ const Task: FC<ITaskDetailProps> = (props) => {
               </CardBody>
               { Array.isArray(task.files) &&
               <CardFooter>
-                <GridContainer className={classes.cardFooter}>
+                <GridContainer
+                  className={classes.cardFooterIcons}
+                >
                   { task.files.map(f => (
                     <GridItem xs={12} sm={2} md={2} key={f.ID}>
                       <FileIcon
