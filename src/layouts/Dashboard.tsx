@@ -2,9 +2,6 @@ import React, { FC, createRef, useState, Suspense } from "react";
 import { v4 as uuid4 } from "uuid";
 import { Switch, Route } from "react-router-dom";
 
-import PerfectScrollbar from "perfect-scrollbar";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
-
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Header } from "components/navbars/Navbar";
@@ -19,7 +16,6 @@ import logo from "assets/img/akiwa.svg";
 import { client, GET_PROFILE } from "../index";
 import {ScrollButton} from "./ScrollButton";
 
-let ps: PerfectScrollbar;
 const useStyles = makeStyles(styles);
 const SwitchRoutes: FC = () => {
   const data = client.readQuery({query: GET_PROFILE});
@@ -69,22 +65,6 @@ export const Dashboard: FC = ({ ...rest }) => {
     }
   };
 
-  React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-      }
-      window.removeEventListener("resize", resizeFunction);
-    };
-  }, [mainPanel]);
   return (
     <div className={classes.wrapper}>
       <Sidebar
