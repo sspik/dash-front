@@ -88,6 +88,12 @@ export const CollapsibleRow: FC<ICollapsibleRowProps> = (props) => {
             }
           </TableCell>
           <TableCell className={classes.tableCell}>
+            { task.TIME_SPENT_IN_LOGS
+              ? moment.utc(task.TIME_SPENT_IN_LOGS * 1000).format('HH:mm:ss')
+              : 'Не указано'
+            }
+          </TableCell>
+          <TableCell className={classes.tableCell}>
             { `${task.CREATED_BY_NAME} ${task.CREATED_BY_LAST_NAME}` }
           </TableCell>
           <TableCell

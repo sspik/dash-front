@@ -105,6 +105,7 @@ export interface IGroupTask {
   STATUS: string
   DURATION_FACT: string;
   CLOSED_DATE: string;
+  TIME_SPENT_IN_LOGS: number;
 }
 
 interface IDimension {

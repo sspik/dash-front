@@ -49,6 +49,7 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
           <TableCell>Дата создания</TableCell>
           <TableCell>Крайний срок</TableCell>
           <TableCell>Дата выполнения</TableCell>
+          <TableCell>Затрачено времени</TableCell>
           <TableCell>Постановщик</TableCell>
           <TableCell> </TableCell>
         </TableRow>
@@ -68,7 +69,7 @@ export const TableTask: FC<ITableTaskProps> = (props) => {
         )) }
         { emptyRows > 0 && (
           <TableRow style={{ height: 44 * emptyRows }}>
-            <TableCell colSpan={6} />
+            <TableCell colSpan={7} />
           </TableRow>
         ) }
       </TableBody>

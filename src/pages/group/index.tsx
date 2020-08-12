@@ -46,6 +46,7 @@ const getWorkGroup = gql`
       STATUS
       DURATION_FACT
       CLOSED_DATE
+      TIME_SPENT_IN_LOGS
     }
   }
 `;

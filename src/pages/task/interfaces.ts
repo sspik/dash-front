@@ -41,6 +41,7 @@ export interface ITaskDetail {
   createdDate: string;
   closedDate: string;
   files: IAttachment[];
+  timeSpentInLogs: number;
 }
 
 export interface ITaskMessage {

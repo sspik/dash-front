@@ -85,6 +85,7 @@ const getTaskDetail = gql`
       durationType
       createdDate
       closedDate
+      timeSpentInLogs
       files {
         NAME
         SIZE
@@ -269,6 +270,11 @@ const Task: FC<ITaskDetailProps> = (props) => {
                 </Stepper>
                 <div>Приоритет {priority[task.priority]}</div>
                 <div>Дата создания: { moment(task.createdDate).format("DD.MM.YYYY") }</div>
+                { task.timeSpentInLogs &&
+                  <div>Времени потрачено: {
+                    moment.utc(task.timeSpentInLogs * 1000).format('HH:mm:ss')
+                  }</div>
+                }
                 <div>Постановщик: { task.creator.name } </div>
                 <div>Ответственный: { task.responsible.name } </div>
               </CardBody>
