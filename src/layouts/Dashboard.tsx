@@ -43,8 +43,6 @@ const SwitchRoutes: FC = () => {
   )
 };
 
-
-
 export const Dashboard: FC = ({ ...rest }) => {
   const classes = useStyles();
   const mainPanel = createRef<any>();
@@ -57,12 +55,6 @@ export const Dashboard: FC = ({ ...rest }) => {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
   };
 
   return (

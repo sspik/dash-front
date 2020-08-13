@@ -27,17 +27,18 @@ export const ScrollButton: FC<IScrollButtonProps> = (props) => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    if (!contentRef || !contentRef.current) return
+    const ref = contentRef;
+    if (!ref || !ref.current) return
     function onScroll() {
-      if (!contentRef || !contentRef.current) return
+      if (!ref || !ref.current) return
       setShow(
-        contentRef.current.scrollTop > 150
+        ref.current.scrollTop > 150
       )
     }
-    contentRef.current.addEventListener("scroll", onScroll);
+    ref.current.addEventListener("scroll", onScroll);
     return function cleanUp(){
-      if (contentRef && contentRef.current) {
-        contentRef.current.removeEventListener("scroll", onScroll)
+      if (ref && ref.current) {
+        ref.current.removeEventListener("scroll", onScroll)
       }
     }
   });
